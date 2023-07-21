@@ -11,4 +11,5 @@ typedef struct {
 } Game;
 
 void gameInit(Game* self);
+void gameLoop(Game* self);
 void gameDestroy(Game* self);

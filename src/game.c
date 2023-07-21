@@ -2,6 +2,9 @@
 
 #include <SDL2/SDL.h>
 
+#include "input.h"
+#include "render.h"
+
 void gameInit(Game* self) {
     int rendererFlags;
     int windowFlags;
@@ -33,6 +36,12 @@ void gameInit(Game* self) {
     if (!self->renderer) {
         SDL_Log("Failed to create renderer: %s\n", SDL_GetError());
     }
+}
+
+void gameLoop(Game* self) {
+    gameHandleInput(self);
+    gameRender(self);
+    SDL_Delay(16);
 }
 
 void gameDestroy(Game* self) {
