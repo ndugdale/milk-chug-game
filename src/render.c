@@ -13,8 +13,23 @@ void gameRender(Game* self) {
     presentScene(self);
 }
 
-void stageRender(Stage* self, SDL_Renderer* renderer) {
-    SDL_RenderCopy(renderer, self->background, NULL, NULL);
+void stageRender(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
+    int windowHeight;
+    int windowWidth;
+    SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+
+    const int scaledWindowWidth = (float)windowWidth /
+                                  (float)RENDERER_SCALE_FACTOR;
+
+    const int scaledWindowHeight = (float)windowHeight /
+                                   (float)RENDERER_SCALE_FACTOR;
+
+    const int rectX = (scaledWindowWidth - BACKGROUND_WIDTH) / 2;
+    const int rectY = (scaledWindowHeight - BACKGROUND_HEIGHT) / 2;
+
+    const SDL_Rect dstRect = {rectX, rectY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT};
+
+    SDL_RenderCopy(renderer, self->background, NULL, &dstRect);
 }
 
 SDL_Texture* loadTexture(SDL_Renderer* renderer, char* filename) {
@@ -33,7 +48,7 @@ SDL_Texture* loadTexture(SDL_Renderer* renderer, char* filename) {
 static void prepareScene(Game* self) {
     SDL_SetRenderDrawColor(self->renderer, 0, 0, 0, 255);
     SDL_RenderClear(self->renderer);
-    stageRender(self->currentStage, self->renderer);
+    stageRender(self->currentStage, self->renderer, self->window);
 }
 
 static void presentScene(Game* self) {

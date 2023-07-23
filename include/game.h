@@ -4,8 +4,8 @@
 
 #include "stage.h"
 
-#define SCREEN_WIDTH 1920
-#define SCREEN_HEIGHT 1080
+#define BACKGROUND_WIDTH 480
+#define BACKGROUND_HEIGHT 270
 #define RENDERER_SCALE_FACTOR 4
 
 typedef struct {

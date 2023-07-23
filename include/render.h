@@ -6,6 +6,6 @@
 #include "stage.h"
 
 void gameRender(Game* self);
-void stageRender(Stage* self, SDL_Renderer* renderer);
+void stageRender(Stage* self, SDL_Renderer* renderer, SDL_Window* window);
 
 SDL_Texture* loadTexture(SDL_Renderer* renderer, char* filename);

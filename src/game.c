@@ -20,16 +20,16 @@ void gameInit(Game* self) {
         "Milk Chug",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        SCREEN_WIDTH,
-        SCREEN_HEIGHT,
+        BACKGROUND_WIDTH * RENDERER_SCALE_FACTOR,
+        BACKGROUND_HEIGHT * RENDERER_SCALE_FACTOR,
         windowFlags
     );
 
     if (!self->window) {
         SDL_Log(
             "Failed to open %d x %d window: %s\n",
-            SCREEN_WIDTH,
-            SCREEN_HEIGHT,
+            BACKGROUND_WIDTH * RENDERER_SCALE_FACTOR,
+            BACKGROUND_HEIGHT * RENDERER_SCALE_FACTOR,
             SDL_GetError()
         );
         exit(1);
