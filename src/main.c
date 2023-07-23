@@ -1,17 +1,17 @@
-#include <SDL2/SDL.h>
 #include <stdio.h>
 
 #include "game.h"
 
-int main(int argc, char *argv[]) {
-    Game game;
-    gameInit(&game);
+int main(int argc, char* argv[]) {
+    Game* game = (Game*)calloc(1, sizeof(Game));
+    gameInit(game);
 
-    SDL_Event event;
     while (1) {
-        gameLoop(&game);
+        gameLoop(game);
     }
 
-    gameDestroy(&game);
+    gameDestroy(game);
+    free(game);
+
     return 0;
 }

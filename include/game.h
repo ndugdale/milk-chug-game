@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "input.h"
 #include "stage.h"
 
 #define BACKGROUND_WIDTH 480
@@ -12,8 +13,10 @@ typedef struct {
     SDL_Renderer* renderer;
     SDL_Window* window;
     Stage* currentStage;
+    InputEventQueue* inputEventQueue;
 } Game;
 
 void gameInit(Game* self);
 void gameLoop(Game* self);
+void gameHandleInput(Game* self);
 void gameDestroy(Game* self);
