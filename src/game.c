@@ -2,8 +2,10 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <stdlib.h>
 
 #include "input.h"
+#include "player.h"
 #include "stage.h"
 
 static void on_key_down(Game* self, SDL_KeyboardEvent* event);
@@ -54,7 +56,8 @@ Game* game_create(void) {
         self->renderer, RENDERER_SCALE_FACTOR, RENDERER_SCALE_FACTOR
     );
 
-    self->current_stage = stage_create(self->renderer);
+    self->player = player_create();
+    self->current_stage = stage_create(self->renderer, self->player);
     self->input_event_queue = input_event_queue_create();
 
     return self;
@@ -90,11 +93,9 @@ void game_handle_input(Game* self) {
 void game_update(Game* self) {
     while (!input_event_queue_is_empty(self->input_event_queue)) {
         InputEvent event = input_event_queue_dequeue(self->input_event_queue);
+        stage_update(self->current_stage, event);
 
         switch (event) {
-            case EVENT_DRINK:
-                SDL_Log("DRINK");
-                break;
             default:
                 break;
         }
@@ -112,6 +113,7 @@ void game_render(Game* self) {
 void game_destroy(Game* self) {
     input_event_queue_destroy(self->input_event_queue);
     stage_destroy(self->current_stage);
+    player_destroy(self->player);
 
     SDL_DestroyWindow(self->window);
     SDL_DestroyRenderer(self->renderer);

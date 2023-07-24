@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 InputEventQueue* input_event_queue_create(void) {
     InputEventQueue* self = (InputEventQueue*)calloc(1, sizeof(InputEventQueue));

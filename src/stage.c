@@ -2,12 +2,15 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <stdlib.h>
 
 #include "game.h"
+#include "input.h"
 #include "render.h"
 
-Stage* stage_create(SDL_Renderer* renderer) {
+Stage* stage_create(SDL_Renderer* renderer, Player* player) {
     Stage* self = (Stage*)calloc(1, sizeof(Stage));
+    self->player = player;
     self->background = load_texture(renderer, "assets/images/purple_sky.png");
 
     return self;
@@ -30,6 +33,15 @@ void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
     const SDL_Rect dstRect = {rectX, rectY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT};
 
     SDL_RenderCopy(renderer, self->background, NULL, &dstRect);
+}
+
+void stage_update(Stage* self, InputEvent event) {
+    player_update(self->player, event);
+
+    switch (event) {
+        default:
+            break;
+    }
 }
 
 void stage_destroy(Stage* self) {
