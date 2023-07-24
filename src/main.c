@@ -3,15 +3,12 @@
 #include "game.h"
 
 int main(int argc, char* argv[]) {
-    Game* game = (Game*)calloc(1, sizeof(Game));
-    gameInit(game);
+    Game* game = game_create();
 
     while (1) {
-        gameLoop(game);
+        game_loop(game);
     }
-
-    gameDestroy(game);
-    free(game);
+    game_destroy(game);
 
     return 0;
 }

@@ -12,11 +12,13 @@
 typedef struct {
     SDL_Renderer* renderer;
     SDL_Window* window;
-    Stage* currentStage;
-    InputEventQueue* inputEventQueue;
+    Stage* current_stage;
+    InputEventQueue* input_event_queue;
 } Game;
 
-void gameInit(Game* self);
-void gameLoop(Game* self);
-void gameHandleInput(Game* self);
-void gameDestroy(Game* self);
+Game* game_create(void);
+void game_loop(Game* self);
+void game_handle_input(Game* self);
+void game_update(Game* self);
+void game_render(Game* self);
+void game_destroy(Game* self);

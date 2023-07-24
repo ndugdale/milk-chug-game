@@ -18,7 +18,8 @@ typedef struct {
     int rear;
 } InputEventQueue;
 
-void inputEventQueueInit(InputEventQueue* queue);
-bool isInputEventQueueEmpty(InputEventQueue* queue);
-void enqueueInputEvent(InputEventQueue* queue, InputEvent event);
-InputEvent dequeueInputEvent(InputEventQueue* queue);
+InputEventQueue* input_event_queue_create(void);
+bool input_event_queue_is_empty(InputEventQueue* self);
+void input_event_queue_enqueue(InputEventQueue* self, InputEvent event);
+InputEvent input_event_queue_dequeue(InputEventQueue* self);
+void input_event_queue_destroy(InputEventQueue* self);

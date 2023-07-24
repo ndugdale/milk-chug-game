@@ -3,32 +3,39 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
-void inputEventQueueInit(InputEventQueue* queue) {
-    queue->front = EMPTY_QUEUE;
-    queue->rear = EMPTY_QUEUE;
+InputEventQueue* input_event_queue_create(void) {
+    InputEventQueue* self = (InputEventQueue*)calloc(1, sizeof(InputEventQueue));
+    self->front = EMPTY_QUEUE;
+    self->rear = EMPTY_QUEUE;
+
+    return self;
 }
 
-bool isInputEventQueueEmpty(InputEventQueue* queue) {
-    return (queue->front == EMPTY_QUEUE && queue->rear == EMPTY_QUEUE);
+bool input_event_queue_is_empty(InputEventQueue* self) {
+    return (self->front == EMPTY_QUEUE && self->rear == EMPTY_QUEUE);
 }
 
-void enqueueInputEvent(InputEventQueue* queue, InputEvent event) {
-    if (isInputEventQueueEmpty(queue)) {
-        queue->front = 0;
-        queue->rear = 0;
+void input_event_queue_enqueue(InputEventQueue* self, InputEvent event) {
+    if (input_event_queue_is_empty(self)) {
+        self->front = 0;
+        self->rear = 0;
     } else {
-        queue->rear = (queue->rear + 1) % MAX_QUEUED_INPUT_EVENTS;
+        self->rear = (self->rear + 1) % MAX_QUEUED_INPUT_EVENTS;
     }
-    queue->events[queue->rear] = event;
+    self->events[self->rear] = event;
 }
 
-InputEvent dequeueInputEvent(InputEventQueue* queue) {
-    InputEvent event = queue->events[queue->front];
-    if (queue->front == queue->rear) {
-        queue->front = -1;
-        queue->rear = -1;
+InputEvent input_event_queue_dequeue(InputEventQueue* self) {
+    InputEvent event = self->events[self->front];
+    if (self->front == self->rear) {
+        self->front = EMPTY_QUEUE;
+        self->rear = EMPTY_QUEUE;
     } else {
-        queue->front = (queue->front + 1) % MAX_QUEUED_INPUT_EVENTS;
+        self->front = (self->front + 1) % MAX_QUEUED_INPUT_EVENTS;
     }
     return event;
+}
+
+void input_event_queue_destroy(InputEventQueue* self) {
+    free(self);
 }
