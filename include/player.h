@@ -2,7 +2,7 @@
 
 #include <stdbool.h>
 
-#include "input.h"
+#include "events.h"
 
 #define MILK_CAPACITY 40
 
@@ -13,7 +13,7 @@ typedef struct {
 
 Player* player_create(void);
 void player_reset(Player* self);
-void player_update(Player* self, InputEvent event);
+void player_update(Player* self, Event event);
 void player_drink(Player* self);
 bool player_is_finished(Player* self);
 void player_destroy(Player* self);

@@ -2,16 +2,25 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
+#include "events.h"
 #include "game.h"
-#include "input.h"
+#include "opponent.h"
+#include "player.h"
 #include "render.h"
+
+static bool opponents_are_finished(Opponent* const* opponents);
 
 Stage* stage_create(SDL_Renderer* renderer, Player* player) {
     Stage* self = (Stage*)calloc(1, sizeof(Stage));
-    self->player = player;
     self->background = load_texture(renderer, "assets/images/purple_sky.png");
+    self->player = player;
+
+    for (int i = 0; i < NUM_OPPONENTS; i++) {
+        self->opponents[i] = opponent_create();
+    }
 
     return self;
 }
@@ -35,15 +44,41 @@ void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
     SDL_RenderCopy(renderer, self->background, NULL, &dstRect);
 }
 
-void stage_update(Stage* self, InputEvent event) {
+void stage_update(Stage* self, Event event) {
     player_update(self->player, event);
+
+    for (int i = 0; i < NUM_OPPONENTS; i++) {
+        opponent_update(self->opponents[i], event);
+    }
 
     switch (event) {
         default:
             break;
     }
+
+    if (!self->complete && player_is_finished(self->player) &&
+        opponents_are_finished(self->opponents)) {
+        self->complete = true;
+        SDL_Log("Stage complete");
+    }
+}
+
+bool stage_is_complete(Stage* self) {
+    return self->complete;
 }
 
 void stage_destroy(Stage* self) {
+    for (int i = 0; i < NUM_OPPONENTS; i++) {
+        opponent_destroy(self->opponents[i]);
+    }
     free(self);
+}
+
+static bool opponents_are_finished(Opponent* const* opponents) {
+    for (int i = 0; i < NUM_OPPONENTS; i++) {
+        if (!opponents[i]->finished) {
+            return false;
+        }
+    }
+    return true;
 }

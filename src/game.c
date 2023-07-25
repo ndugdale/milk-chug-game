@@ -4,7 +4,7 @@
 #include <SDL2/SDL_image.h>
 #include <stdlib.h>
 
-#include "input.h"
+#include "events.h"
 #include "player.h"
 #include "stage.h"
 
@@ -58,7 +58,7 @@ Game* game_create(void) {
 
     self->player = player_create();
     self->current_stage = stage_create(self->renderer, self->player);
-    self->input_event_queue = input_event_queue_create();
+    self->event_queue = event_queue_create();
 
     return self;
 }
@@ -91,8 +91,10 @@ void game_handle_input(Game* self) {
 }
 
 void game_update(Game* self) {
-    while (!input_event_queue_is_empty(self->input_event_queue)) {
-        InputEvent event = input_event_queue_dequeue(self->input_event_queue);
+    event_queue_enqueue(self->event_queue, EVENT_TICK);
+
+    while (!event_queue_is_empty(self->event_queue)) {
+        Event event = event_queue_dequeue(self->event_queue);
         stage_update(self->current_stage, event);
 
         switch (event) {
@@ -111,7 +113,7 @@ void game_render(Game* self) {
 }
 
 void game_destroy(Game* self) {
-    input_event_queue_destroy(self->input_event_queue);
+    event_queue_destroy(self->event_queue);
     stage_destroy(self->current_stage);
     player_destroy(self->player);
 
@@ -126,7 +128,7 @@ static void on_key_down(Game* self, SDL_KeyboardEvent* event) {
     if (event->repeat == 0 && event->keysym.scancode < SDL_NUM_SCANCODES) {
         switch (event->keysym.scancode) {
             case DRINK_MILK_INPUT:
-                input_event_queue_enqueue(self->input_event_queue, EVENT_DRINK);
+                event_queue_enqueue(self->event_queue, EVENT_DRINK);
                 break;
             default:
                 break;

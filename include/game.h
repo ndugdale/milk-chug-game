@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "input.h"
+#include "events.h"
 #include "player.h"
 #include "stage.h"
 
@@ -15,7 +15,7 @@ typedef struct {
     SDL_Window* window;
     Player* player;
     Stage* current_stage;
-    InputEventQueue* input_event_queue;
+    EventQueue* event_queue;
 } Game;
 
 Game* game_create(void);

@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#include "input.h"
+#include "events.h"
 
 Player* player_create(void) {
     Player* self = (Player*)malloc(sizeof(Player));
@@ -17,7 +17,7 @@ void player_reset(Player* self) {
     self->milk_consumed = 0;
 }
 
-void player_update(Player* self, InputEvent event) {
+void player_update(Player* self, Event event) {
     switch (event) {
         case EVENT_DRINK:
             player_drink(self);
@@ -29,11 +29,12 @@ void player_update(Player* self, InputEvent event) {
 void player_drink(Player* self) {
     if (!self->finished) {
         self->milk_consumed++;
+        SDL_Log("GLUG: %d/%d", self->milk_consumed, MILK_CAPACITY);
 
         if (self->milk_consumed >= MILK_CAPACITY) {
             self->finished = true;
+            SDL_Log("You finished");
         }
-        SDL_Log("GLUG: %d/%d", self->milk_consumed, MILK_CAPACITY);
     }
 }
 
