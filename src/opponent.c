@@ -5,16 +5,13 @@
 #include "events.h"
 #include "player.h"
 
-Opponent* opponent_create(void) {
+Opponent* opponent_create(uint32_t finish_time_ms) {
     Opponent* self = (Opponent*)malloc(sizeof(Opponent));
-    opponent_reset(self);
-
-    return self;
-}
-
-void opponent_reset(Opponent* self) {
+    self->finish_time_ms = finish_time_ms;
     self->finished = false;
     self->milk_consumed = 0;
+
+    return self;
 }
 
 void opponent_update(Opponent* self, Event event) {
@@ -29,11 +26,10 @@ void opponent_update(Opponent* self, Event event) {
 void opponent_drink(Opponent* self) {
     if (!self->finished) {
         self->milk_consumed++;
-        SDL_Log("Opponent drinks");
 
         if (self->milk_consumed >= MILK_CAPACITY) {
             self->finished = true;
-            SDL_Log("Opponent finished");
+            SDL_Log("Opponent finished in %d ms", self->finish_time_ms);
         }
     }
 }

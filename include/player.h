@@ -10,6 +10,7 @@
 typedef struct {
     bool finished;
     uint8_t milk_consumed;
+    uint32_t finish_time_ms;
 } Player;
 
 Player* player_create(void);

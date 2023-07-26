@@ -1,6 +1,7 @@
 #include "player.h"
 
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "events.h"
@@ -15,6 +16,7 @@ Player* player_create(void) {
 void player_reset(Player* self) {
     self->finished = false;
     self->milk_consumed = 0;
+    self->finish_time_ms = UINT32_MAX;
 }
 
 void player_update(Player* self, Event event) {

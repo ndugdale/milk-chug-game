@@ -14,12 +14,17 @@
 static bool opponents_are_finished(Opponent* const* opponents);
 
 Stage* stage_create(SDL_Renderer* renderer, Player* player) {
-    Stage* self = (Stage*)calloc(1, sizeof(Stage));
+    Stage* self = (Stage*)malloc(sizeof(Stage));
+
     self->background = load_texture(renderer, "assets/images/purple_sky.png");
     self->player = player;
+    self->min_finish_time_ms = 12'000;
+    self->max_finish_time_ms = 15'000;
 
     for (uint8_t i = 0; i < NUM_OPPONENTS; i++) {
-        self->opponents[i] = opponent_create();
+        uint32_t range = self->max_finish_time_ms - self->min_finish_time_ms;
+        uint32_t finish_time_ms = self->min_finish_time_ms + (rand() % range);
+        self->opponents[i] = opponent_create(finish_time_ms);
     }
 
     return self;

@@ -13,7 +13,7 @@ static void on_key_down(Game* self, SDL_KeyboardEvent* event);
 static void on_key_up(Game* self, SDL_KeyboardEvent* event);
 
 Game* game_create(void) {
-    Game* self = (Game*)calloc(1, sizeof(Game));
+    Game* self = (Game*)malloc(sizeof(Game));
 
     const uint32_t window_flags = 0;
     const uint32_t renderer_flags = SDL_RENDERER_ACCELERATED;
