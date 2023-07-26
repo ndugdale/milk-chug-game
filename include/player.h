@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #include "events.h"
 
@@ -8,7 +9,7 @@
 
 typedef struct {
     bool finished;
-    int milk_consumed;
+    uint8_t milk_consumed;
 } Player;
 
 Player* player_create(void);

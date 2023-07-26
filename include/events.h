@@ -2,9 +2,10 @@
 
 #include <SDL2/SDL.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #define DRINK_MILK_INPUT SDL_SCANCODE_X
-#define MAX_QUEUED_EVENTS 64
+#define MAX_QUEUED_EVENTS INT8_MAX
 #define EMPTY_QUEUE -1
 
 typedef enum {
@@ -15,8 +16,8 @@ typedef enum {
 
 typedef struct {
     Event events[MAX_QUEUED_EVENTS];
-    int front;
-    int rear;
+    int8_t front;
+    int8_t rear;
 } EventQueue;
 
 EventQueue* event_queue_create(void);

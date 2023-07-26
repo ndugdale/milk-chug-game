@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "events.h"
@@ -14,9 +15,9 @@ static void on_key_up(Game* self, SDL_KeyboardEvent* event);
 Game* game_create(void) {
     Game* self = (Game*)calloc(1, sizeof(Game));
 
-    const int window_flags = 0;
-    const int renderer_flags = SDL_RENDERER_ACCELERATED;
-    const int image_flags = IMG_INIT_PNG | IMG_INIT_JPG;
+    const uint32_t window_flags = 0;
+    const uint32_t renderer_flags = SDL_RENDERER_ACCELERATED;
+    const uint32_t image_flags = IMG_INIT_PNG | IMG_INIT_JPG;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         SDL_Log("Failed to initialise SDL: %s\n", SDL_GetError());

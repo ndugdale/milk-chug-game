@@ -18,7 +18,7 @@ Stage* stage_create(SDL_Renderer* renderer, Player* player) {
     self->background = load_texture(renderer, "assets/images/purple_sky.png");
     self->player = player;
 
-    for (int i = 0; i < NUM_OPPONENTS; i++) {
+    for (uint8_t i = 0; i < NUM_OPPONENTS; i++) {
         self->opponents[i] = opponent_create();
     }
 
@@ -26,18 +26,18 @@ Stage* stage_create(SDL_Renderer* renderer, Player* player) {
 }
 
 void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
-    int window_height;
-    int window_width;
+    uint32_t window_height;
+    uint32_t window_width;
     SDL_GetWindowSize(window, &window_width, &window_height);
 
-    const int scaled_window_width = (float)window_width /
-                                    (float)RENDERER_SCALE_FACTOR;
+    const uint32_t scaled_window_width = (float)window_width /
+                                         (float)RENDERER_SCALE_FACTOR;
 
-    const int scaled_window_height = (float)window_height /
-                                     (float)RENDERER_SCALE_FACTOR;
+    const uint32_t scaled_window_height = (float)window_height /
+                                          (float)RENDERER_SCALE_FACTOR;
 
-    const int rectX = (scaled_window_width - BACKGROUND_WIDTH) / 2;
-    const int rectY = (scaled_window_height - BACKGROUND_HEIGHT) / 2;
+    const uint32_t rectX = (scaled_window_width - BACKGROUND_WIDTH) / 2;
+    const uint32_t rectY = (scaled_window_height - BACKGROUND_HEIGHT) / 2;
 
     const SDL_Rect dstRect = {rectX, rectY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT};
 
@@ -47,7 +47,7 @@ void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
 void stage_update(Stage* self, Event event) {
     player_update(self->player, event);
 
-    for (int i = 0; i < NUM_OPPONENTS; i++) {
+    for (uint8_t i = 0; i < NUM_OPPONENTS; i++) {
         opponent_update(self->opponents[i], event);
     }
 
@@ -68,14 +68,14 @@ bool stage_is_complete(Stage* self) {
 }
 
 void stage_destroy(Stage* self) {
-    for (int i = 0; i < NUM_OPPONENTS; i++) {
+    for (uint8_t i = 0; i < NUM_OPPONENTS; i++) {
         opponent_destroy(self->opponents[i]);
     }
     free(self);
 }
 
 static bool opponents_are_finished(Opponent* const* opponents) {
-    for (int i = 0; i < NUM_OPPONENTS; i++) {
+    for (uint8_t i = 0; i < NUM_OPPONENTS; i++) {
         if (!opponents[i]->finished) {
             return false;
         }
