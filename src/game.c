@@ -60,6 +60,8 @@ Game* game_create(void) {
     self->player = player_create();
     self->current_stage = stage_create(self->renderer, self->player);
     self->event_queue = event_queue_create();
+    self->last_frame_time = 0;
+    self->remainder_time = 0;
 
     return self;
 }
@@ -68,7 +70,7 @@ void game_loop(Game* self) {
     game_handle_input(self);
     game_update(self);
     game_render(self);
-    SDL_Delay(16);
+    game_frame_rate_limit(self);
 }
 
 void game_handle_input(Game* self) {
@@ -123,6 +125,23 @@ void game_destroy(Game* self) {
     SDL_Quit();
 
     free(self);
+}
+
+void game_frame_rate_limit(Game* self) {
+    uint64_t current_time = SDL_GetTicks64();
+    uint64_t elapsed_time = current_time - self->last_frame_time;
+    self->remainder_time += TARGET_FRAME_TIME_FRACTION;
+
+    double adjusted_frame_remainder = (int)self->remainder_time;
+    uint64_t adjusted_frame_whole = TARGET_FRAME_TIME_WHOLE +
+                                    adjusted_frame_remainder;
+
+    if (elapsed_time < adjusted_frame_whole) {
+        SDL_Delay(adjusted_frame_whole - elapsed_time);
+    }
+
+    self->remainder_time -= (int)self->remainder_time;
+    self->last_frame_time = SDL_GetTicks64();
 }
 
 static void on_key_down(Game* self, SDL_KeyboardEvent* event) {
