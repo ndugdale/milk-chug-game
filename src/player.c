@@ -16,7 +16,7 @@ Player* player_create(void) {
 void player_reset(Player* self) {
     self->finished = false;
     self->milk_consumed = 0;
-    self->finish_time_ms = UINT32_MAX;
+    self->drink_duration = UINT64_MAX;
 }
 
 void player_update(Player* self, Event event) {
@@ -30,7 +30,7 @@ void player_update(Player* self, Event event) {
 
 void player_drink(Player* self) {
     if (!self->finished) {
-        self->milk_consumed++;
+        self->milk_consumed += MILK_SIP;
         SDL_Log("GLUG: %d/%d", self->milk_consumed, MILK_CAPACITY);
 
         if (self->milk_consumed >= MILK_CAPACITY) {

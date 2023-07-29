@@ -14,8 +14,8 @@ typedef struct {
     Opponent* opponents[NUM_OPPONENTS];
     SDL_Texture* background;
     bool complete;
-    uint32_t min_finish_time_ms;
-    uint32_t max_finish_time_ms;
+    uint64_t min_drink_duration;
+    uint64_t max_drink_duration;
 } Stage;
 
 Stage* stage_create(SDL_Renderer* renderer, Player* player);

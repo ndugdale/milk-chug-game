@@ -18,13 +18,13 @@ Stage* stage_create(SDL_Renderer* renderer, Player* player) {
 
     self->background = load_texture(renderer, "assets/images/purple_sky.png");
     self->player = player;
-    self->min_finish_time_ms = 12'000;
-    self->max_finish_time_ms = 15'000;
+    self->min_drink_duration = 12'000;
+    self->max_drink_duration = 15'000;
 
     for (uint8_t i = 0; i < NUM_OPPONENTS; i++) {
-        uint32_t range = self->max_finish_time_ms - self->min_finish_time_ms;
-        uint32_t finish_time_ms = self->min_finish_time_ms + (rand() % range);
-        self->opponents[i] = opponent_create(finish_time_ms);
+        uint64_t range = self->max_drink_duration - self->min_drink_duration;
+        uint64_t drink_duration = self->min_drink_duration + (rand() % range);
+        self->opponents[i] = opponent_create(drink_duration);
     }
 
     return self;

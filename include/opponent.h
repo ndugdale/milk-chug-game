@@ -7,11 +7,12 @@
 
 typedef struct Opponent {
     bool finished;
-    uint8_t milk_consumed;
-    uint32_t finish_time_ms;
+    uint16_t milk_consumed;
+    uint64_t start_time;
+    uint64_t drink_duration;
 } Opponent;
 
-Opponent* opponent_create(uint32_t finish_time_ms);
+Opponent* opponent_create(uint64_t drink_duration);
 void opponent_update(Opponent* self, Event event);
 void opponent_drink(Opponent* self);
 bool opponent_is_finished(Opponent* self);

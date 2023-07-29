@@ -5,12 +5,13 @@
 
 #include "events.h"
 
-#define MILK_CAPACITY 40
+#define MILK_CAPACITY 4000
+#define MILK_SIP 100
 
 typedef struct {
     bool finished;
-    uint8_t milk_consumed;
-    uint32_t finish_time_ms;
+    uint16_t milk_consumed;
+    uint64_t drink_duration;
 } Player;
 
 Player* player_create(void);

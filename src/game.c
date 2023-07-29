@@ -115,6 +115,23 @@ void game_render(Game* self) {
     SDL_RenderPresent(self->renderer);
 }
 
+void game_frame_rate_limit(Game* self) {
+    uint64_t current_time = SDL_GetTicks64();
+    uint64_t elapsed_time = current_time - self->last_frame_time;
+    self->remainder_time += TARGET_FRAME_TIME_FRACTION;
+
+    double adjusted_frame_remainder = (uint64_t)self->remainder_time;
+    uint64_t adjusted_frame_whole = TARGET_FRAME_TIME_WHOLE +
+                                    adjusted_frame_remainder;
+
+    if (elapsed_time < adjusted_frame_whole) {
+        SDL_Delay(adjusted_frame_whole - elapsed_time);
+    }
+
+    self->remainder_time -= (uint64_t)self->remainder_time;
+    self->last_frame_time = SDL_GetTicks64();
+}
+
 void game_destroy(Game* self) {
     event_queue_destroy(self->event_queue);
     stage_destroy(self->current_stage);
@@ -125,23 +142,6 @@ void game_destroy(Game* self) {
     SDL_Quit();
 
     free(self);
-}
-
-void game_frame_rate_limit(Game* self) {
-    uint64_t current_time = SDL_GetTicks64();
-    uint64_t elapsed_time = current_time - self->last_frame_time;
-    self->remainder_time += TARGET_FRAME_TIME_FRACTION;
-
-    double adjusted_frame_remainder = (int)self->remainder_time;
-    uint64_t adjusted_frame_whole = TARGET_FRAME_TIME_WHOLE +
-                                    adjusted_frame_remainder;
-
-    if (elapsed_time < adjusted_frame_whole) {
-        SDL_Delay(adjusted_frame_whole - elapsed_time);
-    }
-
-    self->remainder_time -= (int)self->remainder_time;
-    self->last_frame_time = SDL_GetTicks64();
 }
 
 static void on_key_down(Game* self, SDL_KeyboardEvent* event) {
