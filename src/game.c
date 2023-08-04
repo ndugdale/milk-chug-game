@@ -57,7 +57,7 @@ Game* game_create(void) {
         self->renderer, RENDERER_SCALE_FACTOR, RENDERER_SCALE_FACTOR
     );
 
-    self->player = player_create();
+    self->player = player_create(self->renderer);
     self->current_stage = stage_create(self->renderer, self->player);
     self->event_queue = event_queue_create();
     self->last_frame_time = 0;

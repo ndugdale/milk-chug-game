@@ -14,6 +14,5 @@ typedef struct Opponent {
 
 Opponent* opponent_create(uint64_t drink_duration);
 void opponent_update(Opponent* self, Event event);
-void opponent_drink(Opponent* self);
-bool opponent_is_finished(Opponent* self);
 void opponent_destroy(Opponent* self);
+bool opponent_is_finished(Opponent* self);

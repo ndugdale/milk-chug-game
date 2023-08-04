@@ -5,6 +5,8 @@
 #include "events.h"
 #include "player.h"
 
+static void opponent_drink(Opponent* self);
+
 Opponent* opponent_create(uint64_t drink_duration) {
     Opponent* self = (Opponent*)malloc(sizeof(Opponent));
     self->start_time = 0;
@@ -24,7 +26,15 @@ void opponent_update(Opponent* self, Event event) {
     }
 }
 
-void opponent_drink(Opponent* self) {
+void opponent_destroy(Opponent* self) {
+    free(self);
+}
+
+bool opponent_is_finished(Opponent* self) {
+    return self->finished;
+}
+
+static void opponent_drink(Opponent* self) {
     if (!self->finished) {
         uint64_t current_time = SDL_GetTicks64();
         uint64_t elapsed_time = current_time - self->start_time;
@@ -38,11 +48,4 @@ void opponent_drink(Opponent* self) {
             SDL_Log("Opponent finished in %d ms", self->drink_duration);
         }
     }
-}
-bool opponent_is_finished(Opponent* self) {
-    return self->finished;
-}
-
-void opponent_destroy(Opponent* self) {
-    free(self);
 }

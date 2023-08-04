@@ -21,5 +21,5 @@ typedef struct {
 Stage* stage_create(SDL_Renderer* renderer, Player* player);
 void stage_update(Stage* self, Event event);
 void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window);
-bool stage_is_complete(Stage* self);
 void stage_destroy(Stage* self);
+bool stage_is_complete(Stage* self);

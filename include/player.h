@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL2/SDL.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -12,11 +13,11 @@ typedef struct {
     bool finished;
     uint16_t milk_consumed;
     uint64_t drink_duration;
+    SDL_Texture* texture;
+
 } Player;
 
-Player* player_create(void);
-void player_reset(Player* self);
+Player* player_create(SDL_Renderer* renderer);
 void player_update(Player* self, Event event);
-void player_drink(Player* self);
-bool player_is_finished(Player* self);
 void player_destroy(Player* self);
+bool player_is_finished(Player* self);

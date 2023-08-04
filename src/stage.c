@@ -30,25 +30,6 @@ Stage* stage_create(SDL_Renderer* renderer, Player* player) {
     return self;
 }
 
-void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
-    uint32_t window_height;
-    uint32_t window_width;
-    SDL_GetWindowSize(window, &window_width, &window_height);
-
-    const uint32_t scaled_window_width = (double)window_width /
-                                         (double)RENDERER_SCALE_FACTOR;
-
-    const uint32_t scaled_window_height = (double)window_height /
-                                          (double)RENDERER_SCALE_FACTOR;
-
-    const uint32_t rectX = (scaled_window_width - BACKGROUND_WIDTH) / 2;
-    const uint32_t rectY = (scaled_window_height - BACKGROUND_HEIGHT) / 2;
-
-    const SDL_Rect dstRect = {rectX, rectY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT};
-
-    SDL_RenderCopy(renderer, self->background, NULL, &dstRect);
-}
-
 void stage_update(Stage* self, Event event) {
     player_update(self->player, event);
 
@@ -68,8 +49,23 @@ void stage_update(Stage* self, Event event) {
     }
 }
 
-bool stage_is_complete(Stage* self) {
-    return self->complete;
+void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
+    uint32_t window_height;
+    uint32_t window_width;
+    SDL_GetWindowSize(window, &window_width, &window_height);
+
+    const uint32_t scaled_window_width = (double)window_width /
+                                         (double)RENDERER_SCALE_FACTOR;
+
+    const uint32_t scaled_window_height = (double)window_height /
+                                          (double)RENDERER_SCALE_FACTOR;
+
+    const uint32_t rectX = (scaled_window_width - BACKGROUND_WIDTH) / 2;
+    const uint32_t rectY = (scaled_window_height - BACKGROUND_HEIGHT) / 2;
+
+    const SDL_Rect dstRect = {rectX, rectY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT};
+
+    SDL_RenderCopy(renderer, self->background, NULL, &dstRect);
 }
 
 void stage_destroy(Stage* self) {
@@ -77,6 +73,10 @@ void stage_destroy(Stage* self) {
         opponent_destroy(self->opponents[i]);
     }
     free(self);
+}
+
+bool stage_is_complete(Stage* self) {
+    return self->complete;
 }
 
 static bool opponents_are_finished(Opponent* const* opponents) {
