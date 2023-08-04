@@ -54,18 +54,20 @@ void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
     uint32_t window_width;
     SDL_GetWindowSize(window, &window_width, &window_height);
 
-    const uint32_t scaled_window_width = (double)window_width /
-                                         (double)RENDERER_SCALE_FACTOR;
+    const uint32_t scaled_window_width =
+        (double)window_width / (double)RENDERER_SCALE_FACTOR;
 
-    const uint32_t scaled_window_height = (double)window_height /
-                                          (double)RENDERER_SCALE_FACTOR;
+    const uint32_t scaled_window_height =
+        (double)window_height / (double)RENDERER_SCALE_FACTOR;
 
     const uint32_t rectX = (scaled_window_width - BACKGROUND_WIDTH) / 2;
     const uint32_t rectY = (scaled_window_height - BACKGROUND_HEIGHT) / 2;
 
-    const SDL_Rect dstRect = {rectX, rectY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT};
+    const SDL_Rect dstRect = {
+        rectX, rectY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT};
 
     SDL_RenderCopy(renderer, self->background, NULL, &dstRect);
+    player_render(self->player, renderer);
 }
 
 void stage_destroy(Stage* self) {

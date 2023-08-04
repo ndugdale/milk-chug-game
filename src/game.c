@@ -122,7 +122,7 @@ void game_frame_rate_limit(Game* self) {
 
     double adjusted_frame_remainder = (uint64_t)self->remainder_time;
     uint64_t adjusted_frame_whole = TARGET_FRAME_TIME_WHOLE +
-                                    adjusted_frame_remainder;
+        adjusted_frame_remainder;
 
     if (elapsed_time < adjusted_frame_whole) {
         SDL_Delay(adjusted_frame_whole - elapsed_time);
