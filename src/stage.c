@@ -20,12 +20,12 @@ Stage* stage_create(SDL_Renderer* renderer, Player* player) {
     self->background = load_texture(renderer, "assets/images/purple_sky.png");
     self->player = player;
     self->min_drink_duration = 12'000;
-    self->max_drink_duration = 15'000;
+    self->max_drink_duration = 16'000;
 
-    for (uint8_t i = 0; i < NUM_OPPONENTS; i++) {
+    for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         uint64_t range = self->max_drink_duration - self->min_drink_duration;
         uint64_t drink_duration = self->min_drink_duration + (rand() % range);
-        self->opponents[i] = opponent_create(drink_duration);
+        self->opponents[i] = opponent_create(renderer, drink_duration, i);
     }
 
     return self;
@@ -34,7 +34,7 @@ Stage* stage_create(SDL_Renderer* renderer, Player* player) {
 void stage_update(Stage* self, Event event) {
     player_update(self->player, event);
 
-    for (uint8_t i = 0; i < NUM_OPPONENTS; i++) {
+    for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         opponent_update(self->opponents[i], event);
     }
 
@@ -82,11 +82,16 @@ void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
         MIN(scaled_window_height, BACKGROUND_HEIGHT)};
 
     SDL_RenderCopy(renderer, self->background, &src_rect, &dst_rect);
+
     player_render(self->player, renderer);
+
+    for (size_t i = 0; i < NUM_OPPONENTS; i++) {
+        opponent_render(self->opponents[i], renderer);
+    }
 }
 
 void stage_destroy(Stage* self) {
-    for (uint8_t i = 0; i < NUM_OPPONENTS; i++) {
+    for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         opponent_destroy(self->opponents[i]);
     }
     free(self);
@@ -97,7 +102,7 @@ bool stage_is_complete(const Stage* self) {
 }
 
 static bool opponents_are_finished(Opponent* const* opponents) {
-    for (uint8_t i = 0; i < NUM_OPPONENTS; i++) {
+    for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         if (!opponents[i]->finished) {
             return false;
         }
