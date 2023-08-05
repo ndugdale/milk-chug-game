@@ -39,7 +39,7 @@ void player_destroy(Player* self) {
     free(self);
 }
 
-bool player_is_finished(Player* self) {
+bool player_is_finished(const Player* self) {
     return self->finished;
 }
 

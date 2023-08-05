@@ -30,18 +30,18 @@ void opponent_destroy(Opponent* self) {
     free(self);
 }
 
-bool opponent_is_finished(Opponent* self) {
+bool opponent_is_finished(const Opponent* self) {
     return self->finished;
 }
 
 static void opponent_drink(Opponent* self) {
     if (!self->finished) {
-        uint64_t current_time = SDL_GetTicks64();
-        uint64_t elapsed_time = current_time - self->start_time;
+        const uint64_t current_time = SDL_GetTicks64();
+        const uint64_t elapsed_time = current_time - self->start_time;
 
         self->milk_consumed = MILK_CAPACITY *
-                              elapsed_time /
-                              self->drink_duration;
+            elapsed_time /
+            self->drink_duration;
 
         if (self->milk_consumed >= MILK_CAPACITY) {
             self->finished = true;

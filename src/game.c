@@ -9,8 +9,8 @@
 #include "player.h"
 #include "stage.h"
 
-static void on_key_down(Game* self, SDL_KeyboardEvent* event);
-static void on_key_up(Game* self, SDL_KeyboardEvent* event);
+static void on_key_down(Game* self, const SDL_KeyboardEvent* event);
+static void on_key_up(Game* self, const SDL_KeyboardEvent* event);
 
 Game* game_create(void) {
     Game* self = (Game*)malloc(sizeof(Game));
@@ -144,7 +144,7 @@ void game_destroy(Game* self) {
     free(self);
 }
 
-static void on_key_down(Game* self, SDL_KeyboardEvent* event) {
+static void on_key_down(Game* self, const SDL_KeyboardEvent* event) {
     if (event->repeat == 0 && event->keysym.scancode < SDL_NUM_SCANCODES) {
         switch (event->keysym.scancode) {
             case DRINK_MILK_INPUT:
@@ -156,7 +156,7 @@ static void on_key_down(Game* self, SDL_KeyboardEvent* event) {
     }
 }
 
-static void on_key_up(Game* self, SDL_KeyboardEvent* event) {
+static void on_key_up(Game* self, const SDL_KeyboardEvent* event) {
     if (event->repeat == 0 && event->keysym.scancode < SDL_NUM_SCANCODES) {
         switch (event->keysym.scancode) {
             default:

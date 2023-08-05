@@ -21,7 +21,7 @@ typedef struct {
 } EventQueue;
 
 EventQueue* event_queue_create(void);
-bool event_queue_is_empty(EventQueue* self);
+bool event_queue_is_empty(const EventQueue* self);
 void event_queue_enqueue(EventQueue* self, Event event);
 Event event_queue_dequeue(EventQueue* self);
 void event_queue_destroy(EventQueue* self);

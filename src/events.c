@@ -12,7 +12,7 @@ EventQueue* event_queue_create(void) {
     return self;
 }
 
-bool event_queue_is_empty(EventQueue* self) {
+bool event_queue_is_empty(const EventQueue* self) {
     return (self->front == EMPTY_QUEUE && self->rear == EMPTY_QUEUE);
 }
 

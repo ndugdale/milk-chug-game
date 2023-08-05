@@ -77,7 +77,7 @@ void stage_destroy(Stage* self) {
     free(self);
 }
 
-bool stage_is_complete(Stage* self) {
+bool stage_is_complete(const Stage* self) {
     return self->complete;
 }
 

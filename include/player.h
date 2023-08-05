@@ -27,4 +27,4 @@ Player* player_create(SDL_Renderer* renderer);
 void player_update(Player* self, Event event);
 void player_render(Player* self, SDL_Renderer* renderer);
 void player_destroy(Player* self);
-bool player_is_finished(Player* self);
+bool player_is_finished(const Player* self);
