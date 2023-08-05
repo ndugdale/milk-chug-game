@@ -10,6 +10,7 @@
 #include "opponent.h"
 #include "player.h"
 #include "render.h"
+#include "utils.h"
 
 static bool opponents_are_finished(Opponent* const* opponents);
 
@@ -56,17 +57,31 @@ void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
 
     const uint32_t scaled_window_width =
         (double)window_width / (double)RENDERER_SCALE_FACTOR;
-
     const uint32_t scaled_window_height =
         (double)window_height / (double)RENDERER_SCALE_FACTOR;
 
-    const uint32_t rectX = (scaled_window_width - BACKGROUND_WIDTH) / 2;
-    const uint32_t rectY = (scaled_window_height - BACKGROUND_HEIGHT) / 2;
+    const uint32_t src_x = BACKGROUND_WIDTH >= scaled_window_width
+        ? (BACKGROUND_WIDTH - scaled_window_width) / 2
+        : 0;
+    const uint32_t src_y = BACKGROUND_HEIGHT >= scaled_window_height
+        ? (BACKGROUND_HEIGHT - scaled_window_height) / 2
+        : 0;
 
-    const SDL_Rect dstRect = {
-        rectX, rectY, BACKGROUND_WIDTH, BACKGROUND_HEIGHT};
+    const uint32_t dst_x = scaled_window_width >= BACKGROUND_WIDTH
+        ? (scaled_window_width - BACKGROUND_WIDTH) / 2
+        : 0;
+    const uint32_t dst_y = scaled_window_height >= BACKGROUND_HEIGHT
+        ? (scaled_window_height - BACKGROUND_HEIGHT) / 2
+        : 0;
 
-    SDL_RenderCopy(renderer, self->background, NULL, &dstRect);
+    const SDL_Rect src_rect = {
+        src_x, src_y, MIN(scaled_window_width, BACKGROUND_WIDTH),
+        MIN(scaled_window_height, BACKGROUND_HEIGHT)};
+    const SDL_Rect dst_rect = {
+        dst_x, dst_y, MIN(scaled_window_width, BACKGROUND_WIDTH),
+        MIN(scaled_window_height, BACKGROUND_HEIGHT)};
+
+    SDL_RenderCopy(renderer, self->background, &src_rect, &dst_rect);
     player_render(self->player, renderer);
 }
 

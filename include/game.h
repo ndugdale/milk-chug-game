@@ -6,8 +6,8 @@
 #include "player.h"
 #include "stage.h"
 
-#define BACKGROUND_WIDTH 480
-#define BACKGROUND_HEIGHT 270
+#define BACKGROUND_WIDTH 320
+#define BACKGROUND_HEIGHT 180
 #define RENDERER_SCALE_FACTOR 4
 
 #define TARGET_FRAME_TIME_WHOLE 16
