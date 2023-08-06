@@ -57,7 +57,10 @@ Game* game_create(void) {
         self->renderer, RENDERER_SCALE_FACTOR, RENDERER_SCALE_FACTOR
     );
 
-    self->player = player_create(self->renderer, 0, 0);
+    const int64_t player_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2;
+    const int64_t player_y = (BACKGROUND_HEIGHT - PLAYER_SPRITE_HEIGHT) / 2;
+    self->player = player_create(self->renderer, player_x, player_y);
+
     self->current_stage = stage_create(self->renderer, self->player);
     self->event_queue = event_queue_create();
     self->last_frame_time = 0;

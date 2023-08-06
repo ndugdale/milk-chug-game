@@ -22,11 +22,19 @@ Stage* stage_create(SDL_Renderer* renderer, Player* player) {
     self->max_drink_duration = 16'000;
 
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
-        uint64_t range = self->max_drink_duration - self->min_drink_duration;
-        uint64_t drink_duration = self->min_drink_duration + (rand() % range);
+        const uint64_t range = self->max_drink_duration -
+            self->min_drink_duration;
+
+        const uint64_t drink_duration = self->min_drink_duration +
+            (rand() % range);
+
+        const int64_t shift_x = (i - 1) - ((i <= 1) ? 1 : 0);
+        const int64_t opp_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2 +
+            PLAYER_SPRITE_WIDTH * shift_x;
+        const int64_t opp_y = (BACKGROUND_HEIGHT - PLAYER_SPRITE_HEIGHT) / 2;
+
         self->opponents[i] = opponent_create(
-            renderer, drink_duration, i,
-            PLAYER_SPRITE_WIDTH * (i + 1), 0
+            renderer, drink_duration, i, opp_x, opp_y
         );
     }
 
