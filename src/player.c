@@ -28,9 +28,15 @@ void player_update(Player* self, Event event) {
     }
 }
 
-void player_render(Player* self, SDL_Renderer* renderer) {
+void player_render(Player* self, SDL_Renderer* renderer, SDL_Window* window) {
+    int64_t x;
+    int64_t y;
+    background_xy_to_window_xy(
+        window, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, &x, &y
+    );
+
     blit_sprite(
-        renderer, self->sprite_sheet, 0, self->sprite, 0, 0,
+        renderer, self->sprite_sheet, 0, self->sprite, x, y,
         PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT
     );
 }
