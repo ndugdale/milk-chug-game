@@ -19,7 +19,11 @@ Opponent* opponent_create(
     self->index = index;
 
     char fname_buffer[MAX_FILENAME_LENGTH];
-    sprintf(fname_buffer, "assets/images/opponent%d.png", self->index);
+    snprintf(
+        fname_buffer, MAX_FILENAME_LENGTH,
+        "assets/images/opponent%d.png", self->index
+    );
+
     self->sprite_sheet = load_texture(renderer, fname_buffer);
 
     return self;
