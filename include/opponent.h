@@ -15,10 +15,13 @@ typedef struct Opponent {
     SDL_Texture* sprite_sheet;
     uint8_t sprite;
     size_t index;
+    uint64_t x;
+    uint64_t y;
 } Opponent;
 
 Opponent* opponent_create(
-    SDL_Renderer* renderer, uint64_t drink_duration, size_t index
+    SDL_Renderer* renderer, uint64_t drink_duration, size_t index,
+    uint64_t x, uint64_t y
 );
 void opponent_update(Opponent* self, Event event);
 void opponent_render(

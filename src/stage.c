@@ -24,7 +24,10 @@ Stage* stage_create(SDL_Renderer* renderer, Player* player) {
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         uint64_t range = self->max_drink_duration - self->min_drink_duration;
         uint64_t drink_duration = self->min_drink_duration + (rand() % range);
-        self->opponents[i] = opponent_create(renderer, drink_duration, i);
+        self->opponents[i] = opponent_create(
+            renderer, drink_duration, i,
+            PLAYER_SPRITE_WIDTH * (i + 1), 0
+        );
     }
 
     return self;

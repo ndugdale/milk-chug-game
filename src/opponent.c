@@ -9,7 +9,8 @@
 static void opponent_drink(Opponent* self);
 
 Opponent* opponent_create(
-    SDL_Renderer* renderer, uint64_t drink_duration, size_t index
+    SDL_Renderer* renderer, uint64_t drink_duration, size_t index,
+    uint64_t x, uint64_t y
 ) {
     Opponent* self = (Opponent*)malloc(sizeof(Opponent));
     self->start_time = 0;
@@ -17,6 +18,8 @@ Opponent* opponent_create(
     self->finished = false;
     self->milk_consumed = 0;
     self->index = index;
+    self->x = x;
+    self->y = y;
 
     char fname_buffer[MAX_FILENAME_LENGTH];
     snprintf(
@@ -41,15 +44,15 @@ void opponent_update(Opponent* self, Event event) {
 void opponent_render(
     Opponent* self, SDL_Renderer* renderer, SDL_Window* window
 ) {
-    int64_t x;
-    int64_t y;
-    background_xy_to_window_xy(
-        window, PLAYER_SPRITE_WIDTH * (self->index + 1), 0,
-        BACKGROUND_WIDTH, BACKGROUND_HEIGHT, &x, &y
+    int64_t window_x;
+    int64_t window_y;
+    local_xy_to_window_xy(
+        window, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
+        &window_x, &window_y
     );
 
     blit_sprite(
-        renderer, self->sprite_sheet, 0, self->sprite, x, y,
+        renderer, self->sprite_sheet, 0, self->sprite, window_x, window_y,
         PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT
     );
 }

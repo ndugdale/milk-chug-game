@@ -104,8 +104,8 @@ void blit_sprite(
     }
 }
 
-void background_xy_to_window_xy(
-    SDL_Window* window, int64_t background_x, int64_t background_y,
+void local_xy_to_window_xy(
+    SDL_Window* window, int64_t local_x, int64_t local_y,
     uint32_t background_w, uint32_t background_h,
     int64_t* window_x, int64_t* window_y
 ) {
@@ -118,6 +118,6 @@ void background_xy_to_window_xy(
     const int64_t scaled_window_height =
         (double)window_height / (double)RENDERER_SCALE_FACTOR;
 
-    *window_x = background_x + (scaled_window_width - background_w) / 2;
-    *window_y = background_y + (scaled_window_height - background_h) / 2;
+    *window_x = local_x + (scaled_window_width - background_w) / 2;
+    *window_y = local_y + (scaled_window_height - background_h) / 2;
 }

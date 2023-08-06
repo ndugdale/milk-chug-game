@@ -15,8 +15,11 @@ void blit_sprite(
     SDL_Renderer* renderer, SDL_Texture* sprite_sheet, uint8_t row, uint8_t col,
     int64_t window_x, int64_t window_y, uint32_t w, uint32_t h
 );
-void background_xy_to_window_xy(
-    SDL_Window* window, int64_t background_x, int64_t background_y,
+// Convert between local and window coordinates:
+// - local: origin at top-left of background texture
+// - window: origin at top-left of window
+void local_xy_to_window_xy(
+    SDL_Window* window, int64_t local_x, int64_t local_y,
     uint32_t background_w, uint32_t background_h,
     int64_t* window_x, int64_t* window_y
 );
