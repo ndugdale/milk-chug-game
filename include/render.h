@@ -7,6 +7,10 @@
 #include "stage.h"
 
 SDL_Texture* load_texture(SDL_Renderer* renderer, const char* filename);
+void blit_background(
+    SDL_Renderer* renderer, SDL_Window* window, SDL_Texture* background,
+    double scale, uint32_t w, uint32_t h
+);
 void blit_sprite(
     SDL_Renderer* renderer, SDL_Texture* sprite_sheet, uint8_t row, uint8_t col,
     uint8_t dest_x, uint8_t dest_y, uint32_t w, uint32_t h
