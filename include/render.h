@@ -13,5 +13,10 @@ void blit_background(
 );
 void blit_sprite(
     SDL_Renderer* renderer, SDL_Texture* sprite_sheet, uint8_t row, uint8_t col,
-    uint8_t dest_x, uint8_t dest_y, uint32_t w, uint32_t h
+    int64_t window_x, int64_t window_y, uint32_t w, uint32_t h
+);
+void background_xy_to_window_xy(
+    SDL_Window* window, int64_t background_x, int64_t background_y,
+    uint32_t background_w, uint32_t background_h,
+    int64_t* window_x, int64_t* window_y
 );

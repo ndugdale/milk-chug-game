@@ -34,10 +34,18 @@ void opponent_update(Opponent* self, Event event) {
     }
 }
 
-void opponent_render(Opponent* self, SDL_Renderer* renderer) {
+void opponent_render(
+    Opponent* self, SDL_Renderer* renderer, SDL_Window* window
+) {
+    int64_t x;
+    int64_t y;
+    background_xy_to_window_xy(
+        window, PLAYER_SPRITE_WIDTH * (self->index + 1), 0,
+        BACKGROUND_WIDTH, BACKGROUND_HEIGHT, &x, &y
+    );
+
     blit_sprite(
-        renderer, self->sprite_sheet, 0, self->sprite,
-        PLAYER_SPRITE_WIDTH * (self->index + 1), 0,
+        renderer, self->sprite_sheet, 0, self->sprite, x, y,
         PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT
     );
 }

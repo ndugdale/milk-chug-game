@@ -55,10 +55,10 @@ void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
         BACKGROUND_WIDTH, BACKGROUND_HEIGHT
     );
 
-    player_render(self->player, renderer);
+    player_render(self->player, renderer, window);
 
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
-        opponent_render(self->opponents[i], renderer);
+        opponent_render(self->opponents[i], renderer, window);
     }
 }
 
