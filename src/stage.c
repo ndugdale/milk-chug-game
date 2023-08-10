@@ -16,7 +16,7 @@ static bool opponents_are_finished(Opponent* const* opponents);
 Stage* stage_create(SDL_Renderer* renderer, Player* player) {
     Stage* self = (Stage*)malloc(sizeof(Stage));
 
-    self->background = load_texture(renderer, "assets/images/purple_sky.png");
+    self->background = load_texture(renderer, "assets/images/stage0.png");
     self->player = player;
     self->min_drink_duration = 12'000;
     self->max_drink_duration = 16'000;
