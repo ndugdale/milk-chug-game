@@ -8,6 +8,7 @@
 #include "player.h"
 
 #define NUM_OPPONENTS 4
+#define INDICATOR_VERTICAL_OFFSET 4
 
 typedef struct {
     Player* player;

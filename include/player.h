@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #include "events.h"
+#include "indicator.h"
 
 #define MILK_CAPACITY 4000
 #define MILK_SIP 100
@@ -24,6 +25,7 @@ typedef struct {
     uint8_t sprite;
     int64_t x;
     int64_t y;
+    Indicator* indicator;
 } Player;
 
 Player* player_create(SDL_Renderer* renderer, int64_t x, int64_t y);
