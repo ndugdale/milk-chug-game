@@ -20,6 +20,9 @@ Opponent* opponent_create(
     self->index = index;
     self->x = x;
     self->y = y;
+    self->indicator = indicator_create(
+        renderer, x, y - INDICATOR_VERTICAL_OFFSET - INDICATOR_SPRITE_HEIGHT
+    );
 
     char fname_buffer[MAX_FILENAME_LENGTH];
     snprintf(
@@ -33,6 +36,10 @@ Opponent* opponent_create(
 }
 
 void opponent_update(Opponent* self, Event event) {
+    indicator_update(
+        self->indicator, event, self->milk_consumed, MILK_CAPACITY
+    );
+
     switch (event) {
         case EVENT_TICK:
             opponent_drink(self);
@@ -55,9 +62,12 @@ void opponent_render(
         renderer, self->sprite_sheet, 0, self->sprite, window_x, window_y,
         PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT
     );
+
+    indicator_render(self->indicator, renderer, window);
 }
 
 void opponent_destroy(Opponent* self) {
+    indicator_destroy(self->indicator);
     free(self);
 }
 

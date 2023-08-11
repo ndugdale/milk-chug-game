@@ -16,6 +16,9 @@ Player* player_create(SDL_Renderer* renderer, int64_t x, int64_t y) {
     self->sprite_sheet = load_texture(renderer, "assets/images/player.png");
     self->x = x;
     self->y = y;
+    self->indicator = indicator_create(
+        renderer, x, y - INDICATOR_VERTICAL_OFFSET - INDICATOR_SPRITE_HEIGHT
+    );
 
     player_reset(self);
 
@@ -23,6 +26,10 @@ Player* player_create(SDL_Renderer* renderer, int64_t x, int64_t y) {
 }
 
 void player_update(Player* self, Event event) {
+    indicator_update(
+        self->indicator, event, self->milk_consumed, MILK_CAPACITY
+    );
+
     switch (event) {
         case EVENT_DRINK:
             player_drink(self);
@@ -43,9 +50,12 @@ void player_render(Player* self, SDL_Renderer* renderer, SDL_Window* window) {
         renderer, self->sprite_sheet, 0, self->sprite, window_x, window_y,
         PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT
     );
+
+    indicator_render(self->indicator, renderer, window);
 }
 
 void player_destroy(Player* self) {
+    indicator_destroy(self->indicator);
     free(self);
 }
 

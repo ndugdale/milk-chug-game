@@ -58,7 +58,7 @@ Game* game_create(void) {
     );
 
     const int64_t player_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2;
-    const int64_t player_y = (BACKGROUND_HEIGHT - PLAYER_SPRITE_HEIGHT) / 2;
+    const int64_t player_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
     self->player = player_create(self->renderer, player_x, player_y);
 
     self->current_stage = stage_create(self->renderer, self->player);

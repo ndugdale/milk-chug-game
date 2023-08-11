@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include "events.h"
+#include "indicator.h"
 
 #define MAX_FILENAME_LENGTH 100
 
@@ -17,6 +18,7 @@ typedef struct Opponent {
     size_t index;
     uint64_t x;
     uint64_t y;
+    Indicator* indicator;
 } Opponent;
 
 Opponent* opponent_create(

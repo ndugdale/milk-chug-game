@@ -31,7 +31,7 @@ Stage* stage_create(SDL_Renderer* renderer, Player* player) {
         const int64_t shift_x = (i - 1) - ((i <= 1) ? 1 : 0);
         const int64_t opp_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2 +
             PLAYER_SPRITE_WIDTH * shift_x;
-        const int64_t opp_y = (BACKGROUND_HEIGHT - PLAYER_SPRITE_HEIGHT) / 2;
+        const int64_t opp_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
 
         self->opponents[i] = opponent_create(
             renderer, drink_duration, i, opp_x, opp_y
