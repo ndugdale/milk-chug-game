@@ -20,23 +20,39 @@ Game* game_create(void) {
     const uint32_t image_flags = IMG_INIT_PNG | IMG_INIT_JPG;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        SDL_Log("Failed to initialise SDL: %s\n", SDL_GetError());
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
+            "Failed to initialise SDL: %s\n",
+            SDL_GetError()
+        );
+        exit(1);
+    }
+
+    SDL_DisplayMode display_mode;
+    if (SDL_GetDesktopDisplayMode(0, &display_mode) != 0) {
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
+            "Failed to get desktop display mode: %s",
+            SDL_GetError()
+        );
+        exit(1);
     }
 
     self->window = SDL_CreateWindow(
         "Milk Chug",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        BACKGROUND_WIDTH * RENDERER_SCALE_FACTOR,
-        BACKGROUND_HEIGHT * RENDERER_SCALE_FACTOR,
+        display_mode.w,
+        display_mode.h,
         window_flags
     );
 
     if (!self->window) {
-        SDL_Log(
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
             "Failed to open %d x %d window: %s\n",
-            BACKGROUND_WIDTH * RENDERER_SCALE_FACTOR,
-            BACKGROUND_HEIGHT * RENDERER_SCALE_FACTOR,
+            display_mode.w,
+            display_mode.h,
             SDL_GetError()
         );
         exit(1);
@@ -46,16 +62,33 @@ Game* game_create(void) {
     self->renderer = SDL_CreateRenderer(self->window, -1, renderer_flags);
 
     if (!self->renderer) {
-        SDL_Log("Failed to create renderer: %s\n", SDL_GetError());
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
+            "Failed to create renderer: %s\n",
+            SDL_GetError()
+        );
+        exit(1);
     }
 
     if (IMG_Init(image_flags) != (image_flags)) {
-        printf("Failed to initialise SDL image: %s\n", IMG_GetError());
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
+            "Failed to initialise SDL image: %s\n",
+            IMG_GetError()
+        );
+        exit(1);
     }
 
-    SDL_RenderSetScale(
-        self->renderer, RENDERER_SCALE_FACTOR, RENDERER_SCALE_FACTOR
-    );
+    if (SDL_RenderSetScale(
+            self->renderer, RENDERER_SCALE_FACTOR, RENDERER_SCALE_FACTOR
+        ) != 0) {
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
+            "Failed to set render scale: %s\n",
+            SDL_GetError()
+        );
+        exit(1);
+    };
 
     const int64_t player_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2;
     const int64_t player_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
