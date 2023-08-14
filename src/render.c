@@ -8,13 +8,17 @@
 
 SDL_Texture* load_texture(SDL_Renderer* renderer, const char* filename) {
     SDL_Texture* texture;
-    SDL_LogMessage(
-        SDL_LOG_CATEGORY_APPLICATION,
-        SDL_LOG_PRIORITY_INFO,
-        "Loading %s",
-        filename
-    );
+    SDL_Log("Loading %s", filename);
     texture = IMG_LoadTexture(renderer, filename);
+
+    if (texture == NULL) {
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
+            "Failed to load texture from file %s: %s",
+            filename,
+            SDL_GetError()
+        );
+    }
 
     return texture;
 }
@@ -53,7 +57,13 @@ void blit_background(
         dst_x, dst_y, MIN(scaled_window_width, w),
         MIN(scaled_window_height, h)};
 
-    SDL_RenderCopy(renderer, background, &src_rect, &dst_rect);
+    if (SDL_RenderCopy(renderer, background, &src_rect, &dst_rect) != 0) {
+        SDL_LogError(
+            SDL_LOG_CATEGORY_RENDER,
+            "Failed to render background: %s",
+            SDL_GetError()
+        );
+    };
 }
 
 void blit_sprite(
@@ -100,7 +110,13 @@ void blit_sprite(
             rect_w,
             rect_h};
 
-        SDL_RenderCopy(renderer, sprite_sheet, &src_rect, &dest_rect);
+        if (SDL_RenderCopy(renderer, sprite_sheet, &src_rect, &dest_rect) != 0) {
+            SDL_LogError(
+                SDL_LOG_CATEGORY_RENDER,
+                "Failed to render sprite: %s",
+                SDL_GetError()
+            );
+        };
     }
 }
 
