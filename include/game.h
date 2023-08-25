@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 
 #include "events.h"
+#include "fonts.h"
 #include "player.h"
 #include "stage.h"
 
@@ -19,6 +20,7 @@ typedef struct {
     Player* player;
     Stage* current_stage;
     EventQueue* event_queue;
+    FontManager* font_manager;
     uint64_t last_frame_time;
     double remainder_time;
 } Game;

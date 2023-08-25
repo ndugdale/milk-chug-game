@@ -5,6 +5,7 @@ project(milk_chug_game)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 
 file(GLOB_RECURSE SRC_FILES "src/*.c")
 add_executable(milk_chug_game ${SRC_FILES})
@@ -19,6 +20,7 @@ target_link_libraries(
     milk_chug_game
     ${SDL2_LIBRARIES}
     SDL2_image::SDL2_image
+    SDL2_ttf::SDL2_ttf
 )
 
 file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

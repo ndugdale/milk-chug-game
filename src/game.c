@@ -2,10 +2,12 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdint.h>
 #include <stdlib.h>
 
 #include "events.h"
+#include "fonts.h"
 #include "player.h"
 #include "stage.h"
 
@@ -70,15 +72,6 @@ Game* game_create(void) {
         exit(1);
     }
 
-    if (IMG_Init(image_flags) != (image_flags)) {
-        SDL_LogError(
-            SDL_LOG_CATEGORY_APPLICATION,
-            "Failed to initialise SDL image: %s\n",
-            IMG_GetError()
-        );
-        exit(1);
-    }
-
     if (SDL_RenderSetScale(
             self->renderer, RENDERER_SCALE_FACTOR, RENDERER_SCALE_FACTOR
         ) != 0) {
@@ -90,12 +83,36 @@ Game* game_create(void) {
         exit(1);
     };
 
+    if (IMG_Init(image_flags) != (image_flags)) {
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
+            "Failed to initialise SDL image: %s\n",
+            IMG_GetError()
+        );
+        exit(1);
+    }
+
+    if (TTF_Init() != 0) {
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
+            "Failed to initialise SDL ttf: %s\n",
+            TTF_GetError()
+        );
+        exit(1);
+    }
+
     const int64_t player_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2;
     const int64_t player_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
     self->player = player_create(self->renderer, player_x, player_y);
 
     self->current_stage = stage_create(self->renderer, self->player);
     self->event_queue = event_queue_create();
+
+    self->font_manager = font_manager_create();
+    font_manager_load(
+        self->font_manager, "munro_10", "assets/fonts/MunroSmall.ttf", 10
+    );
+
     self->last_frame_time = 0;
     self->remainder_time = 0;
 
