@@ -28,7 +28,10 @@ typedef struct {
     Indicator* indicator;
 } Player;
 
-Player* player_create(SDL_Renderer* renderer, int64_t x, int64_t y);
+Player* player_create(
+    SDL_Renderer* renderer, TextureManager* texture_manager, int64_t x,
+    int64_t y
+);
 void player_update(Player* self, Event event);
 void player_render(Player* self, SDL_Renderer* renderer, SDL_Window* window);
 void player_destroy(Player* self);

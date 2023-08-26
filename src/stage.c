@@ -6,17 +6,22 @@
 #include <stdlib.h>
 
 #include "events.h"
+#include "font.h"
 #include "game.h"
 #include "opponent.h"
 #include "player.h"
 #include "render.h"
+#include "texture.h"
 
 static bool opponents_are_finished(Opponent* const* opponents);
 
-Stage* stage_create(SDL_Renderer* renderer, Player* player) {
+Stage* stage_create(
+    SDL_Renderer* renderer, FontManager* font_manager,
+    TextureManager* texture_manager, Player* player
+) {
     Stage* self = (Stage*)malloc(sizeof(Stage));
 
-    self->background = load_texture(renderer, "assets/images/stage0.png");
+    self->background = texture_manager_get(texture_manager, "stage0");
     self->player = player;
     self->min_drink_duration = 12'000;
     self->max_drink_duration = 16'000;
@@ -34,7 +39,7 @@ Stage* stage_create(SDL_Renderer* renderer, Player* player) {
         const int64_t opp_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
 
         self->opponents[i] = opponent_create(
-            renderer, drink_duration, i, opp_x, opp_y
+            renderer, texture_manager, drink_duration, i, opp_x, opp_y
         );
     }
 

@@ -5,12 +5,13 @@
 #include "events.h"
 #include "player.h"
 #include "render.h"
+#include "texture.h"
 
 static void opponent_drink(Opponent* self);
 
 Opponent* opponent_create(
-    SDL_Renderer* renderer, uint64_t drink_duration, size_t index,
-    uint64_t x, uint64_t y
+    SDL_Renderer* renderer, TextureManager* texture_manager,
+    uint64_t drink_duration, size_t index, uint64_t x, uint64_t y
 ) {
     Opponent* self = (Opponent*)malloc(sizeof(Opponent));
     self->start_time = 0;
@@ -21,16 +22,14 @@ Opponent* opponent_create(
     self->x = x;
     self->y = y;
     self->indicator = indicator_create(
-        renderer, x, y - INDICATOR_VERTICAL_OFFSET - INDICATOR_SPRITE_HEIGHT
+        renderer, texture_manager, x,
+        y - INDICATOR_VERTICAL_OFFSET - INDICATOR_SPRITE_HEIGHT
     );
 
-    char fname_buffer[MAX_FILENAME_LENGTH];
-    snprintf(
-        fname_buffer, MAX_FILENAME_LENGTH,
-        "assets/images/opponent%d.png", self->index
-    );
+    char name_buffer[MAX_FILENAME_LENGTH];
+    snprintf(name_buffer, MAX_FILENAME_LENGTH, "opponent%d", self->index);
 
-    self->sprite_sheet = load_texture(renderer, fname_buffer);
+    self->sprite_sheet = texture_manager_get(texture_manager, name_buffer);
 
     return self;
 }

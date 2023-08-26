@@ -5,6 +5,7 @@
 
 #include "events.h"
 #include "indicator.h"
+#include "texture.h"
 
 #define MAX_FILENAME_LENGTH 100
 
@@ -22,8 +23,8 @@ typedef struct Opponent {
 } Opponent;
 
 Opponent* opponent_create(
-    SDL_Renderer* renderer, uint64_t drink_duration, size_t index,
-    uint64_t x, uint64_t y
+    SDL_Renderer* renderer, TextureManager* texture_manager,
+    uint64_t drink_duration, size_t index, uint64_t x, uint64_t y
 );
 void opponent_update(Opponent* self, Event event);
 void opponent_render(

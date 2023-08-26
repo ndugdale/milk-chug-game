@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 
 #include "events.h"
+#include "texture.h"
 
 #define INDICATOR_SPRITE_WIDTH 16
 #define INDICATOR_SPRITE_HEIGHT 20
@@ -15,7 +16,10 @@ typedef struct {
     int64_t y;
 } Indicator;
 
-Indicator* indicator_create(SDL_Renderer* renderer, int64_t x, int64_t y);
+Indicator* indicator_create(
+    SDL_Renderer* renderer, TextureManager* texture_manager, int64_t x,
+    int64_t y
+);
 void indicator_update(
     Indicator* self, Event event, uint16_t capacity, uint16_t max
 );

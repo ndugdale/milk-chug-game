@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
 #define MAX_NUM_FONTS 16
@@ -15,10 +16,6 @@ typedef struct {
 } FontManager;
 
 FontManager* font_manager_create(void);
-void font_manager_load(
-    FontManager* self, const char* font_name, const char* font_path,
-    uint8_t font_size
-);
 TTF_Font* font_manager_get(FontManager* self, const char* font_name);
 void font_manager_destroy(FontManager* self);
 

@@ -11,13 +11,17 @@
 static void player_reset(Player* self);
 static void player_drink(Player* self);
 
-Player* player_create(SDL_Renderer* renderer, int64_t x, int64_t y) {
+Player* player_create(
+    SDL_Renderer* renderer, TextureManager* texture_manager, int64_t x,
+    int64_t y
+) {
     Player* self = (Player*)malloc(sizeof(Player));
-    self->sprite_sheet = load_texture(renderer, "assets/images/player.png");
+    self->sprite_sheet = texture_manager_get(texture_manager, "player");
     self->x = x;
     self->y = y;
     self->indicator = indicator_create(
-        renderer, x, y - INDICATOR_VERTICAL_OFFSET - INDICATOR_SPRITE_HEIGHT
+        renderer, texture_manager, x,
+        y - INDICATOR_VERTICAL_OFFSET - INDICATOR_SPRITE_HEIGHT
     );
 
     player_reset(self);

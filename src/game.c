@@ -7,9 +7,10 @@
 #include <stdlib.h>
 
 #include "events.h"
-#include "fonts.h"
+#include "font.h"
 #include "player.h"
 #include "stage.h"
+#include "texture.h"
 
 static void on_key_down(Game* self, const SDL_KeyboardEvent* event);
 static void on_key_up(Game* self, const SDL_KeyboardEvent* event);
@@ -101,17 +102,19 @@ Game* game_create(void) {
         exit(1);
     }
 
+    self->font_manager = font_manager_create();
+    self->texture_manager = texture_manager_create(self->renderer);
+
     const int64_t player_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2;
     const int64_t player_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
-    self->player = player_create(self->renderer, player_x, player_y);
-
-    self->current_stage = stage_create(self->renderer, self->player);
-    self->event_queue = event_queue_create();
-
-    self->font_manager = font_manager_create();
-    font_manager_load(
-        self->font_manager, "munro_10", "assets/fonts/MunroSmall.ttf", 10
+    self->player = player_create(
+        self->renderer, self->texture_manager, player_x, player_y
     );
+    self->current_stage = stage_create(
+        self->renderer, self->font_manager, self->texture_manager, self->player
+    );
+
+    self->event_queue = event_queue_create();
 
     self->last_frame_time = 0;
     self->remainder_time = 0;

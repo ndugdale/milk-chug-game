@@ -6,23 +6,6 @@
 
 #include "utils.h"
 
-SDL_Texture* load_texture(SDL_Renderer* renderer, const char* filename) {
-    SDL_Texture* texture;
-    SDL_Log("Loading %s", filename);
-    texture = IMG_LoadTexture(renderer, filename);
-
-    if (texture == NULL) {
-        SDL_LogError(
-            SDL_LOG_CATEGORY_APPLICATION,
-            "Failed to load texture from file %s: %s",
-            filename,
-            SDL_GetError()
-        );
-    }
-
-    return texture;
-}
-
 void blit_background(
     SDL_Renderer* renderer, SDL_Window* window, SDL_Texture* background,
     double scale, uint32_t w, uint32_t h

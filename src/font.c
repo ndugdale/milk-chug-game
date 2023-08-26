@@ -1,46 +1,20 @@
-#include "fonts.h"
+#include "font.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdlib.h>
 #include <string.h>
 
-FontManager* font_manager_create(void) {
-    return calloc(1, sizeof(FontManager));
-}
-
-void font_manager_load(
+static void load_font(
     FontManager* self, const char* font_name, const char* font_path,
     uint8_t font_size
-) {
-    if (self->insert_index > MAX_NUM_FONTS) {
-        SDL_LogError(
-            SDL_LOG_CATEGORY_APPLICATION,
-            "Failed to load font from file %s: "
-            "font manager has run out of capacity",
-            font_path
-        );
-        exit(1);
-    }
+);
 
-    TTF_Font* font = TTF_OpenFont(font_path, font_size);
+FontManager* font_manager_create(void) {
+    FontManager* self = calloc(1, sizeof(FontManager));
+    load_font(self, "munro_10", "assets/fonts/MunroSmall.ttf", 10);
 
-    if (font == NULL) {
-        SDL_LogError(
-            SDL_LOG_CATEGORY_APPLICATION,
-            "Failed to load font from file %s: %s",
-            font_path,
-            SDL_GetError()
-        );
-        exit(1);
-    }
-
-    Font* insert_item = malloc(sizeof(Font));
-    insert_item->font_name = font_name;
-    insert_item->font = font;
-
-    self->fonts[self->insert_index] = insert_item;
-    self->insert_index++;
+    return self;
 }
 
 TTF_Font* font_manager_get(FontManager* self, const char* font_name) {
@@ -79,4 +53,39 @@ void blit_text(
             SDL_GetError()
         );
     };
+}
+
+static void load_font(
+    FontManager* self, const char* font_name, const char* font_path,
+    uint8_t font_size
+) {
+    if (self->insert_index > MAX_NUM_FONTS) {
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
+            "Failed to load font from file %s: "
+            "font manager has run out of capacity",
+            font_path
+        );
+        exit(1);
+    }
+
+    SDL_Log("Loading font: %s", font_path);
+    TTF_Font* font = TTF_OpenFont(font_path, font_size);
+
+    if (font == NULL) {
+        SDL_LogError(
+            SDL_LOG_CATEGORY_APPLICATION,
+            "Failed to load font from file %s: %s",
+            font_path,
+            SDL_GetError()
+        );
+        exit(1);
+    }
+
+    Font* insert_item = malloc(sizeof(Font));
+    insert_item->font_name = font_name;
+    insert_item->font = font;
+
+    self->fonts[self->insert_index] = insert_item;
+    self->insert_index++;
 }

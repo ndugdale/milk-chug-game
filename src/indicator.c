@@ -2,12 +2,16 @@
 
 #include "game.h"
 #include "render.h"
+#include "texture.h"
 
 static void indicator_tick(Indicator* self, uint16_t capacity, uint16_t max);
 
-Indicator* indicator_create(SDL_Renderer* renderer, int64_t x, int64_t y) {
+Indicator* indicator_create(
+    SDL_Renderer* renderer, TextureManager* texture_manager, int64_t x,
+    int64_t y
+) {
     Indicator* self = (Indicator*)malloc(sizeof(Indicator));
-    self->sprite_sheet = load_texture(renderer, "assets/images/indicator.png");
+    self->sprite_sheet = texture_manager_get(texture_manager, "indicator");
     self->x = x;
     self->y = y;
 
