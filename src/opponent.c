@@ -35,9 +35,7 @@ Opponent* opponent_create(
 }
 
 void opponent_update(Opponent* self, Event event) {
-    indicator_update(
-        self->indicator, event, self->milk_consumed, MILK_CAPACITY
-    );
+    indicator_update(self->indicator, event, self->milk_consumed, MILK_CAPACITY);
 
     switch (event) {
         case EVENT_TICK:

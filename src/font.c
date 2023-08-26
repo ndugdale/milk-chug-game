@@ -5,10 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void load_font(
-    FontManager* self, const char* font_name, const char* font_path,
-    uint8_t font_size
-);
+static void load_font(FontManager* self, const char* font_name, const char* font_path, uint8_t font_size);
 
 FontManager* font_manager_create(void) {
     FontManager* self = calloc(1, sizeof(FontManager));
@@ -55,10 +52,7 @@ void blit_text(
     };
 }
 
-static void load_font(
-    FontManager* self, const char* font_name, const char* font_path,
-    uint8_t font_size
-) {
+static void load_font(FontManager* self, const char* font_name, const char* font_path, uint8_t font_size) {
     if (self->insert_index > MAX_NUM_FONTS) {
         SDL_LogError(
             SDL_LOG_CATEGORY_APPLICATION,

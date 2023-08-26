@@ -30,9 +30,7 @@ Player* player_create(
 }
 
 void player_update(Player* self, Event event) {
-    indicator_update(
-        self->indicator, event, self->milk_consumed, MILK_CAPACITY
-    );
+    indicator_update(self->indicator, event, self->milk_consumed, MILK_CAPACITY);
 
     switch (event) {
         case EVENT_DRINK:

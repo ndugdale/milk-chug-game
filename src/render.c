@@ -14,31 +14,17 @@ void blit_background(
     uint32_t window_width;
     SDL_GetWindowSize(window, &window_width, &window_height);
 
-    const uint32_t scaled_window_width =
-        (double)window_width / scale;
-    const uint32_t scaled_window_height =
-        (double)window_height / scale;
+    const uint32_t scaled_window_width = (double)window_width / scale;
+    const uint32_t scaled_window_height = (double)window_height / scale;
 
-    const uint32_t src_x = w >= scaled_window_width
-        ? (w - scaled_window_width) / 2
-        : 0;
-    const uint32_t src_y = h >= scaled_window_height
-        ? (h - scaled_window_height) / 2
-        : 0;
+    const uint32_t src_x = w >= scaled_window_width ? (w - scaled_window_width) / 2 : 0;
+    const uint32_t src_y = h >= scaled_window_height ? (h - scaled_window_height) / 2 : 0;
 
-    const uint32_t dst_x = scaled_window_width >= w
-        ? (scaled_window_width - w) / 2
-        : 0;
-    const uint32_t dst_y = scaled_window_height >= h
-        ? (scaled_window_height - h) / 2
-        : 0;
+    const uint32_t dst_x = scaled_window_width >= w ? (scaled_window_width - w) / 2 : 0;
+    const uint32_t dst_y = scaled_window_height >= h ? (scaled_window_height - h) / 2 : 0;
 
-    const SDL_Rect src_rect = {
-        src_x, src_y, MIN(scaled_window_width, w),
-        MIN(scaled_window_height, h)};
-    const SDL_Rect dst_rect = {
-        dst_x, dst_y, MIN(scaled_window_width, w),
-        MIN(scaled_window_height, h)};
+    const SDL_Rect src_rect = {src_x, src_y, MIN(scaled_window_width, w), MIN(scaled_window_height, h)};
+    const SDL_Rect dst_rect = {dst_x, dst_y, MIN(scaled_window_width, w), MIN(scaled_window_height, h)};
 
     if (SDL_RenderCopy(renderer, background, &src_rect, &dst_rect) != 0) {
         SDL_LogError(
@@ -81,17 +67,8 @@ void blit_sprite(
     }
 
     if (rect_w > 0 && rect_h > 0) {
-        const SDL_Rect src_rect = {
-            col * w + src_x,
-            row * h + src_y,
-            rect_w,
-            rect_h};
-
-        const SDL_Rect dest_rect = {
-            dst_x,
-            dst_y,
-            rect_w,
-            rect_h};
+        const SDL_Rect src_rect = {col * w + src_x, row * h + src_y, rect_w, rect_h};
+        const SDL_Rect dest_rect = {dst_x, dst_y, rect_w, rect_h};
 
         if (SDL_RenderCopy(renderer, sprite_sheet, &src_rect, &dest_rect) != 0) {
             SDL_LogError(
@@ -112,10 +89,8 @@ void local_xy_to_window_xy(
     uint32_t window_width;
     SDL_GetWindowSize(window, &window_width, &window_height);
 
-    const int64_t scaled_window_width =
-        (double)window_width / (double)RENDERER_SCALE_FACTOR;
-    const int64_t scaled_window_height =
-        (double)window_height / (double)RENDERER_SCALE_FACTOR;
+    const int64_t scaled_window_width = (double)window_width / (double)RENDERER_SCALE_FACTOR;
+    const int64_t scaled_window_height = (double)window_height / (double)RENDERER_SCALE_FACTOR;
 
     *window_x = local_x + (scaled_window_width - background_w) / 2;
     *window_y = local_y + (scaled_window_height - background_h) / 2;

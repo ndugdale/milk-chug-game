@@ -73,9 +73,7 @@ Game* game_create(void) {
         exit(1);
     }
 
-    if (SDL_RenderSetScale(
-            self->renderer, RENDERER_SCALE_FACTOR, RENDERER_SCALE_FACTOR
-        ) != 0) {
+    if (SDL_RenderSetScale(self->renderer, RENDERER_SCALE_FACTOR, RENDERER_SCALE_FACTOR) != 0) {
         SDL_LogError(
             SDL_LOG_CATEGORY_APPLICATION,
             "Failed to set render scale: %s\n",
@@ -107,12 +105,9 @@ Game* game_create(void) {
 
     const int64_t player_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2;
     const int64_t player_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
-    self->player = player_create(
-        self->renderer, self->texture_manager, player_x, player_y
-    );
-    self->current_stage = stage_create(
-        self->renderer, self->font_manager, self->texture_manager, self->player
-    );
+
+    self->player = player_create(self->renderer, self->texture_manager, player_x, player_y);
+    self->current_stage = stage_create(self->renderer, self->font_manager, self->texture_manager, self->player);
 
     self->event_queue = event_queue_create();
 
@@ -166,6 +161,7 @@ void game_update(Game* self) {
 void game_render(Game* self) {
     SDL_SetRenderDrawColor(self->renderer, 0, 0, 0, 255);
     SDL_RenderClear(self->renderer);
+
     stage_render(self->current_stage, self->renderer, self->window);
 
     SDL_RenderPresent(self->renderer);

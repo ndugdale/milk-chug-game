@@ -38,14 +38,17 @@ TextureManager* texture_manager_create(SDL_Renderer* renderer) {
     return self;
 }
 
-SDL_Texture* texture_manager_get(
-    TextureManager* self, const char* texture_name
-) {
+SDL_Texture* texture_manager_get(TextureManager* self, const char* texture_name) {
     for (size_t i = 0; i < self->insert_index; i++) {
         if (strcmp(self->textures[i]->texture_name, texture_name) == 0) {
             return self->textures[i]->texture;
         }
     }
+    SDL_LogError(
+        SDL_LOG_CATEGORY_APPLICATION,
+        "No texture named %s is stored in the texture manager",
+        texture_name
+    );
     return NULL;
 }
 

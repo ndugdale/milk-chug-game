@@ -27,8 +27,6 @@ Opponent* opponent_create(
     uint64_t drink_duration, size_t index, uint64_t x, uint64_t y
 );
 void opponent_update(Opponent* self, Event event);
-void opponent_render(
-    Opponent* self, SDL_Renderer* renderer, SDL_Window* window
-);
+void opponent_render(Opponent* self, SDL_Renderer* renderer, SDL_Window* window);
 void opponent_destroy(Opponent* self);
 bool opponent_is_finished(const Opponent* self);

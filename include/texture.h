@@ -16,7 +16,5 @@ typedef struct {
 } TextureManager;
 
 TextureManager* texture_manager_create(SDL_Renderer* renderer);
-SDL_Texture* texture_manager_get(
-    TextureManager* self, const char* texture_name
-);
+SDL_Texture* texture_manager_get(TextureManager* self, const char* texture_name);
 void texture_manager_destroy(TextureManager* self);

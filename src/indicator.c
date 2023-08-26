@@ -6,10 +6,7 @@
 
 static void indicator_tick(Indicator* self, uint16_t capacity, uint16_t max);
 
-Indicator* indicator_create(
-    SDL_Renderer* renderer, TextureManager* texture_manager, int64_t x,
-    int64_t y
-) {
+Indicator* indicator_create(SDL_Renderer* renderer, TextureManager* texture_manager, int64_t x, int64_t y) {
     Indicator* self = (Indicator*)malloc(sizeof(Indicator));
     self->sprite_sheet = texture_manager_get(texture_manager, "indicator");
     self->x = x;
@@ -18,9 +15,7 @@ Indicator* indicator_create(
     return self;
 }
 
-void indicator_update(
-    Indicator* self, Event event, uint16_t capacity, uint16_t max
-) {
+void indicator_update(Indicator* self, Event event, uint16_t capacity, uint16_t max) {
     switch (event) {
         case EVENT_TICK:
             indicator_tick(self, capacity, max);
@@ -29,9 +24,7 @@ void indicator_update(
     }
 }
 
-void indicator_render(
-    Indicator* self, SDL_Renderer* renderer, SDL_Window* window
-) {
+void indicator_render(Indicator* self, SDL_Renderer* renderer, SDL_Window* window) {
     int64_t window_x;
     int64_t window_y;
     local_xy_to_window_xy(
