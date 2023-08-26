@@ -161,7 +161,6 @@ void game_update(Game* self) {
 void game_render(Game* self) {
     SDL_SetRenderDrawColor(self->renderer, 0, 0, 0, 255);
     SDL_RenderClear(self->renderer);
-
     stage_render(self->current_stage, self->renderer, self->window);
 
     SDL_RenderPresent(self->renderer);
