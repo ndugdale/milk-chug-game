@@ -30,3 +30,4 @@ void opponent_update(Opponent* self, Event event);
 void opponent_render(Opponent* self, SDL_Renderer* renderer, SDL_Window* window);
 void opponent_destroy(Opponent* self);
 bool opponent_is_finished(const Opponent* self);
+uint64_t opponent_get_drink_duration(const Opponent* self);

@@ -65,11 +65,16 @@ bool player_is_finished(const Player* self) {
     return self->finished;
 }
 
+uint64_t player_get_drink_duration(const Player* self) {
+    return self->drink_duration;
+}
+
 static void player_reset(Player* self) {
     self->finished = false;
     self->milk_consumed = 0;
     self->drink_duration = UINT64_MAX;
     self->sprite = PLAYER_SPRITE_IDLE_FULL;
+    self->start_time = SDL_GetTicks64();
 }
 
 static void player_drink(Player* self) {
@@ -81,8 +86,9 @@ static void player_drink(Player* self) {
             self->milk_consumed * PLAYER_SPRITE_DRINK_NUM / MILK_CAPACITY;
 
         if (self->milk_consumed >= MILK_CAPACITY) {
+            self->drink_duration = SDL_GetTicks64() - self->start_time;
             self->finished = true;
-            SDL_Log("You finished");
+            SDL_Log("You finished in %d ms", self->drink_duration);
         }
     }
 }

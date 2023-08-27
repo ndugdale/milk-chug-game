@@ -72,6 +72,10 @@ bool opponent_is_finished(const Opponent* self) {
     return self->finished;
 }
 
+uint64_t opponent_get_drink_duration(const Opponent* self) {
+    return self->drink_duration;
+}
+
 static void opponent_drink(Opponent* self) {
     if (!self->finished) {
         const uint64_t current_time = SDL_GetTicks64();

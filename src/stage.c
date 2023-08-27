@@ -25,6 +25,7 @@ Stage* stage_create(
     self->player = player;
     self->min_drink_duration = 12'000;
     self->max_drink_duration = 16'000;
+    self->complete = false;
 
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         const uint64_t range = self->max_drink_duration - self->min_drink_duration;
@@ -48,14 +49,13 @@ void stage_update(Stage* self, Event event) {
     }
 
     switch (event) {
+        case EVENT_TICK:
+            if (!self->complete && player_is_finished(self->player) && opponents_are_finished(self->opponents)) {
+                self->complete = true;
+                SDL_Log("Stage complete");
+            }
         default:
             break;
-    }
-
-    if (!self->complete && player_is_finished(self->player) &&
-        opponents_are_finished(self->opponents)) {
-        self->complete = true;
-        SDL_Log("Stage complete");
     }
 }
 

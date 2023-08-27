@@ -20,6 +20,7 @@
 typedef struct {
     bool finished;
     uint16_t milk_consumed;
+    uint64_t start_time;
     uint64_t drink_duration;
     SDL_Texture* sprite_sheet;
     uint8_t sprite;
@@ -36,3 +37,4 @@ void player_update(Player* self, Event event);
 void player_render(Player* self, SDL_Renderer* renderer, SDL_Window* window);
 void player_destroy(Player* self);
 bool player_is_finished(const Player* self);
+uint64_t player_get_drink_duration(const Player* self);
