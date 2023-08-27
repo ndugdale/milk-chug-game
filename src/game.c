@@ -16,7 +16,7 @@ static void on_key_down(Game* self, const SDL_KeyboardEvent* event);
 static void on_key_up(Game* self, const SDL_KeyboardEvent* event);
 
 Game* game_create(void) {
-    Game* self = (Game*)malloc(sizeof(Game));
+    Game* self = malloc(sizeof(Game));
 
     const uint32_t window_flags = 0;
     const uint32_t renderer_flags = SDL_RENDERER_ACCELERATED;
@@ -106,7 +106,7 @@ Game* game_create(void) {
     const int64_t player_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2;
     const int64_t player_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
 
-    self->player = player_create(self->renderer, self->texture_manager, player_x, player_y);
+    self->player = player_create(self->renderer, self->texture_manager, "Nate Chersbrew", player_x, player_y);
     self->current_stage = stage_create(self->renderer, self->font_manager, self->texture_manager, self->player);
 
     self->event_queue = event_queue_create();

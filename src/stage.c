@@ -13,15 +13,17 @@
 #include "render.h"
 #include "texture.h"
 
+static void stage_tick(Stage* self);
 static bool opponents_are_finished(Opponent* const* opponents);
 
 Stage* stage_create(
     SDL_Renderer* renderer, FontManager* font_manager,
     TextureManager* texture_manager, Player* player
 ) {
-    Stage* self = (Stage*)malloc(sizeof(Stage));
+    Stage* self = malloc(sizeof(Stage));
 
     self->background = texture_manager_get(texture_manager, "stage0");
+    self->scoreboard = scoreboard_create(font_manager);
     self->player = player;
     self->min_drink_duration = 12'000;
     self->max_drink_duration = 16'000;
@@ -43,17 +45,14 @@ Stage* stage_create(
 
 void stage_update(Stage* self, Event event) {
     player_update(self->player, event);
-
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         opponent_update(self->opponents[i], event);
     }
+    scoreboard_update(self->scoreboard, event, self->player, self->opponents);
 
     switch (event) {
         case EVENT_TICK:
-            if (!self->complete && player_is_finished(self->player) && opponents_are_finished(self->opponents)) {
-                self->complete = true;
-                SDL_Log("Stage complete");
-            }
+            stage_tick(self);
         default:
             break;
     }
@@ -70,6 +69,8 @@ void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         opponent_render(self->opponents[i], renderer, window);
     }
+
+    scoreboard_render(self->scoreboard, renderer, window);
 }
 
 void stage_destroy(Stage* self) {
@@ -81,6 +82,13 @@ void stage_destroy(Stage* self) {
 
 bool stage_is_complete(const Stage* self) {
     return self->complete;
+}
+
+static void stage_tick(Stage* self) {
+    if (!self->complete && player_is_finished(self->player) && opponents_are_finished(self->opponents)) {
+        scoreboard_set_show(self->scoreboard, true);
+        self->complete = true;
+    }
 }
 
 static bool opponents_are_finished(Opponent* const* opponents) {

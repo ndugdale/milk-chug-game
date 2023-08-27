@@ -6,8 +6,8 @@
 #include <string.h>
 
 static void load_texture(
-    TextureManager* self, SDL_Renderer* renderer, const char* texture_name,
-    const char* texture_path
+    TextureManager* self, SDL_Renderer* renderer, const char* id,
+    const char* path
 );
 
 TextureManager* texture_manager_create(SDL_Renderer* renderer) {
@@ -38,16 +38,16 @@ TextureManager* texture_manager_create(SDL_Renderer* renderer) {
     return self;
 }
 
-SDL_Texture* texture_manager_get(TextureManager* self, const char* texture_name) {
+SDL_Texture* texture_manager_get(TextureManager* self, const char* id) {
     for (size_t i = 0; i < self->insert_index; i++) {
-        if (strcmp(self->textures[i]->texture_name, texture_name) == 0) {
+        if (strcmp(self->textures[i]->id, id) == 0) {
             return self->textures[i]->texture;
         }
     }
     SDL_LogError(
         SDL_LOG_CATEGORY_APPLICATION,
-        "No texture named %s is stored in the texture manager",
-        texture_name
+        "No texture with id %s is stored in the texture manager",
+        id
     );
     return NULL;
 }
@@ -61,34 +61,34 @@ void texture_manager_destroy(TextureManager* self) {
 }
 
 static void load_texture(
-    TextureManager* self, SDL_Renderer* renderer, const char* texture_name,
-    const char* texture_path
+    TextureManager* self, SDL_Renderer* renderer, const char* id,
+    const char* path
 ) {
     if (self->insert_index > MAX_NUM_TEXTURES) {
         SDL_LogError(
             SDL_LOG_CATEGORY_APPLICATION,
             "Failed to load texture from file %s: "
             "texture manager has run out of capacity",
-            texture_path
+            path
         );
         exit(1);
     }
 
-    SDL_Log("Loading texture: %s", texture_path);
-    SDL_Texture* texture = IMG_LoadTexture(renderer, texture_path);
+    SDL_Log("Loading texture: %s", path);
+    SDL_Texture* texture = IMG_LoadTexture(renderer, path);
 
     if (texture == NULL) {
         SDL_LogError(
             SDL_LOG_CATEGORY_APPLICATION,
-            "Failed to load texture from files %s: %s",
-            texture_path,
+            "Failed to load texture from file %s: %s",
+            path,
             SDL_GetError()
         );
         exit(1);
     }
 
     Texture* insert_item = malloc(sizeof(Texture));
-    insert_item->texture_name = texture_name;
+    insert_item->id = id;
     insert_item->texture = texture;
 
     self->textures[self->insert_index] = insert_item;

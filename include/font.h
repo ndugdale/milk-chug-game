@@ -6,7 +6,7 @@
 #define MAX_NUM_FONTS 16
 
 typedef struct {
-    const char* font_name;
+    const char* id;
     TTF_Font* font;
 } Font;
 
@@ -16,7 +16,7 @@ typedef struct {
 } FontManager;
 
 FontManager* font_manager_create(void);
-TTF_Font* font_manager_get(FontManager* self, const char* font_name);
+TTF_Font* font_manager_get(FontManager* self, const char* id);
 void font_manager_destroy(FontManager* self);
 
 void blit_text(

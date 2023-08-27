@@ -6,7 +6,7 @@
 #define MAX_NUM_TEXTURES 256
 
 typedef struct {
-    const char* texture_name;
+    const char* id;
     SDL_Texture* texture;
 } Texture;
 
@@ -16,5 +16,5 @@ typedef struct {
 } TextureManager;
 
 TextureManager* texture_manager_create(SDL_Renderer* renderer);
-SDL_Texture* texture_manager_get(TextureManager* self, const char* texture_name);
+SDL_Texture* texture_manager_get(TextureManager* self, const char* id);
 void texture_manager_destroy(TextureManager* self);

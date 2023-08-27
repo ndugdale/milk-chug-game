@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "events.h"
 #include "render.h"
@@ -12,10 +13,11 @@ static void player_reset(Player* self);
 static void player_drink(Player* self);
 
 Player* player_create(
-    SDL_Renderer* renderer, TextureManager* texture_manager, int64_t x,
-    int64_t y
+    SDL_Renderer* renderer, TextureManager* texture_manager, char* name,
+    int64_t x, int64_t y
 ) {
-    Player* self = (Player*)malloc(sizeof(Player));
+    Player* self = malloc(sizeof(Player));
+    strcpy(self->name, name);
     self->sprite_sheet = texture_manager_get(texture_manager, "player");
     self->x = x;
     self->y = y;

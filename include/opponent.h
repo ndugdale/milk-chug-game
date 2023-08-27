@@ -7,9 +7,11 @@
 #include "indicator.h"
 #include "texture.h"
 
+#define MAX_OPPONENT_NAME_CHARS 100
 #define MAX_FILENAME_LENGTH 100
 
 typedef struct Opponent {
+    char name[MAX_OPPONENT_NAME_CHARS];
     bool finished;
     uint16_t milk_consumed;
     uint64_t start_time;

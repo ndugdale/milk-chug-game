@@ -1,6 +1,7 @@
 #include "opponent.h"
 
 #include <stdbool.h>
+#include <string.h>
 
 #include "events.h"
 #include "player.h"
@@ -13,7 +14,11 @@ Opponent* opponent_create(
     SDL_Renderer* renderer, TextureManager* texture_manager,
     uint64_t drink_duration, size_t index, uint64_t x, uint64_t y
 ) {
-    Opponent* self = (Opponent*)malloc(sizeof(Opponent));
+    char name_buffer[MAX_FILENAME_LENGTH];
+    snprintf(name_buffer, MAX_FILENAME_LENGTH, "opponent%d", index);
+
+    Opponent* self = malloc(sizeof(Opponent));
+    strcpy(self->name, name_buffer);
     self->start_time = 0;
     self->drink_duration = drink_duration;
     self->finished = false;
@@ -25,9 +30,6 @@ Opponent* opponent_create(
         renderer, texture_manager, x,
         y - INDICATOR_VERTICAL_OFFSET - INDICATOR_SPRITE_HEIGHT
     );
-
-    char name_buffer[MAX_FILENAME_LENGTH];
-    snprintf(name_buffer, MAX_FILENAME_LENGTH, "opponent%d", self->index);
 
     self->sprite_sheet = texture_manager_get(texture_manager, name_buffer);
 

@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 EventQueue* event_queue_create(void) {
-    EventQueue* self = (EventQueue*)malloc(sizeof(EventQueue));
+    EventQueue* self = malloc(sizeof(EventQueue));
     self->front = EMPTY_QUEUE;
     self->rear = EMPTY_QUEUE;
 
