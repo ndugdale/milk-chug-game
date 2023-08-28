@@ -35,7 +35,7 @@ void blit_text(
     SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color colour,
     int64_t window_x, int64_t window_y
 ) {
-    SDL_Surface* surface = TTF_RenderText_Solid(font, text, colour);
+    SDL_Surface* surface = TTF_RenderText_Solid_Wrapped(font, text, colour, 0);
     if (surface == NULL) {
         SDL_LogError(
             SDL_LOG_CATEGORY_RENDER,

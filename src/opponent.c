@@ -92,7 +92,7 @@ static void opponent_drink(Opponent* self) {
 
         if (self->milk_consumed >= MILK_CAPACITY) {
             self->finished = true;
-            SDL_Log("Opponent finished in %d ms", self->drink_duration);
+            SDL_Log("%s finished in %d ms", self->name, self->drink_duration);
         }
     }
 }

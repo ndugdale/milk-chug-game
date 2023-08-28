@@ -7,13 +7,13 @@
 #include "opponent.h"
 #include "player.h"
 
-#define NUM_SCOREBOARD_LINES 5
-#define MAX_SCOREBOARD_LINE_CHARS 120
+#define NUM_PARTICIPANTS 5
+#define MAX_SCOREBOARD_LINE_CHARS 600
 
 typedef struct {
     bool show;
     FontManager* font_manager;
-    char lines[NUM_SCOREBOARD_LINES][MAX_SCOREBOARD_LINE_CHARS];
+    char text[MAX_SCOREBOARD_LINE_CHARS];
     bool text_set;
 } Scoreboard;
 
