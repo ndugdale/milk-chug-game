@@ -23,11 +23,14 @@ Stage* stage_create(
     Stage* self = malloc(sizeof(Stage));
 
     self->background = texture_manager_get(texture_manager, "stage0");
-    self->scoreboard = scoreboard_create(font_manager);
     self->player = player;
     self->min_drink_duration = 12'000;
     self->max_drink_duration = 16'000;
     self->complete = false;
+
+    const int64_t scoreboard_x = (BACKGROUND_WIDTH - SCOREBOARD_SPRITE_WIDTH) / 2;
+    const int64_t scoreboard_y = (BACKGROUND_HEIGHT - SCOREBOARD_SPRITE_HEIGHT) / 2;
+    self->scoreboard = scoreboard_create(font_manager, texture_manager, scoreboard_x, scoreboard_y);
 
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         const uint64_t range = self->max_drink_duration - self->min_drink_duration;

@@ -34,6 +34,7 @@ TextureManager* texture_manager_create(SDL_Renderer* renderer) {
 
     // Load UI textures
     load_texture(self, renderer, "indicator", "assets/images/indicator.png");
+    load_texture(self, renderer, "scoreboard", "assets/images/scoreboard.png");
 
     return self;
 }
