@@ -11,19 +11,15 @@
 static void opponent_drink(Opponent* self);
 
 Opponent* opponent_create(
-    SDL_Renderer* renderer, TextureManager* texture_manager,
-    uint64_t drink_duration, size_t index, uint64_t x, uint64_t y
+    SDL_Renderer* renderer, TextureManager* texture_manager, const char* name,
+    const char* texture_id, uint64_t drink_duration, uint64_t x, uint64_t y
 ) {
-    char name_buffer[MAX_FILENAME_LENGTH];
-    snprintf(name_buffer, MAX_FILENAME_LENGTH, "opponent%d", index);
-
     Opponent* self = malloc(sizeof(Opponent));
-    strcpy(self->name, name_buffer);
+    strcpy(self->name, name);
     self->start_time = 0;
     self->drink_duration = drink_duration;
     self->finished = false;
     self->milk_consumed = 0;
-    self->index = index;
     self->x = x;
     self->y = y;
     self->indicator = indicator_create(
@@ -31,7 +27,7 @@ Opponent* opponent_create(
         y - INDICATOR_VERTICAL_OFFSET - INDICATOR_SPRITE_HEIGHT
     );
 
-    self->sprite_sheet = texture_manager_get(texture_manager, name_buffer);
+    self->sprite_sheet = texture_manager_get(texture_manager, texture_id);
 
     return self;
 }

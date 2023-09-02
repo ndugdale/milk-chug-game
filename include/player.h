@@ -32,8 +32,8 @@ typedef struct {
 } Player;
 
 Player* player_create(
-    SDL_Renderer* renderer, TextureManager* texture_manager, char* name,
-    int64_t x, int64_t y
+    SDL_Renderer* renderer, TextureManager* texture_manager,
+    const char* name, const char* texture_id, int64_t x, int64_t y
 );
 void player_update(Player* self, Event event);
 void player_render(Player* self, SDL_Renderer* renderer, SDL_Window* window);

@@ -106,7 +106,7 @@ Game* game_create(void) {
     const int64_t player_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2;
     const int64_t player_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
 
-    self->player = player_create(self->renderer, self->texture_manager, "Nate Chersbrew", player_x, player_y);
+    self->player = player_create(self->renderer, self->texture_manager, "Nate Chersbrew", "player", player_x, player_y);
     self->current_stage = stage_create(self->renderer, self->font_manager, self->texture_manager, self->player);
 
     self->event_queue = event_queue_create();

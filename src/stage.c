@@ -22,7 +22,7 @@ Stage* stage_create(
 ) {
     Stage* self = malloc(sizeof(Stage));
 
-    self->background = texture_manager_get(texture_manager, "stage0");
+    self->background = texture_manager_get(texture_manager, "stage_0");
     self->player = player;
     self->min_drink_duration = 12'000;
     self->max_drink_duration = 16'000;
@@ -32,16 +32,37 @@ Stage* stage_create(
     const int64_t scoreboard_y = (BACKGROUND_HEIGHT - SCOREBOARD_SPRITE_HEIGHT) / 2;
     self->scoreboard = scoreboard_create(font_manager, texture_manager, scoreboard_x, scoreboard_y);
 
+    uint64_t drink_durations[NUM_OPPONENTS];
+    int64_t x_positions[NUM_OPPONENTS];
+    int64_t y_positions[NUM_OPPONENTS];
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         const uint64_t range = self->max_drink_duration - self->min_drink_duration;
-        const uint64_t drink_duration = self->min_drink_duration + (rand() % range);
+        drink_durations[i] = self->min_drink_duration + (rand() % range);
 
         const int64_t shift_x = (i - 1) - ((i <= 1) ? 1 : 0);
-        const int64_t opp_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2 + PLAYER_SPRITE_WIDTH * shift_x;
-        const int64_t opp_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
-
-        self->opponents[i] = opponent_create(renderer, texture_manager, drink_duration, i, opp_x, opp_y);
+        x_positions[i] = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2 + PLAYER_SPRITE_WIDTH * shift_x;
+        y_positions[i] = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
     }
+
+    self->opponents[0] = opponent_create(
+        renderer, texture_manager, "Milo Dynaseur", "opponent_0_0",
+        drink_durations[0], x_positions[0], y_positions[0]
+    );
+
+    self->opponents[1] = opponent_create(
+        renderer, texture_manager, "Anna Mullprodukt", "opponent_0_1",
+        drink_durations[1], x_positions[1], y_positions[1]
+    );
+
+    self->opponents[2] = opponent_create(
+        renderer, texture_manager, "Luke Tozzintollrent", "opponent_0_2",
+        drink_durations[2], x_positions[2], y_positions[2]
+    );
+
+    self->opponents[3] = opponent_create(
+        renderer, texture_manager, "Hammad To'swollo", "opponent_0_3",
+        drink_durations[3], x_positions[3], y_positions[3]
+    );
 
     return self;
 }
