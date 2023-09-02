@@ -33,8 +33,7 @@ void font_manager_destroy(FontManager* self) {
 
 void blit_text(
     SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color colour,
-    int64_t window_x1, int64_t window_x2, int64_t window_y, TextAlignment alignment,
-    uint8_t right_padding
+    int64_t window_x1, int64_t window_x2, int64_t window_y, TextAlignment alignment
 ) {
     SDL_Surface* surface = TTF_RenderText_Solid(font, text, colour);
     if (surface == NULL) {
@@ -57,7 +56,6 @@ void blit_text(
     }
 
     uint64_t textbox_w = (window_x2 > window_x1) ? (window_x2 - window_x1) : 0;
-    surface->w -= right_padding;
 
     SDL_Rect src_rect;
     if (textbox_w > surface->w || textbox_w <= 0) {

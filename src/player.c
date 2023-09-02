@@ -63,14 +63,6 @@ void player_destroy(Player* self) {
     free(self);
 }
 
-bool player_is_finished(const Player* self) {
-    return self->finished;
-}
-
-uint64_t player_get_drink_duration(const Player* self) {
-    return self->drink_duration;
-}
-
 static void player_reset(Player* self) {
     self->finished = false;
     self->milk_consumed = 0;

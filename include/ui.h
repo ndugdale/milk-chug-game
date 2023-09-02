@@ -38,6 +38,6 @@ typedef struct {
 
 Scoreboard* scoreboard_create(FontManager* font_manager, TextureManager* texture_manager, int64_t x, int64_t y);
 void scoreboard_update(Scoreboard* self, Event event, Player* player, Opponent* const* opponents);
-void scoreboard_set_show(Scoreboard* self, bool show);
+void scoreboard_show(Scoreboard* self);
 void scoreboard_render(Scoreboard* self, SDL_Renderer* renderer, SDL_Window* window);
 void scoreboard_destroy(Scoreboard* self);

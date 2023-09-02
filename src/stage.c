@@ -88,8 +88,8 @@ bool stage_is_complete(const Stage* self) {
 }
 
 static void stage_tick(Stage* self) {
-    if (!self->complete && player_is_finished(self->player) && opponents_are_finished(self->opponents)) {
-        scoreboard_set_show(self->scoreboard, true);
+    if (!self->complete && self->player->finished && opponents_are_finished(self->opponents)) {
+        scoreboard_show(self->scoreboard);
         self->complete = true;
     }
 }

@@ -31,10 +31,7 @@ void font_manager_destroy(FontManager* self);
 // - if window_x2 is equal to or less than window_x1, no truncation will occur
 // - centre and right alignment will have no effect when window_x2 is equal to
 //   or less than window_x1, or when truncation has occurred
-// - if right padding is non-zero, it is accounted for in right-align and
-//   centre-align operations
 void blit_text(
     SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color colour,
-    int64_t window_x1, int64_t window_x2, int64_t window_y, TextAlignment alignment,
-    uint8_t right_padding
+    int64_t window_x1, int64_t window_x2, int64_t window_y, TextAlignment alignment
 );

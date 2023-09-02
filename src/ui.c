@@ -36,8 +36,8 @@ void scoreboard_update(Scoreboard* self, Event event, Player* player, Opponent* 
     }
 }
 
-void scoreboard_set_show(Scoreboard* self, bool show) {
-    self->show = show;
+void scoreboard_show(Scoreboard* self) {
+    self->show = true;
 }
 
 void scoreboard_render(Scoreboard* self, SDL_Renderer* renderer, SDL_Window* window) {
@@ -66,21 +66,21 @@ void scoreboard_render(Scoreboard* self, SDL_Renderer* renderer, SDL_Window* win
                 renderer, font, buffer, colour, window_x + SCOREBOARD_TEXT_PLACE_X1,
                 window_x + SCOREBOARD_TEXT_PLACE_X2,
                 window_y + SCOREBOARD_TEXT_OFFSET_Y + i * font_height,
-                CentreAligned, 1
+                CentreAligned
             );
 
             blit_text(
                 renderer, font, self->names[i], colour, window_x + SCOREBOARD_TEXT_NAME_X1,
                 window_x + SCOREBOARD_TEXT_NAME_X2,
                 window_y + SCOREBOARD_TEXT_OFFSET_Y + i * font_height,
-                LeftAligned, 1
+                LeftAligned
             );
 
             blit_text(
                 renderer, font, self->durations[i], colour, window_x + SCOREBOARD_TEXT_DURATION_X1,
                 window_x + SCOREBOARD_TEXT_DURATION_X2,
                 window_y + SCOREBOARD_TEXT_OFFSET_Y + i * font_height,
-                RightAligned, 1
+                RightAligned
             );
         }
     }
@@ -96,9 +96,9 @@ static void update_text(Scoreboard* self, Player* player, Opponent* const* oppon
         self->text_set = true;
 
         // Retrieve list of all drink durations
-        durations[0] = player_get_drink_duration(player);
+        durations[0] = player->drink_duration;
         for (size_t i = 0; i < NUM_OPPONENTS; i++) {
-            durations[i + 1] = opponent_get_drink_duration(opponents[i]);
+            durations[i + 1] = opponents[i]->drink_duration;
         }
 
         // Sort drink durations
