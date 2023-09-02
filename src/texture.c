@@ -24,6 +24,7 @@ TextureManager* texture_manager_create(SDL_Renderer* renderer) {
     load_texture(self, renderer, "opponent_1_0", "assets/images/characters/opponent_1_0.png");
     load_texture(self, renderer, "opponent_1_1", "assets/images/characters/opponent_1_1.png");
     load_texture(self, renderer, "opponent_1_2", "assets/images/characters/opponent_1_2.png");
+    load_texture(self, renderer, "opponent_1_3", "assets/images/characters/opponent_1_3.png");
     load_texture(self, renderer, "opponent_2_0", "assets/images/characters/opponent_2_0.png");
     load_texture(self, renderer, "opponent_3_0", "assets/images/characters/opponent_3_0.png");
     load_texture(self, renderer, "opponent_3_1", "assets/images/characters/opponent_3_1.png");
