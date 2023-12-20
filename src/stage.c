@@ -50,7 +50,7 @@ Stage* stage_create(
     );
 
     self->opponents[1] = opponent_create(
-        renderer, texture_manager, "Anna Mullprodukt", "opponent_0_1",
+        renderer, texture_manager, "Nessie Quick", "opponent_0_1",
         drink_durations[1], x_positions[1], y_positions[1]
     );
 

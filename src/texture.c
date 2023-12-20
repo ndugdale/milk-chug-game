@@ -33,6 +33,8 @@ TextureManager* texture_manager_create(SDL_Renderer* renderer) {
 
     // Load background textures
     load_texture(self, renderer, "stage_0", "assets/images/backgrounds/stage_0.png");
+    load_texture(self, renderer, "stage_1", "assets/images/backgrounds/stage_1.png");
+    load_texture(self, renderer, "stage_2", "assets/images/backgrounds/stage_2.png");
 
     // Load UI textures
     load_texture(self, renderer, "indicator", "assets/images/ui/indicator.png");
