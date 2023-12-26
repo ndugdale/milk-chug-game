@@ -55,7 +55,7 @@ Stage* stage_create(
     );
 
     self->opponents[2] = opponent_create(
-        renderer, texture_manager, "Luke Tozzintollrent", "opponent_0_2",
+        renderer, texture_manager, "Luke Toes", "opponent_0_2",
         drink_durations[2], x_positions[2], y_positions[2]
     );
 

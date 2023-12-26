@@ -29,12 +29,15 @@ TextureManager* texture_manager_create(SDL_Renderer* renderer) {
     load_texture(self, renderer, "opponent_3_0", "assets/images/characters/opponent_3_0.png");
     load_texture(self, renderer, "opponent_3_1", "assets/images/characters/opponent_3_1.png");
     load_texture(self, renderer, "opponent_3_2", "assets/images/characters/opponent_3_2.png");
-    load_texture(self, renderer, "opponent_5_0", "assets/images/characters/opponent_5_0.png");
+    load_texture(self, renderer, "opponent_4_0", "assets/images/characters/opponent_4_0.png");
+    load_texture(self, renderer, "opponent_4_1", "assets/images/characters/opponent_4_1.png");
 
     // Load background textures
     load_texture(self, renderer, "stage_0", "assets/images/backgrounds/stage_0.png");
     load_texture(self, renderer, "stage_1", "assets/images/backgrounds/stage_1.png");
     load_texture(self, renderer, "stage_2", "assets/images/backgrounds/stage_2.png");
+    load_texture(self, renderer, "stage_3", "assets/images/backgrounds/stage_3.png");
+    load_texture(self, renderer, "stage_4", "assets/images/backgrounds/stage_4.png");
 
     // Load UI textures
     load_texture(self, renderer, "indicator", "assets/images/ui/indicator.png");
