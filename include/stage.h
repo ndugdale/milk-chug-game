@@ -25,9 +25,21 @@ typedef struct {
 
 Stage* stage_create(
     SDL_Renderer* renderer, FontManager* font_manager,
-    TextureManager* texture_manager, Player* player
+    TextureManager* texture_manager, Player* player,
+    const char** opponent_names, const char** opponent_texture_ids,
+    const char* background_texture_id,
+    uint64_t min_drink_duration, uint64_t max_drink_duration
 );
 void stage_update(Stage* self, Event event);
 void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window);
 void stage_destroy(Stage* self);
 bool stage_is_complete(const Stage* self);
+
+Stage* stage_0_create(
+    SDL_Renderer* renderer, FontManager* font_manager,
+    TextureManager* texture_manager, Player* player
+);
+Stage* stage_1_create(
+    SDL_Renderer* renderer, FontManager* font_manager,
+    TextureManager* texture_manager, Player* player
+);

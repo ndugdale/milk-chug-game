@@ -18,51 +18,36 @@ static bool opponents_are_finished(Opponent* const* opponents);
 
 Stage* stage_create(
     SDL_Renderer* renderer, FontManager* font_manager,
-    TextureManager* texture_manager, Player* player
+    TextureManager* texture_manager, Player* player,
+    const char** opponent_names, const char** opponent_texture_ids,
+    const char* background_texture_id,
+    uint64_t min_drink_duration, uint64_t max_drink_duration
 ) {
     Stage* self = malloc(sizeof(Stage));
 
-    self->background = texture_manager_get(texture_manager, "stage_0");
+    self->background = texture_manager_get(texture_manager, background_texture_id);
     self->player = player;
-    self->min_drink_duration = 12'000;
-    self->max_drink_duration = 16'000;
+    self->min_drink_duration = min_drink_duration;
+    self->max_drink_duration = max_drink_duration;
     self->complete = false;
 
     const int64_t scoreboard_x = (BACKGROUND_WIDTH - SCOREBOARD_SPRITE_WIDTH) / 2;
     const int64_t scoreboard_y = (BACKGROUND_HEIGHT - SCOREBOARD_SPRITE_HEIGHT) / 2;
     self->scoreboard = scoreboard_create(font_manager, texture_manager, scoreboard_x, scoreboard_y);
 
-    uint64_t drink_durations[NUM_OPPONENTS];
-    int64_t x_positions[NUM_OPPONENTS];
-    int64_t y_positions[NUM_OPPONENTS];
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         const uint64_t range = self->max_drink_duration - self->min_drink_duration;
-        drink_durations[i] = self->min_drink_duration + (rand() % range);
+        uint64_t drink_duration = self->min_drink_duration + (rand() % range);
 
         const int64_t shift_x = (i - 1) - ((i <= 1) ? 1 : 0);
-        x_positions[i] = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2 + PLAYER_SPRITE_WIDTH * shift_x;
-        y_positions[i] = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
+        int64_t x_position = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2 + PLAYER_SPRITE_WIDTH * shift_x;
+        int64_t y_position = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
+
+        self->opponents[i] = opponent_create(
+            renderer, texture_manager, opponent_names[i], opponent_texture_ids[i],
+            drink_duration, x_position, y_position
+        );
     }
-
-    self->opponents[0] = opponent_create(
-        renderer, texture_manager, "Milo Dynaseur", "opponent_0_0",
-        drink_durations[0], x_positions[0], y_positions[0]
-    );
-
-    self->opponents[1] = opponent_create(
-        renderer, texture_manager, "Nessie Quick", "opponent_0_1",
-        drink_durations[1], x_positions[1], y_positions[1]
-    );
-
-    self->opponents[2] = opponent_create(
-        renderer, texture_manager, "Luke Toes", "opponent_0_2",
-        drink_durations[2], x_positions[2], y_positions[2]
-    );
-
-    self->opponents[3] = opponent_create(
-        renderer, texture_manager, "Hammad To'swollo", "opponent_0_3",
-        drink_durations[3], x_positions[3], y_positions[3]
-    );
 
     return self;
 }
@@ -106,6 +91,56 @@ void stage_destroy(Stage* self) {
 
 bool stage_is_complete(const Stage* self) {
     return self->complete;
+}
+
+Stage* stage_0_create(
+    SDL_Renderer* renderer, FontManager* font_manager,
+    TextureManager* texture_manager, Player* player
+) {
+    const char* opponent_names[] = {
+        "Milo Dynaseur",
+        "Nessie Quick",
+        "Luke Toes",
+        "Hammad To'swollo"};
+
+    const char* opponent_texture_ids[] = {
+        "opponent_0_0",
+        "opponent_0_1",
+        "opponent_0_2",
+        "opponent_0_3"};
+
+    const char* background_texture_id = "stage_0";
+
+    return stage_create(
+        renderer, font_manager, texture_manager, player,
+        opponent_names, opponent_texture_ids,
+        background_texture_id, 12'000, 16'000
+    );
+}
+
+Stage* stage_1_create(
+    SDL_Renderer* renderer, FontManager* font_manager,
+    TextureManager* texture_manager, Player* player
+) {
+    const char* opponent_names[] = {
+        "Mama Reigland",
+        "Pa Sterise",
+        "Atty Fishal-Flavour",
+        "Cole Oid"};
+
+    const char* opponent_texture_ids[] = {
+        "opponent_1_0",
+        "opponent_1_1",
+        "opponent_1_2",
+        "opponent_1_3"};
+
+    const char* background_texture_id = "stage_1";
+
+    return stage_create(
+        renderer, font_manager, texture_manager, player,
+        opponent_names, opponent_texture_ids,
+        background_texture_id, 10'000, 14'000
+    );
 }
 
 static void stage_tick(Stage* self) {
