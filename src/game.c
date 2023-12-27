@@ -106,9 +106,8 @@ Game* game_create(void) {
     const int64_t player_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2;
     const int64_t player_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
 
-    self->player = player_create(self->renderer, self->texture_manager, "Nate Chersbrew", "player", player_x, player_y);
-    self->current_stage = stage_0_create(self->renderer, self->font_manager, self->texture_manager, self->player);
-
+    self->player = player_create(self->texture_manager, "Nate Chersbrew", "player", player_x, player_y);
+    self->scene = scene_create(self->font_manager, self->texture_manager, self->player);
     self->event_queue = event_queue_create();
 
     self->last_frame_time = 0;
@@ -149,20 +148,14 @@ void game_update(Game* self) {
 
     while (!event_queue_is_empty(self->event_queue)) {
         Event event = event_queue_dequeue(self->event_queue);
-        stage_update(self->current_stage, event);
-
-        switch (event) {
-            default:
-                break;
-        }
+        scene_update(self->scene, event);
     }
 }
 
 void game_render(Game* self) {
     SDL_SetRenderDrawColor(self->renderer, 0, 0, 0, 255);
     SDL_RenderClear(self->renderer);
-    stage_render(self->current_stage, self->renderer, self->window);
-
+    scene_render(self->scene, self->renderer, self->window);
     SDL_RenderPresent(self->renderer);
 }
 
@@ -185,7 +178,7 @@ void game_frame_rate_limit(Game* self) {
 
 void game_destroy(Game* self) {
     event_queue_destroy(self->event_queue);
-    stage_destroy(self->current_stage);
+    scene_destroy(self->scene);
     player_destroy(self->player);
 
     SDL_DestroyWindow(self->window);
@@ -198,8 +191,8 @@ void game_destroy(Game* self) {
 static void on_key_down(Game* self, const SDL_KeyboardEvent* event) {
     if (event->repeat == 0 && event->keysym.scancode < SDL_NUM_SCANCODES) {
         switch (event->keysym.scancode) {
-            case DRINK_MILK_INPUT:
-                event_queue_enqueue(self->event_queue, EVENT_DRINK);
+            case ACTION_KEY:
+                event_queue_enqueue(self->event_queue, EVENT_ACTION);
                 break;
             default:
                 break;

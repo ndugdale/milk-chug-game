@@ -9,12 +9,11 @@
 #include "events.h"
 #include "render.h"
 
-static void player_reset(Player* self);
 static void player_drink(Player* self);
 
 Player* player_create(
-    SDL_Renderer* renderer, TextureManager* texture_manager,
-    const char* name, const char* texture_id, int64_t x, int64_t y
+    TextureManager* texture_manager, const char* name,
+    const char* texture_id, int64_t x, int64_t y
 ) {
     Player* self = malloc(sizeof(Player));
     strcpy(self->name, name);
@@ -22,7 +21,7 @@ Player* player_create(
     self->x = x;
     self->y = y;
     self->indicator = indicator_create(
-        renderer, texture_manager, x,
+        texture_manager, x,
         y - INDICATOR_VERTICAL_OFFSET - INDICATOR_SPRITE_HEIGHT
     );
 
@@ -35,7 +34,7 @@ void player_update(Player* self, Event event) {
     indicator_update(self->indicator, event, self->milk_consumed, MILK_CAPACITY);
 
     switch (event) {
-        case EVENT_DRINK:
+        case EVENT_ACTION:
             player_drink(self);
         default:
             break;
@@ -63,7 +62,7 @@ void player_destroy(Player* self) {
     free(self);
 }
 
-static void player_reset(Player* self) {
+void player_reset(Player* self) {
     self->finished = false;
     self->milk_consumed = 0;
     self->drink_duration = UINT64_MAX;

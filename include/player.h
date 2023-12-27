@@ -32,9 +32,10 @@ typedef struct {
 } Player;
 
 Player* player_create(
-    SDL_Renderer* renderer, TextureManager* texture_manager,
-    const char* name, const char* texture_id, int64_t x, int64_t y
+    TextureManager* texture_manager, const char* name,
+    const char* texture_id, int64_t x, int64_t y
 );
 void player_update(Player* self, Event event);
 void player_render(Player* self, SDL_Renderer* renderer, SDL_Window* window);
+void player_reset(Player* self);
 void player_destroy(Player* self);

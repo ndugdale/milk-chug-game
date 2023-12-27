@@ -2,10 +2,9 @@
 
 #include <SDL2/SDL.h>
 
-#include "events.h"
 #include "font.h"
 #include "player.h"
-#include "stage.h"
+#include "scene.h"
 #include "texture.h"
 
 #define BACKGROUND_WIDTH 480
@@ -18,8 +17,8 @@
 typedef struct {
     SDL_Renderer* renderer;
     SDL_Window* window;
+    Scene* scene;
     Player* player;
-    Stage* current_stage;
     EventQueue* event_queue;
     FontManager* font_manager;
     TextureManager* texture_manager;

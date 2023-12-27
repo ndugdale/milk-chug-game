@@ -25,8 +25,8 @@ typedef struct Opponent {
 } Opponent;
 
 Opponent* opponent_create(
-    SDL_Renderer* renderer, TextureManager* texture_manager, const char* name,
-    const char* texture_id, uint64_t drink_duration, uint64_t x, uint64_t y
+    TextureManager* texture_manager, const char* name, const char* texture_id,
+    uint64_t drink_duration, uint64_t x, uint64_t y
 );
 void opponent_update(Opponent* self, Event event);
 void opponent_render(Opponent* self, SDL_Renderer* renderer, SDL_Window* window);

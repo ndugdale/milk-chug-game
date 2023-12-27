@@ -4,12 +4,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define DRINK_MILK_INPUT SDL_SCANCODE_X
+#define ACTION_KEY SDL_SCANCODE_X
 #define MAX_QUEUED_EVENTS INT8_MAX
 #define EMPTY_QUEUE -1
 
 typedef enum {
-    EVENT_DRINK,
+    EVENT_ACTION,
     EVENT_TICK,
     NUM_EVENTS
 } Event;

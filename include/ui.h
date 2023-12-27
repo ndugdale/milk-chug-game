@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
+#include "events.h"
 #include "font.h"
 #include "opponent.h"
 #include "player.h"
@@ -12,8 +13,8 @@
 #define MAX_SCOREBOARD_NAME_CHARS 40
 #define MAX_SCOREBOARD_DURATION_CHARS 6
 
-#define SCOREBOARD_SPRITE_WIDTH 156
-#define SCOREBOARD_SPRITE_HEIGHT 74
+#define SCOREBOARD_WIDTH 156
+#define SCOREBOARD_HEIGHT 74
 
 #define SCOREBOARD_TEXT_PLACE_X1 2
 #define SCOREBOARD_TEXT_PLACE_X2 13
@@ -26,18 +27,15 @@
 #define SCOREBOARD_LINE_TEXT_WIDTH 30
 
 typedef struct {
-    bool show;
     FontManager* font_manager;
-    SDL_Texture* texture;
     char names[NUM_PARTICIPANTS][MAX_SCOREBOARD_NAME_CHARS];
     char durations[NUM_PARTICIPANTS][MAX_SCOREBOARD_DURATION_CHARS];
-    bool text_set;
     int64_t x;
     int64_t y;
+    bool is_complete;
 } Scoreboard;
 
-Scoreboard* scoreboard_create(FontManager* font_manager, TextureManager* texture_manager, int64_t x, int64_t y);
-void scoreboard_update(Scoreboard* self, Event event, Player* player, Opponent* const* opponents);
-void scoreboard_show(Scoreboard* self);
+Scoreboard* scoreboard_create(FontManager* font_manager, Player* player, Opponent* const* opponents);
+void scoreboard_update(Scoreboard* self, Event event);
 void scoreboard_render(Scoreboard* self, SDL_Renderer* renderer, SDL_Window* window);
 void scoreboard_destroy(Scoreboard* self);
