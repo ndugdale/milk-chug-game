@@ -26,11 +26,17 @@ TextureManager* texture_manager_create(SDL_Renderer* renderer) {
     load_texture(self, renderer, "opponent_1_2", "assets/images/characters/opponent_1_2.png");
     load_texture(self, renderer, "opponent_1_3", "assets/images/characters/opponent_1_3.png");
     load_texture(self, renderer, "opponent_2_0", "assets/images/characters/opponent_2_0.png");
+    load_texture(self, renderer, "opponent_2_1", "assets/images/characters/opponent_2_1.png");
+    load_texture(self, renderer, "opponent_2_2", "assets/images/characters/opponent_2_2.png");
+    load_texture(self, renderer, "opponent_2_3", "assets/images/characters/opponent_2_3.png");
     load_texture(self, renderer, "opponent_3_0", "assets/images/characters/opponent_3_0.png");
     load_texture(self, renderer, "opponent_3_1", "assets/images/characters/opponent_3_1.png");
     load_texture(self, renderer, "opponent_3_2", "assets/images/characters/opponent_3_2.png");
+    load_texture(self, renderer, "opponent_3_3", "assets/images/characters/opponent_3_3.png");
     load_texture(self, renderer, "opponent_4_0", "assets/images/characters/opponent_4_0.png");
     load_texture(self, renderer, "opponent_4_1", "assets/images/characters/opponent_4_1.png");
+    load_texture(self, renderer, "opponent_4_2", "assets/images/characters/opponent_4_2.png");
+    load_texture(self, renderer, "opponent_4_3", "assets/images/characters/opponent_4_3.png");
 
     // Load background textures
     load_texture(self, renderer, "stage_0", "assets/images/backgrounds/stage_0.png");

@@ -131,6 +131,72 @@ Stage* stage_create_from_id(
             );
             break;
 
+        case 2:
+            const char* opponent_names_2[] = {
+                "Con Denzt",
+                "Phoebe Tacaisen",
+                "Mills Keys",
+                "Eva Porated"};
+
+            const char* opponent_texture_ids_2[] = {
+                "opponent_2_0",
+                "opponent_2_1",
+                "opponent_2_2",
+                "opponent_2_3"};
+
+            const char* background_texture_id_2 = "stage_2";
+
+            stage = stage_create(
+                font_manager, texture_manager, player,
+                opponent_names_2, opponent_texture_ids_2,
+                background_texture_id_2, 8'000, 11'000
+            );
+            break;
+
+        case 3:
+            const char* opponent_names_3[] = {
+                "Chu Ging",
+                "Bjorn Tudrink",
+                "Grace Fullswig",
+                "Tia Tees"};
+
+            const char* opponent_texture_ids_3[] = {
+                "opponent_3_0",
+                "opponent_3_1",
+                "opponent_3_2",
+                "opponent_3_3"};
+
+            const char* background_texture_id_3 = "stage_3";
+
+            stage = stage_create(
+                font_manager, texture_manager, player,
+                opponent_names_3, opponent_texture_ids_3,
+                background_texture_id_3, 6'000, 8'000
+            );
+            break;
+
+        case 4:
+            const char* opponent_names_4[] = {
+                "Jim",
+                "Capt. Taika Sip",
+                "Org Anik",
+                "Homer J'Naisd"};
+
+            const char* opponent_texture_ids_4[] = {
+                "opponent_4_0",
+                "opponent_4_1",
+                "opponent_4_2",
+                "opponent_4_3"};
+
+            const char* background_texture_id_4 = "stage_4";
+
+            stage = stage_create(
+                font_manager, texture_manager, player,
+                opponent_names_4, opponent_texture_ids_4,
+                background_texture_id_4, 5'000, 7'000
+            );
+            break;
+
         default:
             SDL_LogError(
                 SDL_LOG_CATEGORY_APPLICATION,
