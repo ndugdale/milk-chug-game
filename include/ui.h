@@ -28,12 +28,25 @@
 
 typedef struct {
     FontManager* font_manager;
+    const char* primary_text;
+    const char* secondary_text;
+    bool is_complete;
+} TextDisplay;
+
+typedef struct {
+    FontManager* font_manager;
     char names[NUM_PARTICIPANTS][MAX_SCOREBOARD_NAME_CHARS];
     char durations[NUM_PARTICIPANTS][MAX_SCOREBOARD_DURATION_CHARS];
     int64_t x;
     int64_t y;
     bool is_complete;
+    bool is_player_winner;
 } Scoreboard;
+
+TextDisplay* text_display_create(FontManager* font_manager, const char* primary_text, const char* secondary_text);
+void text_display_update(TextDisplay* self, Event event);
+void text_display_render(TextDisplay* self, SDL_Renderer* renderer, SDL_Window* window);
+void text_display_destroy(TextDisplay* self);
 
 Scoreboard* scoreboard_create(FontManager* font_manager, Player* player, Opponent* const* opponents);
 void scoreboard_update(Scoreboard* self, Event event);

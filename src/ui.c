@@ -15,12 +15,61 @@
 #include "stage.h"
 #include "utils.h"
 
+TextDisplay* text_display_create(FontManager* font_manager, const char* primary_text, const char* secondary_text) {
+    TextDisplay* self = (calloc(1, sizeof(TextDisplay)));
+    self->font_manager = font_manager;
+    self->primary_text = primary_text;
+    self->secondary_text = secondary_text;
+    self->is_complete = false;
+}
+
+void text_display_update(TextDisplay* self, Event event) {
+    switch (event) {
+        case EVENT_ACTION:
+            self->is_complete = true;
+            break;
+        default:
+            break;
+    }
+}
+
+void text_display_render(TextDisplay* self, SDL_Renderer* renderer, SDL_Window* window) {
+    TTF_Font* primary_font = font_manager_get(self->font_manager, "munro_20");
+    TTF_Font* secondary_font = font_manager_get(self->font_manager, "munro_10");
+    int32_t primary_font_height = TTF_FontLineSkip(primary_font);
+    int32_t secondary_font_height = TTF_FontLineSkip(secondary_font);
+    SDL_Color colour = {255, 212, 26, 255};
+
+    uint32_t window_height;
+    uint32_t window_width;
+    SDL_GetWindowSize(window, &window_width, &window_height);
+    const int64_t scaled_window_width = (double)window_width / (double)RENDERER_SCALE_FACTOR;
+    const int64_t scaled_window_height = (double)window_height / (double)RENDERER_SCALE_FACTOR;
+    const int64_t primary_y = scaled_window_height / 2 - primary_font_height;
+    const int64_t secondary_y = scaled_window_height / 2 + 2 * secondary_font_height;
+
+    blit_text(
+        renderer, primary_font, self->primary_text, colour,
+        0, scaled_window_width, primary_y, CentreAligned
+    );
+
+    blit_text(
+        renderer, secondary_font, self->secondary_text, colour,
+        0, scaled_window_width, secondary_y, CentreAligned
+    );
+}
+
+void text_display_destroy(TextDisplay* self) {
+    free(self);
+}
+
 Scoreboard* scoreboard_create(FontManager* font_manager, Player* player, Opponent* const* opponents) {
     Scoreboard* self = (calloc(1, sizeof(Scoreboard)));
     self->font_manager = font_manager;
     self->x = (BACKGROUND_WIDTH - SCOREBOARD_WIDTH) / 2;
     self->y = (BACKGROUND_HEIGHT - SCOREBOARD_HEIGHT) / 2;
     self->is_complete = false;
+    self->is_player_winner = false;
     uint64_t durations[NUM_PARTICIPANTS];
 
     // Retrieve list of all drink durations
@@ -31,6 +80,9 @@ Scoreboard* scoreboard_create(FontManager* font_manager, Player* player, Opponen
 
     // Sort drink durations
     uint64_sort(durations, NUM_PARTICIPANTS);
+    if (durations[0] == player->drink_duration) {
+        self->is_player_winner = true;
+    }
 
     // Build scoreboard string from sorted durations
     for (size_t i = 0; i < NUM_PARTICIPANTS; i++) {

@@ -10,12 +10,19 @@
 #include "texture.h"
 #include "ui.h"
 
+#define NUM_STAGES 5
+
 typedef enum {
+    MENU_TYPE,
+    TUTORIAL_TYPE,
     STAGE_TYPE,
-    SCOREBOARD_TYPE
+    SCOREBOARD_TYPE,
+    WIN_SCREEN_TYPE,
+    LOSE_SCREEN_TYPE
 } SceneType;
 
 typedef union {
+    TextDisplay* text_display;
     Stage* stage;
     Scoreboard* scoreboard;
 } SceneValue;
@@ -24,6 +31,7 @@ typedef struct {
     SceneType type;
     SceneValue value;
     uint8_t stage_id;
+    Stage* stage_buffer;
     SDL_Renderer* renderer;
     FontManager* font_manager;
     TextureManager* texture_manager;
