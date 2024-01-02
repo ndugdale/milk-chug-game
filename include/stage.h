@@ -20,6 +20,8 @@ typedef struct {
     bool is_complete;
     uint64_t min_drink_duration;
     uint64_t max_drink_duration;
+    Countdown* countdown;
+    bool countdown_complete;
 } Stage;
 
 Stage* stage_create(

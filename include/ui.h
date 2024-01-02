@@ -26,12 +26,33 @@
 
 #define SCOREBOARD_LINE_TEXT_WIDTH 30
 
+#define PRE_COUNTDOWN_MS 1000
+#define POST_COUNTDOWN_MS 1000
+#define COUNTDOWN_SPRITE_WIDTH 150
+#define COUNTDOWN_SPRITE_HEIGHT 100
+
+typedef enum {
+    COUNTDOWN_THREE,
+    COUNTDOWN_TWO,
+    COUNTDOWN_ONE,
+    COUNTDOWN_GO,
+    COUNTDOWN_NONE
+} CountdownSprite;
+
 typedef struct {
     FontManager* font_manager;
     const char* primary_text;
     const char* secondary_text;
     bool is_complete;
 } TextDisplay;
+
+typedef struct {
+    uint64_t start_time;
+    SDL_Texture* sprite_sheet;
+    CountdownSprite sprite;
+    int64_t x;
+    int64_t y;
+} Countdown;
 
 typedef struct {
     FontManager* font_manager;
@@ -47,6 +68,11 @@ TextDisplay* text_display_create(FontManager* font_manager, const char* primary_
 void text_display_update(TextDisplay* self, Event event);
 void text_display_render(TextDisplay* self, SDL_Renderer* renderer, SDL_Window* window);
 void text_display_destroy(TextDisplay* self);
+
+Countdown* countdown_create(TextureManager* texture_manager, int64_t x, int64_t y);
+void countdown_update(Countdown* self, Event event);
+void countdown_render(Countdown* self, SDL_Renderer* renderer, SDL_Window* window);
+void countdown_destroy(Countdown* self);
 
 Scoreboard* scoreboard_create(FontManager* font_manager, Player* player, Opponent* const* opponents);
 void scoreboard_update(Scoreboard* self, Event event);

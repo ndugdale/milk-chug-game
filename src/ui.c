@@ -63,6 +63,75 @@ void text_display_destroy(TextDisplay* self) {
     free(self);
 }
 
+Countdown* countdown_create(TextureManager* texture_manager, int64_t x, int64_t y) {
+    Countdown* self = (calloc(1, sizeof(Countdown)));
+    self->start_time = SDL_GetTicks64();
+    self->sprite_sheet = texture_manager_get(texture_manager, "countdown");
+    self->sprite = COUNTDOWN_NONE;
+    self->x = x;
+    self->y = y;
+}
+
+void countdown_update(Countdown* self, Event event) {
+    switch (event) {
+        case EVENT_TICK:
+            if (
+                self->sprite != COUNTDOWN_THREE &&
+                SDL_GetTicks64() > self->start_time + PRE_COUNTDOWN_MS &&
+                SDL_GetTicks64() < self->start_time + PRE_COUNTDOWN_MS + 1000
+            ) {
+                self->sprite = COUNTDOWN_THREE;
+            } else if (
+                self->sprite != COUNTDOWN_TWO &&
+                SDL_GetTicks64() > self->start_time + PRE_COUNTDOWN_MS + 1000 &&
+                SDL_GetTicks64() < self->start_time + PRE_COUNTDOWN_MS + 2000
+            ) {
+                self->sprite = COUNTDOWN_TWO;
+            } else if (
+                self->sprite != COUNTDOWN_ONE &&
+                SDL_GetTicks64() > self->start_time + PRE_COUNTDOWN_MS + 2000 &&
+                SDL_GetTicks64() < self->start_time + PRE_COUNTDOWN_MS + 3000
+            ) {
+                self->sprite = COUNTDOWN_ONE;
+            } else if (
+                self->sprite != COUNTDOWN_GO &&
+                SDL_GetTicks64() > self->start_time + PRE_COUNTDOWN_MS + 3000 &&
+                SDL_GetTicks64() < self->start_time + PRE_COUNTDOWN_MS + 3000 + POST_COUNTDOWN_MS
+            ) {
+                self->sprite = COUNTDOWN_GO;
+            } else if (
+                self->sprite != COUNTDOWN_NONE &&
+                SDL_GetTicks64() > self->start_time + PRE_COUNTDOWN_MS + 3000 + POST_COUNTDOWN_MS
+            ) {
+                self->sprite = COUNTDOWN_NONE;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void countdown_render(Countdown* self, SDL_Renderer* renderer, SDL_Window* window) {
+    int64_t window_x;
+    int64_t window_y;
+
+    if (self->sprite != COUNTDOWN_NONE) {
+        local_xy_to_window_xy(
+            window, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
+            &window_x, &window_y
+        );
+
+        blit_sprite(
+            renderer, self->sprite_sheet, 0, self->sprite, window_x, window_y,
+            COUNTDOWN_SPRITE_WIDTH, COUNTDOWN_SPRITE_HEIGHT
+        );
+    }
+}
+
+void countdown_destroy(Countdown* self) {
+    free(self);
+}
+
 Scoreboard* scoreboard_create(FontManager* font_manager, Player* player, Opponent* const* opponents) {
     Scoreboard* self = (calloc(1, sizeof(Scoreboard)));
     self->font_manager = font_manager;

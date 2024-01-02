@@ -20,6 +20,7 @@ Opponent* opponent_create(
     self->drink_duration = drink_duration;
     self->finished = false;
     self->milk_consumed = 0;
+    self->sprite = PLAYER_SPRITE_IDLE_FULL;
     self->x = x;
     self->y = y;
     self->indicator = indicator_create(
@@ -61,6 +62,13 @@ void opponent_render(
     indicator_render(self->indicator, renderer, window);
 }
 
+void opponent_reset(Opponent* self) {
+    self->finished = false;
+    self->milk_consumed = 0;
+    self->sprite = PLAYER_SPRITE_IDLE_FULL;
+    self->start_time = SDL_GetTicks64();
+}
+
 void opponent_destroy(Opponent* self) {
     indicator_destroy(self->indicator);
     free(self);
@@ -80,7 +88,6 @@ static void opponent_drink(Opponent* self) {
 
         if (self->milk_consumed >= MILK_CAPACITY) {
             self->finished = true;
-            SDL_Log("%s finished in %d ms", self->name, self->drink_duration);
         }
     }
 }

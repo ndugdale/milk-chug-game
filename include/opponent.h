@@ -30,4 +30,5 @@ Opponent* opponent_create(
 );
 void opponent_update(Opponent* self, Event event);
 void opponent_render(Opponent* self, SDL_Renderer* renderer, SDL_Window* window);
+void opponent_reset(Opponent* self);
 void opponent_destroy(Opponent* self);

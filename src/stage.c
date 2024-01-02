@@ -43,13 +43,29 @@ Stage* stage_create(
         );
     }
 
+    const int64_t countdown_x = (BACKGROUND_WIDTH - COUNTDOWN_SPRITE_WIDTH) / 2;
+    const int64_t countdown_y = (BACKGROUND_HEIGHT - COUNTDOWN_SPRITE_HEIGHT - 2 * PLAYER_SPRITE_HEIGHT) / 2;
+    self->countdown = countdown_create(texture_manager, countdown_x, countdown_y);
+    self->countdown_complete = false;
+
     return self;
 }
 
 void stage_update(Stage* self, Event event) {
-    player_update(self->player, event);
-    for (size_t i = 0; i < NUM_OPPONENTS; i++) {
-        opponent_update(self->opponents[i], event);
+    countdown_update(self->countdown, event);
+    if (!self->countdown_complete && self->countdown->sprite == COUNTDOWN_GO) {
+        self->countdown_complete = true;
+        player_reset(self->player);
+        for (size_t i = 0; i < NUM_OPPONENTS; i++) {
+            opponent_reset(self->opponents[i]);
+        }
+    }
+
+    if (self->countdown_complete) {
+        player_update(self->player, event);
+        for (size_t i = 0; i < NUM_OPPONENTS; i++) {
+            opponent_update(self->opponents[i], event);
+        }
     }
 
     switch (event) {
@@ -71,12 +87,15 @@ void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window) {
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         opponent_render(self->opponents[i], renderer, window);
     }
+
+    countdown_render(self->countdown, renderer, window);
 }
 
 void stage_destroy(Stage* self) {
     for (size_t i = 0; i < NUM_OPPONENTS; i++) {
         opponent_destroy(self->opponents[i]);
     }
+    countdown_destroy(self->countdown);
     free(self);
 }
 
