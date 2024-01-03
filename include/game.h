@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "audio.h"
 #include "font.h"
 #include "player.h"
 #include "scene.h"
@@ -20,6 +21,7 @@ typedef struct {
     Scene* scene;
     Player* player;
     EventQueue* event_queue;
+    AudioManager* audio_manager;
     FontManager* font_manager;
     TextureManager* texture_manager;
     uint64_t last_frame_time;

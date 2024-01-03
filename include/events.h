@@ -5,12 +5,14 @@
 #include <stdint.h>
 
 #define ACTION_KEY SDL_SCANCODE_X
+#define TOGGLE_AUDIO_KEY SDL_SCANCODE_M
 #define MAX_QUEUED_EVENTS INT8_MAX
 #define EMPTY_QUEUE -1
 
 typedef enum {
     EVENT_ACTION,
     EVENT_TICK,
+    EVENT_TOGGLE_AUDIO,
     NUM_EVENTS
 } Event;
 

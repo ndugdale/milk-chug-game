@@ -2,10 +2,12 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdint.h>
 #include <stdlib.h>
 
+#include "audio.h"
 #include "events.h"
 #include "font.h"
 #include "player.h"
@@ -91,6 +93,15 @@ Game* game_create(void) {
         exit(1);
     }
 
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, MIX_CHUNK_SIZE) != 0) {
+        SDL_LogError(
+            SDL_LOG_CATEGORY_AUDIO,
+            "Failed to open audio: %s\n",
+            Mix_GetError()
+        );
+        exit(1);
+    }
+
     if (TTF_Init() != 0) {
         SDL_LogError(
             SDL_LOG_CATEGORY_APPLICATION,
@@ -100,6 +111,7 @@ Game* game_create(void) {
         exit(1);
     }
 
+    self->audio_manager = audio_manager_create();
     self->font_manager = font_manager_create();
     self->texture_manager = texture_manager_create(self->renderer);
 
@@ -112,6 +124,8 @@ Game* game_create(void) {
 
     self->last_frame_time = 0;
     self->remainder_time = 0;
+
+    audio_manager_play_music(self->audio_manager, "main_theme");
 
     return self;
 }
@@ -149,6 +163,13 @@ void game_update(Game* self) {
     while (!event_queue_is_empty(self->event_queue)) {
         Event event = event_queue_dequeue(self->event_queue);
         scene_update(self->scene, event);
+
+        switch (event) {
+            case EVENT_TOGGLE_AUDIO:
+                audio_manager_toggle(self->audio_manager);
+            default:
+                break;
+        }
     }
 }
 
@@ -177,10 +198,15 @@ void game_frame_rate_limit(Game* self) {
 }
 
 void game_destroy(Game* self) {
+    texture_manager_destroy(self->texture_manager);
+    font_manager_destroy(self->font_manager);
+    audio_manager_destroy(self->audio_manager);
     event_queue_destroy(self->event_queue);
     scene_destroy(self->scene);
     player_destroy(self->player);
 
+    IMG_Quit();
+    Mix_Quit();
     SDL_DestroyWindow(self->window);
     SDL_DestroyRenderer(self->renderer);
     SDL_Quit();
@@ -193,6 +219,9 @@ static void on_key_down(Game* self, const SDL_KeyboardEvent* event) {
         switch (event->keysym.scancode) {
             case ACTION_KEY:
                 event_queue_enqueue(self->event_queue, EVENT_ACTION);
+                break;
+            case TOGGLE_AUDIO_KEY:
+                event_queue_enqueue(self->event_queue, EVENT_TOGGLE_AUDIO);
                 break;
             default:
                 break;
