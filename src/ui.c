@@ -63,8 +63,9 @@ void text_display_destroy(TextDisplay* self) {
     free(self);
 }
 
-Countdown* countdown_create(TextureManager* texture_manager, int64_t x, int64_t y) {
+Countdown* countdown_create(AudioManager* audio_manager, TextureManager* texture_manager, int64_t x, int64_t y) {
     Countdown* self = (calloc(1, sizeof(Countdown)));
+    self->audio_manager = audio_manager;
     self->start_time = SDL_GetTicks64();
     self->sprite_sheet = texture_manager_get(texture_manager, "countdown");
     self->sprite = COUNTDOWN_NONE;
@@ -81,24 +82,28 @@ void countdown_update(Countdown* self, Event event) {
                 SDL_GetTicks64() < self->start_time + PRE_COUNTDOWN_MS + 1000
             ) {
                 self->sprite = COUNTDOWN_THREE;
+                audio_manager_play_effect(self->audio_manager, "beep_low");
             } else if (
                 self->sprite != COUNTDOWN_TWO &&
                 SDL_GetTicks64() > self->start_time + PRE_COUNTDOWN_MS + 1000 &&
                 SDL_GetTicks64() < self->start_time + PRE_COUNTDOWN_MS + 2000
             ) {
                 self->sprite = COUNTDOWN_TWO;
+                audio_manager_play_effect(self->audio_manager, "beep_low");
             } else if (
                 self->sprite != COUNTDOWN_ONE &&
                 SDL_GetTicks64() > self->start_time + PRE_COUNTDOWN_MS + 2000 &&
                 SDL_GetTicks64() < self->start_time + PRE_COUNTDOWN_MS + 3000
             ) {
                 self->sprite = COUNTDOWN_ONE;
+                audio_manager_play_effect(self->audio_manager, "beep_low");
             } else if (
                 self->sprite != COUNTDOWN_GO &&
                 SDL_GetTicks64() > self->start_time + PRE_COUNTDOWN_MS + 3000 &&
                 SDL_GetTicks64() < self->start_time + PRE_COUNTDOWN_MS + 3000 + POST_COUNTDOWN_MS
             ) {
                 self->sprite = COUNTDOWN_GO;
+                audio_manager_play_effect(self->audio_manager, "beep_high");
             } else if (
                 self->sprite != COUNTDOWN_NONE &&
                 SDL_GetTicks64() > self->start_time + PRE_COUNTDOWN_MS + 3000 + POST_COUNTDOWN_MS

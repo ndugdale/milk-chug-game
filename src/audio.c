@@ -12,6 +12,11 @@ AudioManager* audio_manager_create(void) {
     AudioManager* self = (calloc(1, sizeof(AudioManager)));
     self->muted = false;
 
+    // Load audio effects
+    load_effect_audio(self, "beep_low", "assets/audio/beep_low.wav");
+    load_effect_audio(self, "beep_high", "assets/audio/beep_high.wav");
+    load_effect_audio(self, "glug", "assets/audio/glug.wav");
+
     // Load music audio
     load_music_audio(self, "main_theme", "assets/audio/dreamtune.wav");
 
@@ -20,7 +25,7 @@ AudioManager* audio_manager_create(void) {
 
 void audio_manager_play_effect(AudioManager* self, const char* id) {
     Mix_Chunk* chunk = audio_manager_get_effect(self, id);
-    if (Mix_PlayChannel(-1, chunk, 0) == -1) {
+    if (!self->muted && Mix_PlayChannel(-1, chunk, 0) == -1) {
         SDL_LogError(
             SDL_LOG_CATEGORY_AUDIO,
             "Failed to play audio effect %s: %s",

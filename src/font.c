@@ -9,8 +9,8 @@ static void load_font(FontManager* self, const char* id, const char* path, uint8
 
 FontManager* font_manager_create(void) {
     FontManager* self = calloc(1, sizeof(FontManager));
-    load_font(self, "munro_10", "assets/fonts/MunroSmall.ttf", 10);
-    load_font(self, "munro_20", "assets/fonts/MunroSmall.ttf", 20);
+    load_font(self, "munro_10", "assets/fonts/munro_small.ttf", 10);
+    load_font(self, "munro_20", "assets/fonts/munro_small.ttf", 20);
 
     return self;
 }

@@ -17,8 +17,8 @@ static void stage_tick(Stage* self);
 static bool opponents_are_finished(Opponent* const* opponents);
 
 Stage* stage_create(
-    FontManager* font_manager, TextureManager* texture_manager, Player* player,
-    const char** opponent_names, const char** opponent_texture_ids,
+    AudioManager* audio_manager, FontManager* font_manager, TextureManager* texture_manager,
+    Player* player, const char** opponent_names, const char** opponent_texture_ids,
     const char* background_texture_id, uint64_t min_drink_duration, uint64_t max_drink_duration
 ) {
     Stage* self = malloc(sizeof(Stage));
@@ -45,7 +45,7 @@ Stage* stage_create(
 
     const int64_t countdown_x = (BACKGROUND_WIDTH - COUNTDOWN_SPRITE_WIDTH) / 2;
     const int64_t countdown_y = (BACKGROUND_HEIGHT - COUNTDOWN_SPRITE_HEIGHT - 2 * PLAYER_SPRITE_HEIGHT) / 2;
-    self->countdown = countdown_create(texture_manager, countdown_x, countdown_y);
+    self->countdown = countdown_create(audio_manager, texture_manager, countdown_x, countdown_y);
     self->countdown_complete = false;
 
     return self;
@@ -100,8 +100,8 @@ void stage_destroy(Stage* self) {
 }
 
 Stage* stage_create_from_id(
-    FontManager* font_manager, TextureManager* texture_manager,
-    Player* player, uint8_t stage_id
+    AudioManager* audio_manager, FontManager* font_manager,
+    TextureManager* texture_manager, Player* player, uint8_t stage_id
 ) {
     Stage* stage;
 
@@ -122,8 +122,8 @@ Stage* stage_create_from_id(
             const char* background_texture_id_0 = "stage_0";
 
             stage = stage_create(
-                font_manager, texture_manager, player,
-                opponent_names_0, opponent_texture_ids_0,
+                audio_manager, font_manager, texture_manager,
+                player, opponent_names_0, opponent_texture_ids_0,
                 background_texture_id_0, 12'000, 16'000
             );
             break;
@@ -144,8 +144,8 @@ Stage* stage_create_from_id(
             const char* background_texture_id_1 = "stage_1";
 
             stage = stage_create(
-                font_manager, texture_manager, player,
-                opponent_names_1, opponent_texture_ids_1,
+                audio_manager, font_manager, texture_manager,
+                player, opponent_names_1, opponent_texture_ids_1,
                 background_texture_id_1, 10'000, 14'000
             );
             break;
@@ -166,8 +166,8 @@ Stage* stage_create_from_id(
             const char* background_texture_id_2 = "stage_2";
 
             stage = stage_create(
-                font_manager, texture_manager, player,
-                opponent_names_2, opponent_texture_ids_2,
+                audio_manager, font_manager, texture_manager,
+                player, opponent_names_2, opponent_texture_ids_2,
                 background_texture_id_2, 8'000, 11'000
             );
             break;
@@ -188,8 +188,8 @@ Stage* stage_create_from_id(
             const char* background_texture_id_3 = "stage_3";
 
             stage = stage_create(
-                font_manager, texture_manager, player,
-                opponent_names_3, opponent_texture_ids_3,
+                audio_manager, font_manager, texture_manager,
+                player, opponent_names_3, opponent_texture_ids_3,
                 background_texture_id_3, 6'000, 8'000
             );
             break;
@@ -210,8 +210,8 @@ Stage* stage_create_from_id(
             const char* background_texture_id_4 = "stage_4";
 
             stage = stage_create(
-                font_manager, texture_manager, player,
-                opponent_names_4, opponent_texture_ids_4,
+                audio_manager, font_manager, texture_manager,
+                player, opponent_names_4, opponent_texture_ids_4,
                 background_texture_id_4, 5'000, 7'000
             );
             break;

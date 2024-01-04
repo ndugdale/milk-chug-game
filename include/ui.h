@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
+#include "audio.h"
 #include "events.h"
 #include "font.h"
 #include "opponent.h"
@@ -47,6 +48,7 @@ typedef struct {
 } TextDisplay;
 
 typedef struct {
+    AudioManager* audio_manager;
     uint64_t start_time;
     SDL_Texture* sprite_sheet;
     CountdownSprite sprite;
@@ -69,7 +71,7 @@ void text_display_update(TextDisplay* self, Event event);
 void text_display_render(TextDisplay* self, SDL_Renderer* renderer, SDL_Window* window);
 void text_display_destroy(TextDisplay* self);
 
-Countdown* countdown_create(TextureManager* texture_manager, int64_t x, int64_t y);
+Countdown* countdown_create(AudioManager* audio_manager, TextureManager* texture_manager, int64_t x, int64_t y);
 void countdown_update(Countdown* self, Event event);
 void countdown_render(Countdown* self, SDL_Renderer* renderer, SDL_Window* window);
 void countdown_destroy(Countdown* self);

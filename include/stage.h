@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 
+#include "audio.h"
 #include "events.h"
 #include "font.h"
 #include "opponent.h"
@@ -25,8 +26,8 @@ typedef struct {
 } Stage;
 
 Stage* stage_create(
-    FontManager* font_manager, TextureManager* texture_manager, Player* player,
-    const char** opponent_names, const char** opponent_texture_ids,
+    AudioManager* audio_manager, FontManager* font_manager, TextureManager* texture_manager,
+    Player* player, const char** opponent_names, const char** opponent_texture_ids,
     const char* background_texture_id, uint64_t min_drink_duration, uint64_t max_drink_duration
 );
 void stage_update(Stage* self, Event event);
@@ -34,6 +35,6 @@ void stage_render(Stage* self, SDL_Renderer* renderer, SDL_Window* window);
 void stage_destroy(Stage* self);
 
 Stage* stage_create_from_id(
-    FontManager* font_manager, TextureManager* texture_manager,
-    Player* player, uint8_t stage_id
+    AudioManager* audio_manager, FontManager* font_manager,
+    TextureManager* texture_manager, Player* player, uint8_t stage_id
 );

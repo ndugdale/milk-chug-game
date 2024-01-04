@@ -15,13 +15,17 @@ static TextDisplay* tutorial_create(FontManager* font_manager);
 static TextDisplay* win_screen_create(FontManager* font_manager);
 static TextDisplay* lose_screen_create(FontManager* font_manager);
 
-Scene* scene_create(FontManager* font_manager, TextureManager* texture_manager, Player* player) {
+Scene* scene_create(
+    AudioManager* audio_manager, FontManager* font_manager,
+    TextureManager* texture_manager, Player* player
+) {
     Scene* self = malloc(sizeof(Scene));
     self->stage_id = 0;
     self->type = MENU_TYPE;
     self->value.text_display = menu_create(font_manager);
     self->stage_buffer = NULL;
 
+    self->audio_manager = audio_manager;
     self->font_manager = font_manager;
     self->texture_manager = texture_manager;
     self->player = player;
@@ -92,8 +96,8 @@ void scene_next(Scene* self) {
             break;
         case TUTORIAL_TYPE:
             Stage* stage_0 = stage_create_from_id(
-                self->font_manager, self->texture_manager,
-                self->player, 0
+                self->audio_manager, self->font_manager,
+                self->texture_manager, self->player, 0
             );
             text_display_destroy(self->value.text_display);
             self->type = STAGE_TYPE;
@@ -113,7 +117,7 @@ void scene_next(Scene* self) {
             if (stage_remains && stage_won) {
                 self->stage_id++;
                 Stage* stage = stage_create_from_id(
-                    self->font_manager, self->texture_manager,
+                    self->audio_manager, self->font_manager, self->texture_manager,
                     self->player, self->stage_id
                 );
                 scoreboard_destroy(self->value.scoreboard);

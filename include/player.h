@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "audio.h"
 #include "events.h"
 #include "indicator.h"
 
@@ -18,6 +19,8 @@
 #define PLAYER_SPRITE_DRINK_NUM 8
 #define PLAYER_SPRITE_IDLE_EMPTY 10
 
+#define PLAYER_AUDIO_EFFECT_COOLDOWN_MS 1000
+
 typedef struct {
     char name[MAX_PLAYER_NAME_CHARS];
     bool finished;
@@ -29,11 +32,13 @@ typedef struct {
     int64_t x;
     int64_t y;
     Indicator* indicator;
+    AudioManager* audio_manager;
+    uint64_t last_audio_effect_time;
 } Player;
 
 Player* player_create(
-    TextureManager* texture_manager, const char* name,
-    const char* texture_id, int64_t x, int64_t y
+    AudioManager* audio_manager, TextureManager* texture_manager,
+    const char* name, const char* texture_id, int64_t x, int64_t y
 );
 void player_update(Player* self, Event event);
 void player_render(Player* self, SDL_Renderer* renderer, SDL_Window* window);

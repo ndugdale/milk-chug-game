@@ -12,8 +12,8 @@
 static void player_drink(Player* self);
 
 Player* player_create(
-    TextureManager* texture_manager, const char* name,
-    const char* texture_id, int64_t x, int64_t y
+    AudioManager* audio_manager, TextureManager* texture_manager,
+    const char* name, const char* texture_id, int64_t x, int64_t y
 ) {
     Player* self = malloc(sizeof(Player));
     strcpy(self->name, name);
@@ -24,6 +24,8 @@ Player* player_create(
         texture_manager, x,
         y - INDICATOR_VERTICAL_OFFSET - INDICATOR_SPRITE_HEIGHT
     );
+    self->audio_manager = audio_manager;
+    self->last_audio_effect_time = 0;
 
     player_reset(self);
 
@@ -73,13 +75,19 @@ void player_reset(Player* self) {
 
 static void player_drink(Player* self) {
     if (!self->finished) {
+        uint64_t current_time = SDL_GetTicks64();
         self->milk_consumed += MILK_SIP;
 
         self->sprite = PLAYER_SPRITE_DRINK_START +
             self->milk_consumed * PLAYER_SPRITE_DRINK_NUM / MILK_CAPACITY;
 
+        if (current_time - self->last_audio_effect_time > PLAYER_AUDIO_EFFECT_COOLDOWN_MS) {
+            audio_manager_play_effect(self->audio_manager, "glug");
+            self->last_audio_effect_time = current_time;
+        }
+
         if (self->milk_consumed >= MILK_CAPACITY) {
-            self->drink_duration = SDL_GetTicks64() - self->start_time;
+            self->drink_duration = current_time - self->start_time;
             self->finished = true;
         }
     }

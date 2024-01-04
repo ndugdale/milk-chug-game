@@ -118,8 +118,11 @@ Game* game_create(void) {
     const int64_t player_x = (BACKGROUND_WIDTH - PLAYER_SPRITE_WIDTH) / 2;
     const int64_t player_y = (BACKGROUND_HEIGHT + PLAYER_SPRITE_HEIGHT) / 2;
 
-    self->player = player_create(self->texture_manager, "Nate Chersbrew", "player", player_x, player_y);
-    self->scene = scene_create(self->font_manager, self->texture_manager, self->player);
+    self->player = player_create(
+        self->audio_manager, self->texture_manager,
+        "Nate Chersbrew", "player", player_x, player_y
+    );
+    self->scene = scene_create(self->audio_manager, self->font_manager, self->texture_manager, self->player);
     self->event_queue = event_queue_create();
 
     self->last_frame_time = 0;
