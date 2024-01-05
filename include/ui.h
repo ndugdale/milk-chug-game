@@ -41,7 +41,16 @@ typedef enum {
 } CountdownSprite;
 
 typedef struct {
+    SDL_Texture* sprite_sheet;
+    int64_t x;
+    int64_t y;
+    uint32_t w;
+    uint32_t h;
+} StaticSpriteDisplay;
+
+typedef struct {
     FontManager* font_manager;
+    StaticSpriteDisplay* static_sprite_display;
     const char* primary_text;
     const char* secondary_text;
     bool is_complete;
@@ -66,7 +75,17 @@ typedef struct {
     bool is_player_winner;
 } Scoreboard;
 
-TextDisplay* text_display_create(FontManager* font_manager, const char* primary_text, const char* secondary_text);
+StaticSpriteDisplay* static_sprite_display_create(
+    TextureManager* texture_manager, const char* texture_id,
+    uint32_t w, uint32_t h, int64_t x, int64_t y
+);
+void static_sprite_display_render(StaticSpriteDisplay* self, SDL_Renderer* renderer, SDL_Window* window);
+void static_sprite_display_destroy(StaticSpriteDisplay* self);
+
+TextDisplay* text_display_create(
+    FontManager* font_manager, StaticSpriteDisplay* static_sprite_display,
+    const char* primary_text, const char* secondary_text
+);
 void text_display_update(TextDisplay* self, Event event);
 void text_display_render(TextDisplay* self, SDL_Renderer* renderer, SDL_Window* window);
 void text_display_destroy(TextDisplay* self);

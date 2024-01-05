@@ -4,13 +4,14 @@
 
 #include "events.h"
 #include "font.h"
+#include "game.h"
 #include "opponent.h"
 #include "player.h"
 #include "stage.h"
 #include "texture.h"
 #include "ui.h"
 
-static TextDisplay* menu_create(FontManager* font_manager);
+static TextDisplay* menu_create(FontManager* font_manager, TextureManager* texture_manager);
 static TextDisplay* tutorial_create(FontManager* font_manager);
 static TextDisplay* win_screen_create(FontManager* font_manager);
 static TextDisplay* lose_screen_create(FontManager* font_manager);
@@ -22,7 +23,7 @@ Scene* scene_create(
     Scene* self = malloc(sizeof(Scene));
     self->stage_id = 0;
     self->type = MENU_TYPE;
-    self->value.text_display = menu_create(font_manager);
+    self->value.text_display = menu_create(font_manager, texture_manager);
     self->stage_buffer = NULL;
 
     self->audio_manager = audio_manager;
@@ -141,7 +142,7 @@ void scene_next(Scene* self) {
         case LOSE_SCREEN_TYPE:
             self->stage_id = 0;
             self->type = MENU_TYPE;
-            self->value.text_display = menu_create(self->font_manager);
+            self->value.text_display = menu_create(self->font_manager, self->texture_manager);
         default:
             break;
     }
@@ -166,26 +167,32 @@ void scene_destroy(Scene* self) {
     free(self);
 }
 
-static TextDisplay* menu_create(FontManager* font_manager) {
-    return text_display_create(
-        font_manager, "Milk Chug", "Press x to start"
+static TextDisplay* menu_create(FontManager* font_manager, TextureManager* texture_manager) {
+    const int64_t title_x = (BACKGROUND_WIDTH - TITLE_SPRITE_WIDTH) / 2;
+    const int64_t title_y = (BACKGROUND_HEIGHT - 3 * TITLE_SPRITE_HEIGHT / 2) / 2;
+
+    StaticSpriteDisplay* static_sprite_display = static_sprite_display_create(
+        texture_manager, "title", TITLE_SPRITE_WIDTH, TITLE_SPRITE_HEIGHT,
+        title_x, title_y
     );
+
+    return text_display_create(font_manager, static_sprite_display, "", "Press x to start");
 }
 
 static TextDisplay* tutorial_create(FontManager* font_manager) {
     return text_display_create(
-        font_manager, "Press x quickly to drink", "Press x to continue"
+        font_manager, NULL, "Press x quickly to drink", "Press x to continue"
     );
 }
 
 static TextDisplay* win_screen_create(FontManager* font_manager) {
     return text_display_create(
-        font_manager, "You Win!", "Press x to return to menu"
+        font_manager, NULL, "You Win!", "Press x to return to menu"
     );
 }
 
 static TextDisplay* lose_screen_create(FontManager* font_manager) {
     return text_display_create(
-        font_manager, "You Lose!", "Press x to return to menu"
+        font_manager, NULL, "You Lose!", "Press x to return to menu"
     );
 }

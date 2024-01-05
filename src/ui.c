@@ -15,9 +15,44 @@
 #include "stage.h"
 #include "utils.h"
 
-TextDisplay* text_display_create(FontManager* font_manager, const char* primary_text, const char* secondary_text) {
+StaticSpriteDisplay* static_sprite_display_create(
+    TextureManager* texture_manager, const char* texture_id,
+    uint32_t w, uint32_t h, int64_t x, int64_t y
+) {
+    StaticSpriteDisplay* self = (calloc(1, sizeof(StaticSpriteDisplay)));
+    self->sprite_sheet = texture_manager_get(texture_manager, texture_id);
+    self->x = x;
+    self->y = y;
+    self->w = w;
+    self->h = h;
+}
+
+void static_sprite_display_render(StaticSpriteDisplay* self, SDL_Renderer* renderer, SDL_Window* window) {
+    int64_t window_x;
+    int64_t window_y;
+
+    local_xy_to_window_xy(
+        window, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
+        &window_x, &window_y
+    );
+
+    blit_sprite(
+        renderer, self->sprite_sheet, 0, 0, window_x, window_y,
+        self->w, self->h
+    );
+}
+
+void static_sprite_display_destroy(StaticSpriteDisplay* self) {
+    free(self);
+}
+
+TextDisplay* text_display_create(
+    FontManager* font_manager, StaticSpriteDisplay* static_sprite_display,
+    const char* primary_text, const char* secondary_text
+) {
     TextDisplay* self = (calloc(1, sizeof(TextDisplay)));
     self->font_manager = font_manager;
+    self->static_sprite_display = static_sprite_display;
     self->primary_text = primary_text;
     self->secondary_text = secondary_text;
     self->is_complete = false;
@@ -57,6 +92,10 @@ void text_display_render(TextDisplay* self, SDL_Renderer* renderer, SDL_Window* 
         renderer, secondary_font, self->secondary_text, colour,
         0, scaled_window_width, secondary_y, CentreAligned
     );
+
+    if (self->static_sprite_display != NULL) {
+        static_sprite_display_render(self->static_sprite_display, renderer, window);
+    }
 }
 
 void text_display_destroy(TextDisplay* self) {

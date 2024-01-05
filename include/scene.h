@@ -13,6 +13,9 @@
 
 #define NUM_STAGES 5
 
+#define TITLE_SPRITE_WIDTH 90
+#define TITLE_SPRITE_HEIGHT 60
+
 typedef enum {
     MENU_TYPE,
     TUTORIAL_TYPE,
