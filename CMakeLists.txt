@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.21)
 set(CMAKE_C_STANDARD 23)
 
 project(milk_chug_game)
@@ -19,10 +19,22 @@ target_include_directories(
 
 target_link_libraries(
     milk_chug_game
-    ${SDL2_LIBRARIES}
+    SDL2::SDL2
     SDL2_image::SDL2_image
     SDL2_mixer::SDL2_mixer
     SDL2_ttf::SDL2_ttf
 )
 
 file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+install(TARGETS milk_chug_game RUNTIME DESTINATION bin)
+install(DIRECTORY assets/ DESTINATION bin/assets)
+install(IMPORTED_RUNTIME_ARTIFACTS
+    SDL2::SDL2
+    SDL2_image::SDL2_image
+    SDL2_mixer::SDL2_mixer
+    SDL2_ttf::SDL2_ttf
+    DESTINATION lib
+)
+install(FILES resources/milk_chug.desktop DESTINATION share/applications)
+install(FILES resources/milk_chug.png DESTINATION share/icons/hicolor/32x32/apps)

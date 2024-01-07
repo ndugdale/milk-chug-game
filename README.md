@@ -38,6 +38,7 @@
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
         <li><a href="#build">Build and Run</a>a></li>
+        <li><a href="#packaging">Packaging</a>a></li>
       </ul>
     </li>
     <li><a href="#contributing">Contributing</a></li>
@@ -70,7 +71,7 @@ You require a C compiler compatible with the C23 standard.
 
 ### [**CMake**](https://cmake.org)
 
-This project uses CMake as a build tool. You require a minimum version of 3.10. CMake can be downloaded from the [website](https://cmake.org) or through a package management tool on relevant OS distros.
+This project uses CMake as a build tool. You require a minimum version of 3.21. CMake can be downloaded from the [website](https://cmake.org) or through a package management tool on relevant OS distros.
 
 E.g. on Arch-based distros:
 ```sh
@@ -94,7 +95,7 @@ sudo pacman -S sdl2 sdl2_image sdl2_mixer sdl2_ttf
 Clone the repository. Create a build directory if one does not already exist, and navigate inside it.
 ```sh
 git clone https://github.com/ndugdale/milk-chug-game.git
-mkdir milk-chug-game/build
+mkdir -p milk-chug-game/build
 cd milk-chug-game/build
 ```
 
@@ -102,12 +103,22 @@ cd milk-chug-game/build
 
 ## Build and Run
 
-Build using CMake. This will generate an executable named `milk_chug_game` in the same directory.
+Build using CMake. This will generate an executable named `milk_chug_game` in the `build` directory.
 
 ```sh
 cmake ..
 cmake --build .
 ./milk_chug_game
+```
+
+## Packaging
+
+### Linux AppImage
+
+This project can be packaged into an AppImage by running the `build.sh` script in the root directory. This will create a `Milk_Chug-<ARCHITECTURE>.AppImage` file in the `build` directory.
+
+```sh
+./build.sh
 ```
 
 <!-- CONTRIBUTING -->
