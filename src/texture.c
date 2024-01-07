@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "utils.h"
+
 static void load_texture(
     TextureManager* self, SDL_Renderer* renderer, const char* id,
     const char* path
@@ -14,41 +16,41 @@ TextureManager* texture_manager_create(SDL_Renderer* renderer) {
     TextureManager* self = calloc(1, sizeof(TextureManager));
 
     // Load player character textures
-    load_texture(self, renderer, "player", "assets/images/characters/player.png");
+    load_texture(self, renderer, "player", "images/characters/player.png");
 
     // Load non-player character textures
-    load_texture(self, renderer, "opponent_0_0", "assets/images/characters/opponent_0_0.png");
-    load_texture(self, renderer, "opponent_0_1", "assets/images/characters/opponent_0_1.png");
-    load_texture(self, renderer, "opponent_0_2", "assets/images/characters/opponent_0_2.png");
-    load_texture(self, renderer, "opponent_0_3", "assets/images/characters/opponent_0_3.png");
-    load_texture(self, renderer, "opponent_1_0", "assets/images/characters/opponent_1_0.png");
-    load_texture(self, renderer, "opponent_1_1", "assets/images/characters/opponent_1_1.png");
-    load_texture(self, renderer, "opponent_1_2", "assets/images/characters/opponent_1_2.png");
-    load_texture(self, renderer, "opponent_1_3", "assets/images/characters/opponent_1_3.png");
-    load_texture(self, renderer, "opponent_2_0", "assets/images/characters/opponent_2_0.png");
-    load_texture(self, renderer, "opponent_2_1", "assets/images/characters/opponent_2_1.png");
-    load_texture(self, renderer, "opponent_2_2", "assets/images/characters/opponent_2_2.png");
-    load_texture(self, renderer, "opponent_2_3", "assets/images/characters/opponent_2_3.png");
-    load_texture(self, renderer, "opponent_3_0", "assets/images/characters/opponent_3_0.png");
-    load_texture(self, renderer, "opponent_3_1", "assets/images/characters/opponent_3_1.png");
-    load_texture(self, renderer, "opponent_3_2", "assets/images/characters/opponent_3_2.png");
-    load_texture(self, renderer, "opponent_3_3", "assets/images/characters/opponent_3_3.png");
-    load_texture(self, renderer, "opponent_4_0", "assets/images/characters/opponent_4_0.png");
-    load_texture(self, renderer, "opponent_4_1", "assets/images/characters/opponent_4_1.png");
-    load_texture(self, renderer, "opponent_4_2", "assets/images/characters/opponent_4_2.png");
-    load_texture(self, renderer, "opponent_4_3", "assets/images/characters/opponent_4_3.png");
+    load_texture(self, renderer, "opponent_0_0", "images/characters/opponent_0_0.png");
+    load_texture(self, renderer, "opponent_0_1", "images/characters/opponent_0_1.png");
+    load_texture(self, renderer, "opponent_0_2", "images/characters/opponent_0_2.png");
+    load_texture(self, renderer, "opponent_0_3", "images/characters/opponent_0_3.png");
+    load_texture(self, renderer, "opponent_1_0", "images/characters/opponent_1_0.png");
+    load_texture(self, renderer, "opponent_1_1", "images/characters/opponent_1_1.png");
+    load_texture(self, renderer, "opponent_1_2", "images/characters/opponent_1_2.png");
+    load_texture(self, renderer, "opponent_1_3", "images/characters/opponent_1_3.png");
+    load_texture(self, renderer, "opponent_2_0", "images/characters/opponent_2_0.png");
+    load_texture(self, renderer, "opponent_2_1", "images/characters/opponent_2_1.png");
+    load_texture(self, renderer, "opponent_2_2", "images/characters/opponent_2_2.png");
+    load_texture(self, renderer, "opponent_2_3", "images/characters/opponent_2_3.png");
+    load_texture(self, renderer, "opponent_3_0", "images/characters/opponent_3_0.png");
+    load_texture(self, renderer, "opponent_3_1", "images/characters/opponent_3_1.png");
+    load_texture(self, renderer, "opponent_3_2", "images/characters/opponent_3_2.png");
+    load_texture(self, renderer, "opponent_3_3", "images/characters/opponent_3_3.png");
+    load_texture(self, renderer, "opponent_4_0", "images/characters/opponent_4_0.png");
+    load_texture(self, renderer, "opponent_4_1", "images/characters/opponent_4_1.png");
+    load_texture(self, renderer, "opponent_4_2", "images/characters/opponent_4_2.png");
+    load_texture(self, renderer, "opponent_4_3", "images/characters/opponent_4_3.png");
 
     // Load background textures
-    load_texture(self, renderer, "stage_0", "assets/images/backgrounds/stage_0.png");
-    load_texture(self, renderer, "stage_1", "assets/images/backgrounds/stage_1.png");
-    load_texture(self, renderer, "stage_2", "assets/images/backgrounds/stage_2.png");
-    load_texture(self, renderer, "stage_3", "assets/images/backgrounds/stage_3.png");
-    load_texture(self, renderer, "stage_4", "assets/images/backgrounds/stage_4.png");
+    load_texture(self, renderer, "stage_0", "images/backgrounds/stage_0.png");
+    load_texture(self, renderer, "stage_1", "images/backgrounds/stage_1.png");
+    load_texture(self, renderer, "stage_2", "images/backgrounds/stage_2.png");
+    load_texture(self, renderer, "stage_3", "images/backgrounds/stage_3.png");
+    load_texture(self, renderer, "stage_4", "images/backgrounds/stage_4.png");
 
     // Load UI textures
-    load_texture(self, renderer, "title", "assets/images/ui/title.png");
-    load_texture(self, renderer, "countdown", "assets/images/ui/countdown.png");
-    load_texture(self, renderer, "indicator", "assets/images/ui/indicator.png");
+    load_texture(self, renderer, "title", "images/ui/title.png");
+    load_texture(self, renderer, "countdown", "images/ui/countdown.png");
+    load_texture(self, renderer, "indicator", "images/ui/indicator.png");
 
     return self;
 }
@@ -79,24 +81,27 @@ static void load_texture(
     TextureManager* self, SDL_Renderer* renderer, const char* id,
     const char* path
 ) {
+    char resolved_path[MAX_PATH_CHARS];
+    get_asset_path(resolved_path, path);
+
     if (self->insert_index > MAX_NUM_TEXTURES) {
         SDL_LogError(
             SDL_LOG_CATEGORY_APPLICATION,
             "Failed to load texture from file %s: "
             "texture manager has run out of capacity",
-            path
+            resolved_path
         );
         exit(1);
     }
 
-    SDL_Log("Loading texture: %s", path);
-    SDL_Texture* texture = IMG_LoadTexture(renderer, path);
+    SDL_Log("Loading texture: %s", resolved_path);
+    SDL_Texture* texture = IMG_LoadTexture(renderer, resolved_path);
 
     if (texture == NULL) {
         SDL_LogError(
             SDL_LOG_CATEGORY_APPLICATION,
             "Failed to load texture from file %s: %s",
-            path,
+            resolved_path,
             SDL_GetError()
         );
         exit(1);

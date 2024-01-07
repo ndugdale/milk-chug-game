@@ -25,10 +25,8 @@ target_link_libraries(
     SDL2_ttf::SDL2_ttf
 )
 
-file(COPY assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
 install(TARGETS milk_chug_game RUNTIME DESTINATION bin)
-install(DIRECTORY assets/ DESTINATION bin/assets)
+install(DIRECTORY assets/ DESTINATION share/assets)
 install(IMPORTED_RUNTIME_ARTIFACTS
     SDL2::SDL2
     SDL2_image::SDL2_image

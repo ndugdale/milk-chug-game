@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
+#include "utils.h"
+
 static void load_effect_audio(AudioManager* self, const char* id, const char* path);
 static void load_music_audio(AudioManager* self, const char* id, const char* path);
 static Mix_Chunk* audio_manager_get_effect(AudioManager* self, const char* id);
@@ -13,12 +15,12 @@ AudioManager* audio_manager_create(void) {
     self->muted = false;
 
     // Load audio effects
-    load_effect_audio(self, "beep_low", "assets/audio/beep_low.wav");
-    load_effect_audio(self, "beep_high", "assets/audio/beep_high.wav");
-    load_effect_audio(self, "glug", "assets/audio/glug.wav");
+    load_effect_audio(self, "beep_low", "audio/beep_low.wav");
+    load_effect_audio(self, "beep_high", "audio/beep_high.wav");
+    load_effect_audio(self, "glug", "audio/glug.wav");
 
     // Load music audio
-    load_music_audio(self, "main_theme", "assets/audio/dreamtune.wav");
+    load_music_audio(self, "main_theme", "audio/dreamtune.wav");
 
     return self;
 }
@@ -70,24 +72,27 @@ void audio_manager_destroy(AudioManager* self) {
 }
 
 static void load_effect_audio(AudioManager* self, const char* id, const char* path) {
+    char resolved_path[MAX_PATH_CHARS];
+    get_asset_path(resolved_path, path);
+
     if (self->effect_insert_index > MAX_NUM_AUDIO) {
         SDL_LogError(
             SDL_LOG_CATEGORY_AUDIO,
             "Failed to load audio effect from file %s: "
             "audio manager has run out of capacity",
-            path
+            resolved_path
         );
         exit(1);
     }
 
-    SDL_Log("Loading audio effect: %s", path);
-    Mix_Chunk* chunk = Mix_LoadWAV(path);
+    SDL_Log("Loading audio effect: %s", resolved_path);
+    Mix_Chunk* chunk = Mix_LoadWAV(resolved_path);
 
     if (chunk == NULL) {
         SDL_LogError(
             SDL_LOG_CATEGORY_AUDIO,
             "Failed to load audio effect from file %s: %s",
-            path,
+            resolved_path,
             Mix_GetError()
         );
         exit(1);
@@ -102,24 +107,27 @@ static void load_effect_audio(AudioManager* self, const char* id, const char* pa
 }
 
 static void load_music_audio(AudioManager* self, const char* id, const char* path) {
+    char resolved_path[MAX_PATH_CHARS];
+    get_asset_path(resolved_path, path);
+
     if (self->music_insert_index > MAX_NUM_AUDIO) {
         SDL_LogError(
             SDL_LOG_CATEGORY_AUDIO,
             "Failed to load music audio from file %s: "
             "audio manager has run out of capacity",
-            path
+            resolved_path
         );
         exit(1);
     }
 
-    SDL_Log("Loading music audio: %s", path);
-    Mix_Music* music = Mix_LoadMUS(path);
+    SDL_Log("Loading music audio: %s", resolved_path);
+    Mix_Music* music = Mix_LoadMUS(resolved_path);
 
     if (music == NULL) {
         SDL_LogError(
             SDL_LOG_CATEGORY_AUDIO,
             "Failed to load music audio from file %s: %s",
-            path,
+            resolved_path,
             Mix_GetError()
         );
         exit(1);

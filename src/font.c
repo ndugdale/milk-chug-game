@@ -5,12 +5,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "utils.h"
+
 static void load_font(FontManager* self, const char* id, const char* path, uint8_t size);
 
 FontManager* font_manager_create(void) {
     FontManager* self = calloc(1, sizeof(FontManager));
-    load_font(self, "munro_10", "assets/fonts/munro_small.ttf", 10);
-    load_font(self, "munro_20", "assets/fonts/munro_small.ttf", 20);
+    load_font(self, "munro_10", "fonts/munro_small.ttf", 10);
+    load_font(self, "munro_20", "fonts/munro_small.ttf", 20);
 
     return self;
 }
@@ -109,24 +111,27 @@ void blit_text(
 }
 
 static void load_font(FontManager* self, const char* id, const char* path, uint8_t size) {
+    char resolved_path[MAX_PATH_CHARS];
+    get_asset_path(resolved_path, path);
+
     if (self->insert_index > MAX_NUM_FONTS) {
         SDL_LogError(
             SDL_LOG_CATEGORY_APPLICATION,
             "Failed to load font from file %s: "
             "font manager has run out of capacity",
-            path
+            resolved_path
         );
         exit(1);
     }
 
-    SDL_Log("Loading font: %s", path);
-    TTF_Font* font = TTF_OpenFont(path, size);
+    SDL_Log("Loading font: %s", resolved_path);
+    TTF_Font* font = TTF_OpenFont(resolved_path, size);
 
     if (font == NULL) {
         SDL_LogError(
             SDL_LOG_CATEGORY_APPLICATION,
             "Failed to load font from file %s: %s",
-            path,
+            resolved_path,
             TTF_GetError()
         );
         exit(1);
