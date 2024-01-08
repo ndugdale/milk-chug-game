@@ -14,6 +14,9 @@
 #define MAX_SCOREBOARD_NAME_CHARS 40
 #define MAX_SCOREBOARD_DURATION_CHARS 6
 
+#define ICON_WIDTH 16
+#define ICON_HEIGHT 16
+
 #define SCOREBOARD_WIDTH 156
 #define SCOREBOARD_HEIGHT 74
 
@@ -33,6 +36,23 @@
 #define COUNTDOWN_SPRITE_HEIGHT 100
 
 typedef enum {
+    LOCAL_COORDINATES,
+    WINDOW_COORDINATES
+} CoordinateSystem;
+
+typedef enum {
+    QUIT_ICON_LIGHT,
+    QUIT_ICON_DARK
+} QuitIconSprite;
+
+typedef enum {
+    MUSIC_ICON_UNMUTED_LIGHT,
+    MUSIC_ICON_MUTED_LIGHT,
+    MUSIC_ICON_UNMUTED_DARK,
+    MUSIC_ICON_MUTED_DARK
+} MusicIconSprite;
+
+typedef enum {
     COUNTDOWN_THREE,
     COUNTDOWN_TWO,
     COUNTDOWN_ONE,
@@ -41,16 +61,18 @@ typedef enum {
 } CountdownSprite;
 
 typedef struct {
+    CoordinateSystem coordinate_system;
     SDL_Texture* sprite_sheet;
+    uint8_t sprite;
     int64_t x;
     int64_t y;
     uint32_t w;
     uint32_t h;
-} StaticSpriteDisplay;
+} SpriteDisplay;
 
 typedef struct {
     FontManager* font_manager;
-    StaticSpriteDisplay* static_sprite_display;
+    SpriteDisplay* title_sprite;
     const char* primary_text;
     const char* secondary_text;
     bool is_complete;
@@ -75,15 +97,15 @@ typedef struct {
     bool is_player_winner;
 } Scoreboard;
 
-StaticSpriteDisplay* static_sprite_display_create(
+SpriteDisplay* sprite_display_create(
     TextureManager* texture_manager, const char* texture_id,
-    uint32_t w, uint32_t h, int64_t x, int64_t y
+    CoordinateSystem coordinate_system, uint32_t w, uint32_t h, int64_t x, int64_t y
 );
-void static_sprite_display_render(StaticSpriteDisplay* self, SDL_Renderer* renderer, SDL_Window* window);
-void static_sprite_display_destroy(StaticSpriteDisplay* self);
+void sprite_display_render(SpriteDisplay* self, SDL_Renderer* renderer, SDL_Window* window);
+void sprite_display_destroy(SpriteDisplay* self);
 
 TextDisplay* text_display_create(
-    FontManager* font_manager, StaticSpriteDisplay* static_sprite_display,
+    FontManager* font_manager, SpriteDisplay* title_sprite,
     const char* primary_text, const char* secondary_text
 );
 void text_display_update(TextDisplay* self, Event event);

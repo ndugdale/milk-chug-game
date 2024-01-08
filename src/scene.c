@@ -16,6 +16,10 @@ static TextDisplay* tutorial_create(FontManager* font_manager);
 static TextDisplay* win_screen_create(FontManager* font_manager);
 static TextDisplay* lose_screen_create(FontManager* font_manager);
 
+static void quit_icon_next(Scene* self);
+static void music_icon_next(Scene* self);
+static void music_icon_toggle(Scene* self);
+
 Scene* scene_create(
     AudioManager* audio_manager, FontManager* font_manager,
     TextureManager* texture_manager, Player* player
@@ -31,6 +35,14 @@ Scene* scene_create(
     self->texture_manager = texture_manager;
     self->player = player;
 
+    self->quit_icon = sprite_display_create(
+        self->texture_manager, "quit", WINDOW_COORDINATES,
+        ICON_WIDTH, ICON_HEIGHT, ICON_WIDTH / 2, ICON_HEIGHT / 2
+    );
+    self->music_icon = sprite_display_create(
+        self->texture_manager, "music", WINDOW_COORDINATES,
+        ICON_WIDTH, ICON_HEIGHT, 3 * ICON_WIDTH / 2, ICON_HEIGHT / 2
+    );
     self->is_complete = false;
 
     return self;
@@ -63,6 +75,14 @@ void scene_update(Scene* self, Event event) {
             break;
     }
 
+    switch (event) {
+        case EVENT_TOGGLE_AUDIO:
+            music_icon_toggle(self);
+            break;
+        default:
+            break;
+    }
+
     if (self->is_complete) {
         scene_next(self);
         self->is_complete = false;
@@ -86,7 +106,10 @@ void scene_render(Scene* self, SDL_Renderer* renderer, SDL_Window* window) {
         default:
             break;
     }
+    sprite_display_render(self->quit_icon, renderer, window);
+    sprite_display_render(self->music_icon, renderer, window);
 }
+
 void scene_next(Scene* self) {
     switch (self->type) {
         case MENU_TYPE:
@@ -146,7 +169,10 @@ void scene_next(Scene* self) {
         default:
             break;
     }
+    quit_icon_next(self);
+    music_icon_next(self);
 }
+
 void scene_destroy(Scene* self) {
     switch (self->type) {
         case MENU_TYPE:
@@ -171,12 +197,12 @@ static TextDisplay* menu_create(FontManager* font_manager, TextureManager* textu
     const int64_t title_x = (BACKGROUND_WIDTH - TITLE_SPRITE_WIDTH) / 2;
     const int64_t title_y = (BACKGROUND_HEIGHT - 3 * TITLE_SPRITE_HEIGHT / 2) / 2;
 
-    StaticSpriteDisplay* static_sprite_display = static_sprite_display_create(
-        texture_manager, "title", TITLE_SPRITE_WIDTH, TITLE_SPRITE_HEIGHT,
-        title_x, title_y
+    SpriteDisplay* title_display = sprite_display_create(
+        texture_manager, "title", LOCAL_COORDINATES,
+        TITLE_SPRITE_WIDTH, TITLE_SPRITE_HEIGHT, title_x, title_y
     );
 
-    return text_display_create(font_manager, static_sprite_display, "", "Press x to start");
+    return text_display_create(font_manager, title_display, "", "Press x to start");
 }
 
 static TextDisplay* tutorial_create(FontManager* font_manager) {
@@ -195,4 +221,67 @@ static TextDisplay* lose_screen_create(FontManager* font_manager) {
     return text_display_create(
         font_manager, NULL, "You Lose!", "Press x to return to menu"
     );
+}
+
+static void quit_icon_next(Scene* self) {
+    switch (self->type) {
+        case MENU_TYPE:
+        case TUTORIAL_TYPE:
+        case WIN_SCREEN_TYPE:
+        case LOSE_SCREEN_TYPE:
+        case SCOREBOARD_TYPE:
+            self->quit_icon->sprite = QUIT_ICON_LIGHT;
+            break;
+        case STAGE_TYPE:
+            if (self->stage_id == NUM_STAGES - 1) {
+                self->quit_icon->sprite = QUIT_ICON_LIGHT;
+            } else {
+                self->quit_icon->sprite = QUIT_ICON_DARK;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+static void music_icon_next(Scene* self) {
+    bool muted = self->audio_manager->muted;
+
+    switch (self->type) {
+        case MENU_TYPE:
+        case TUTORIAL_TYPE:
+        case WIN_SCREEN_TYPE:
+        case LOSE_SCREEN_TYPE:
+        case SCOREBOARD_TYPE:
+            self->music_icon->sprite = muted ? MUSIC_ICON_MUTED_LIGHT : MUSIC_ICON_UNMUTED_LIGHT;
+            break;
+        case STAGE_TYPE:
+            if (self->stage_id == NUM_STAGES - 1) {
+                self->music_icon->sprite = muted ? MUSIC_ICON_MUTED_LIGHT : MUSIC_ICON_UNMUTED_LIGHT;
+            } else {
+                self->music_icon->sprite = muted ? MUSIC_ICON_MUTED_DARK : MUSIC_ICON_UNMUTED_DARK;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+static void music_icon_toggle(Scene* self) {
+    switch (self->music_icon->sprite) {
+        case MUSIC_ICON_UNMUTED_LIGHT:
+            self->music_icon->sprite = MUSIC_ICON_MUTED_LIGHT;
+            break;
+        case MUSIC_ICON_MUTED_LIGHT:
+            self->music_icon->sprite = MUSIC_ICON_UNMUTED_LIGHT;
+            break;
+        case MUSIC_ICON_UNMUTED_DARK:
+            self->music_icon->sprite = MUSIC_ICON_MUTED_DARK;
+            break;
+        case MUSIC_ICON_MUTED_DARK:
+            self->music_icon->sprite = MUSIC_ICON_UNMUTED_DARK;
+            break;
+        default:
+            break;
+    }
 }

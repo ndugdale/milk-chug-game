@@ -226,6 +226,9 @@ static void on_key_down(Game* self, const SDL_KeyboardEvent* event) {
             case TOGGLE_AUDIO_KEY:
                 event_queue_enqueue(self->event_queue, EVENT_TOGGLE_AUDIO);
                 break;
+            case QUIT_GAME_KEY:
+                exit(0);
+                break;
             default:
                 break;
         }

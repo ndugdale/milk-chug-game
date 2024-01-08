@@ -41,6 +41,8 @@ typedef struct {
     FontManager* font_manager;
     TextureManager* texture_manager;
     Player* player;
+    SpriteDisplay* quit_icon;
+    SpriteDisplay* music_icon;
     bool is_complete;
 } Scene;
 

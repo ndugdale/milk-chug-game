@@ -49,6 +49,8 @@ TextureManager* texture_manager_create(SDL_Renderer* renderer) {
 
     // Load UI textures
     load_texture(self, renderer, "title", "images/ui/title.png");
+    load_texture(self, renderer, "music", "images/ui/music.png");
+    load_texture(self, renderer, "quit", "images/ui/quit.png");
     load_texture(self, renderer, "countdown", "images/ui/countdown.png");
     load_texture(self, renderer, "indicator", "images/ui/indicator.png");
 
