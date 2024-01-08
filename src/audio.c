@@ -152,6 +152,7 @@ static Mix_Chunk* audio_manager_get_effect(AudioManager* self, const char* id) {
         "No audio effect with id %s is stored in the audio manager",
         id
     );
+    return NULL;
 }
 
 static Mix_Music* audio_manager_get_music(AudioManager* self, const char* id) {
@@ -165,4 +166,5 @@ static Mix_Music* audio_manager_get_music(AudioManager* self, const char* id) {
         "No music audio with id %s is stored in the audio manager",
         id
     );
+    return NULL;
 }

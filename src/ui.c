@@ -27,6 +27,8 @@ SpriteDisplay* sprite_display_create(
     self->y = y;
     self->w = w;
     self->h = h;
+
+    return self;
 }
 
 void sprite_display_render(SpriteDisplay* self, SDL_Renderer* renderer, SDL_Window* window) {
@@ -60,6 +62,8 @@ TextDisplay* text_display_create(
     self->primary_text = primary_text;
     self->secondary_text = secondary_text;
     self->is_complete = false;
+
+    return self;
 }
 
 void text_display_update(TextDisplay* self, Event event) {
@@ -114,6 +118,8 @@ Countdown* countdown_create(AudioManager* audio_manager, TextureManager* texture
     self->sprite = COUNTDOWN_NONE;
     self->x = x;
     self->y = y;
+
+    return self;
 }
 
 void countdown_update(Countdown* self, Event event) {

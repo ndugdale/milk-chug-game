@@ -222,9 +222,9 @@ Stage* stage_create_from_id(
                 "Invalid stage id: %d",
                 stage_id
             );
-
-            return stage;
+            break;
     }
+    return stage;
 }
 
 static void stage_tick(Stage* self) {
