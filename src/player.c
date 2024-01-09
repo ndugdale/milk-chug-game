@@ -1,6 +1,6 @@
 #include "player.h"
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>

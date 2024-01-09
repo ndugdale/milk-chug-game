@@ -1,7 +1,7 @@
 #include "stage.h"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -105,114 +105,119 @@ Stage* stage_create_from_id(
 ) {
     Stage* stage;
 
+    // Stage 0
+    const char* opponent_names_0[] = {
+        "Milo Dynaseur",
+        "Nessie Quick",
+        "Luke Toes",
+        "Hammad To'swollo"};
+    const char* opponent_texture_ids_0[] = {
+        "opponent_0_0",
+        "opponent_0_1",
+        "opponent_0_2",
+        "opponent_0_3"};
+    const char* background_texture_id_0 = "stage_0";
+    const uint64_t min_drink_duration_0 = 12'000;
+    const uint64_t max_drink_duration_0 = 16'000;
+
+    // Stage 1
+    const char* opponent_names_1[] = {
+        "Mama Reigland",
+        "Pa Sterise",
+        "Atty Fishal-Flavour",
+        "Cole Oid"};
+    const char* opponent_texture_ids_1[] = {
+        "opponent_1_0",
+        "opponent_1_1",
+        "opponent_1_2",
+        "opponent_1_3"};
+    const char* background_texture_id_1 = "stage_1";
+    const uint64_t min_drink_duration_1 = 10'000;
+    const uint64_t max_drink_duration_1 = 14'000;
+
+    // Stage 2
+    const char* opponent_names_2[] = {
+        "Con Denzt",
+        "Phoebe Tacaisen",
+        "Mills Keys",
+        "Eva Porated"};
+    const char* opponent_texture_ids_2[] = {
+        "opponent_2_0",
+        "opponent_2_1",
+        "opponent_2_2",
+        "opponent_2_3"};
+    const char* background_texture_id_2 = "stage_2";
+    const uint64_t min_drink_duration_2 = 8'000;
+    const uint64_t max_drink_duration_2 = 11'000;
+
+    // Stage 3
+    const char* opponent_names_3[] = {
+        "Chu Ging",
+        "Bjorn Tudrink",
+        "Grace Fullswig",
+        "Tia Tees"};
+    const char* opponent_texture_ids_3[] = {
+        "opponent_3_0",
+        "opponent_3_1",
+        "opponent_3_2",
+        "opponent_3_3"};
+    const char* background_texture_id_3 = "stage_3";
+    const uint64_t min_drink_duration_3 = 6'000;
+    const uint64_t max_drink_duration_3 = 8'000;
+
+    // Stage 4
+    const char* opponent_names_4[] = {
+        "Jim",
+        "Capt. Taika Sip",
+        "Org Anik",
+        "Homer J'Naisd"};
+    const char* opponent_texture_ids_4[] = {
+        "opponent_4_0",
+        "opponent_4_1",
+        "opponent_4_2",
+        "opponent_4_3"};
+    const char* background_texture_id_4 = "stage_4";
+    const uint64_t min_drink_duration_4 = 5'000;
+    const uint64_t max_drink_duration_4 = 7'000;
+
     switch (stage_id) {
         case 0:
-            const char* opponent_names_0[] = {
-                "Milo Dynaseur",
-                "Nessie Quick",
-                "Luke Toes",
-                "Hammad To'swollo"};
-
-            const char* opponent_texture_ids_0[] = {
-                "opponent_0_0",
-                "opponent_0_1",
-                "opponent_0_2",
-                "opponent_0_3"};
-
-            const char* background_texture_id_0 = "stage_0";
-
             stage = stage_create(
                 audio_manager, font_manager, texture_manager,
                 player, opponent_names_0, opponent_texture_ids_0,
-                background_texture_id_0, 12'000, 16'000
+                background_texture_id_0, min_drink_duration_0, max_drink_duration_0
             );
             break;
 
         case 1:
-            const char* opponent_names_1[] = {
-                "Mama Reigland",
-                "Pa Sterise",
-                "Atty Fishal-Flavour",
-                "Cole Oid"};
-
-            const char* opponent_texture_ids_1[] = {
-                "opponent_1_0",
-                "opponent_1_1",
-                "opponent_1_2",
-                "opponent_1_3"};
-
-            const char* background_texture_id_1 = "stage_1";
-
             stage = stage_create(
                 audio_manager, font_manager, texture_manager,
                 player, opponent_names_1, opponent_texture_ids_1,
-                background_texture_id_1, 10'000, 14'000
+                background_texture_id_1, min_drink_duration_1, max_drink_duration_1
             );
             break;
 
         case 2:
-            const char* opponent_names_2[] = {
-                "Con Denzt",
-                "Phoebe Tacaisen",
-                "Mills Keys",
-                "Eva Porated"};
-
-            const char* opponent_texture_ids_2[] = {
-                "opponent_2_0",
-                "opponent_2_1",
-                "opponent_2_2",
-                "opponent_2_3"};
-
-            const char* background_texture_id_2 = "stage_2";
-
             stage = stage_create(
                 audio_manager, font_manager, texture_manager,
                 player, opponent_names_2, opponent_texture_ids_2,
-                background_texture_id_2, 8'000, 11'000
+                background_texture_id_2, min_drink_duration_2, max_drink_duration_2
             );
             break;
 
         case 3:
-            const char* opponent_names_3[] = {
-                "Chu Ging",
-                "Bjorn Tudrink",
-                "Grace Fullswig",
-                "Tia Tees"};
-
-            const char* opponent_texture_ids_3[] = {
-                "opponent_3_0",
-                "opponent_3_1",
-                "opponent_3_2",
-                "opponent_3_3"};
-
-            const char* background_texture_id_3 = "stage_3";
-
             stage = stage_create(
                 audio_manager, font_manager, texture_manager,
                 player, opponent_names_3, opponent_texture_ids_3,
-                background_texture_id_3, 6'000, 8'000
+                background_texture_id_3, min_drink_duration_3, max_drink_duration_3
             );
             break;
 
         case 4:
-            const char* opponent_names_4[] = {
-                "Jim",
-                "Capt. Taika Sip",
-                "Org Anik",
-                "Homer J'Naisd"};
-
-            const char* opponent_texture_ids_4[] = {
-                "opponent_4_0",
-                "opponent_4_1",
-                "opponent_4_2",
-                "opponent_4_3"};
-
-            const char* background_texture_id_4 = "stage_4";
-
             stage = stage_create(
                 audio_manager, font_manager, texture_manager,
                 player, opponent_names_4, opponent_texture_ids_4,
-                background_texture_id_4, 5'000, 7'000
+                background_texture_id_4, min_drink_duration_4, max_drink_duration_4
             );
             break;
 

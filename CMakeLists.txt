@@ -14,7 +14,6 @@ add_executable(milk_chug_game ${SRC_FILES})
 target_include_directories(
     milk_chug_game PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${SDL2_INCLUDE_DIRS}
 )
 
 target_link_libraries(
