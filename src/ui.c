@@ -36,7 +36,7 @@ void sprite_display_render(SpriteDisplay* self, SDL_Renderer* renderer, SDL_Wind
     int64_t y;
 
     if (self->coordinate_system == LOCAL_COORDINATES) {
-        local_xy_to_window_xy(window, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, &x, &y);
+        local_xy_to_window_xy(renderer, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, &x, &y);
     } else {
         x = self->x;
         y = self->y;
@@ -85,7 +85,7 @@ void text_display_render(TextDisplay* self, SDL_Renderer* renderer, SDL_Window* 
 
     uint32_t window_height;
     uint32_t window_width;
-    SDL_GetWindowSize(window, &window_width, &window_height);
+    SDL_GetRendererOutputSize(renderer, &window_width, &window_height);
     const int64_t scaled_window_width = (double)window_width / (double)RENDERER_SCALE_FACTOR;
     const int64_t scaled_window_height = (double)window_height / (double)RENDERER_SCALE_FACTOR;
     const int64_t primary_y = scaled_window_height / 2 - primary_font_height;
@@ -171,7 +171,7 @@ void countdown_render(Countdown* self, SDL_Renderer* renderer, SDL_Window* windo
 
     if (self->sprite != COUNTDOWN_NONE) {
         local_xy_to_window_xy(
-            window, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
+            renderer, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
             &window_x, &window_y
         );
 
@@ -249,7 +249,7 @@ void scoreboard_render(Scoreboard* self, SDL_Renderer* renderer, SDL_Window* win
     int64_t window_x;
     int64_t window_y;
     local_xy_to_window_xy(
-        window, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
+        renderer, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
         &window_x, &window_y
     );
 

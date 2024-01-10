@@ -19,7 +19,7 @@ void blit_sprite(
 // - local: origin at top-left of background texture
 // - window: origin at top-left of window
 void local_xy_to_window_xy(
-    SDL_Window* window, int64_t local_x, int64_t local_y,
+    SDL_Renderer* renderer, int64_t local_x, int64_t local_y,
     uint32_t background_w, uint32_t background_h,
     int64_t* window_x, int64_t* window_y
 );

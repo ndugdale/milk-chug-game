@@ -29,7 +29,7 @@ void indicator_render(Indicator* self, SDL_Renderer* renderer, SDL_Window* windo
     int64_t window_x;
     int64_t window_y;
     local_xy_to_window_xy(
-        window, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
+        renderer, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
         &window_x, &window_y
     );
 

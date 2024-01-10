@@ -10,9 +10,9 @@ void blit_background(
     SDL_Renderer* renderer, SDL_Window* window, SDL_Texture* background,
     double scale, uint32_t w, uint32_t h
 ) {
-    uint32_t window_height;
-    uint32_t window_width;
-    SDL_GetWindowSize(window, &window_width, &window_height);
+    int32_t window_height;
+    int32_t window_width;
+    SDL_GetRendererOutputSize(renderer, &window_width, &window_height);
 
     const uint32_t scaled_window_width = (double)window_width / scale;
     const uint32_t scaled_window_height = (double)window_height / scale;
@@ -86,13 +86,13 @@ void blit_sprite(
 }
 
 void local_xy_to_window_xy(
-    SDL_Window* window, int64_t local_x, int64_t local_y,
+    SDL_Renderer* renderer, int64_t local_x, int64_t local_y,
     uint32_t background_w, uint32_t background_h,
     int64_t* window_x, int64_t* window_y
 ) {
-    uint32_t window_height;
-    uint32_t window_width;
-    SDL_GetWindowSize(window, &window_width, &window_height);
+    int32_t window_height;
+    int32_t window_width;
+    SDL_GetRendererOutputSize(renderer, &window_width, &window_height);
 
     const int64_t scaled_window_width = (double)window_width / (double)RENDERER_SCALE_FACTOR;
     const int64_t scaled_window_height = (double)window_height / (double)RENDERER_SCALE_FACTOR;

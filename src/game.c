@@ -20,7 +20,7 @@ static void on_key_up(Game* self, const SDL_KeyboardEvent* event);
 Game* game_create(void) {
     Game* self = malloc(sizeof(Game));
 
-    const uint32_t window_flags = 0;
+    const uint32_t window_flags = SDL_WINDOW_ALLOW_HIGHDPI;
     const uint32_t renderer_flags = SDL_RENDERER_ACCELERATED;
     const uint32_t image_flags = IMG_INIT_PNG | IMG_INIT_JPG;
 
