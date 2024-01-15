@@ -1,6 +1,6 @@
 #include "scene.h"
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include "events.h"
 #include "font.h"
@@ -111,15 +111,23 @@ void scene_render(Scene* self, SDL_Renderer* renderer, SDL_Window* window) {
 }
 
 void scene_next(Scene* self) {
+    TextDisplay* tutorial = NULL;
+    Stage* stage_0 = NULL;
+    Opponent** opponents = NULL;
+    Stage* stage = NULL;
+    TextDisplay* win_screen = NULL;
+    TextDisplay* lose_screen = NULL;
+
+
     switch (self->type) {
         case MENU_TYPE:
-            TextDisplay* tutorial = tutorial_create(self->font_manager);
+            tutorial = tutorial_create(self->font_manager);
             text_display_destroy(self->value.text_display);
             self->type = TUTORIAL_TYPE;
             self->value.text_display = tutorial;
             break;
         case TUTORIAL_TYPE:
-            Stage* stage_0 = stage_create_from_id(
+            stage_0 = stage_create_from_id(
                 self->audio_manager, self->font_manager,
                 self->texture_manager, self->player, 0
             );
@@ -128,7 +136,7 @@ void scene_next(Scene* self) {
             self->value.stage = stage_0;
             break;
         case STAGE_TYPE:
-            Opponent** opponents = self->value.stage->opponents;
+            opponents = self->value.stage->opponents;
             Scoreboard* scoreboard = scoreboard_create(self->font_manager, self->player, opponents);
             self->stage_buffer = self->value.stage;
             self->type = SCOREBOARD_TYPE;
@@ -140,7 +148,7 @@ void scene_next(Scene* self) {
             const bool stage_won = self->value.scoreboard->is_player_winner;
             if (stage_remains && stage_won) {
                 self->stage_id++;
-                Stage* stage = stage_create_from_id(
+                stage = stage_create_from_id(
                     self->audio_manager, self->font_manager, self->texture_manager,
                     self->player, self->stage_id
                 );
@@ -148,12 +156,12 @@ void scene_next(Scene* self) {
                 self->type = STAGE_TYPE;
                 self->value.stage = stage;
             } else if (stage_won) {
-                TextDisplay* win_screen = win_screen_create(self->font_manager);
+                win_screen = win_screen_create(self->font_manager);
                 scoreboard_destroy(self->value.scoreboard);
                 self->type = WIN_SCREEN_TYPE;
                 self->value.text_display = win_screen;
             } else {
-                TextDisplay* lose_screen = lose_screen_create(self->font_manager);
+                lose_screen = lose_screen_create(self->font_manager);
                 scoreboard_destroy(self->value.scoreboard);
                 self->type = LOSE_SCREEN_TYPE;
                 self->value.text_display = lose_screen;

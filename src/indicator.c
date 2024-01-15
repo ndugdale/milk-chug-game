@@ -9,6 +9,7 @@ static void indicator_tick(Indicator* self, uint16_t capacity, uint16_t max);
 Indicator* indicator_create(TextureManager* texture_manager, int64_t x, int64_t y) {
     Indicator* self = malloc(sizeof(Indicator));
     self->sprite_sheet = texture_manager_get(texture_manager, "indicator");
+    self->sprite = 0;
     self->x = x;
     self->y = y;
 
@@ -28,7 +29,7 @@ void indicator_render(Indicator* self, SDL_Renderer* renderer, SDL_Window* windo
     int64_t window_x;
     int64_t window_y;
     local_xy_to_window_xy(
-        window, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
+        renderer, self->x, self->y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT,
         &window_x, &window_y
     );
 
