@@ -41,7 +41,6 @@
         <li><a href="#packaging">Packaging</a>a></li>
       </ul>
     </li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#licence">Licence</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -79,16 +78,14 @@ sudo pacman -S cmake
 ```
 ### [**SDL2**](https://www.libsdl.org)
 
-Install SDL2 and the required extension libraries:
-- [SDL2](https://github.com/libsdl-org/SDL/tree/SDL2)
-- [SDL2_image](https://github.com/libsdl-org/SDL_image/tree/SDL2)
-- [SDL2_mixer](https://github.com/libsdl-org/SDL_mixer/tree/SDL2)
-- [SDL2_ttf](https://github.com/libsdl-org/SDL_ttf/tree/SDL2)
+Install [SDL2](https://github.com/libsdl-org/SDL/tree/SDL2) and the required extension libraries: [SDL2_image](https://github.com/libsdl-org/SDL_image/tree/SDL2), [SDL2_mixer](https://github.com/libsdl-org/SDL_mixer/tree/SDL2), and [SDL2_ttf](https://github.com/libsdl-org/SDL_ttf/tree/SDL2)
 
-Download the libraries using the above links, or your package management tool of choice. E.g. on Arch-based distros:
-```sh
-sudo pacman -S sdl2 sdl2_image sdl2_mixer sdl2_ttf
-```
+- **Linux**: Download the libraries using the above links or your package manager of choice. E.g. on Arch-based distros:
+    ```sh
+    sudo pacman -S sdl2 sdl2_image sdl2_mixer sdl2_ttf
+    ```
+
+- **Mac**: Download the `.dmg` for each library and copy each respective `.framework` directory into `/Library/Frameworks`.
 
 ## Installation
 
@@ -113,37 +110,13 @@ cmake --build .
 
 ## Packaging
 
-### Linux AppImage
-
-This project can be packaged into an AppImage by running the `build.sh` script in the root directory. This will create a `Milk_Chug-<ARCHITECTURE>.AppImage` file in the `build` directory.
-
+Running the `build.sh` script in the root directory will package the project differently according to the OS. The packaged app will be located in the `build` directory.
 ```sh
 ./build.sh
 ```
 
-<!-- CONTRIBUTING -->
-# Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this project better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". **Don't forget to give the project a star! Thanks again!**
-
-1. Fork the Project
-2. Create your Feature Branch 
-    ```
-    git checkout -b feature/<feature-name>
-    ```
-3. Commit your Changes
-    ```
-    git commit -am 'feat: add <feature-description>'
-    ```
-4. Push to the Branch
-    ```
-    git push origin feature/<feature-name>
-    ```
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+- **Linux**: `MilkChug-<ARCHITECTURE>.AppImage`
+- **Mac**: `MilkChug-<ARCHITECTURE>.app`
 
 
 
