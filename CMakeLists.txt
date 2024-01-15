@@ -11,9 +11,7 @@ find_package(SDL2_ttf REQUIRED)
 file(GLOB_RECURSE SRC_FILES "src/*.c")
 
 if(DEFINED ENV{PACKAGE_APP})
-    if("$ENV{PACKAGE_APP}" STREQUAL "1")
-        add_compile_definitions(PACKAGE_APP)
-    endif()
+    add_compile_definitions(PACKAGE_APP)
 endif()
 
 if(APPLE AND DEFINED ENV{PACKAGE_APP})
