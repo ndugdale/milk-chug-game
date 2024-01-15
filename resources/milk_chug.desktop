@@ -1,8 +1,8 @@
 [Desktop Entry]
 
 Type=Application
-Version=1.0
+Version=1.0.0
 Name=Milk Chug
 Icon=milk_chug
-Exec=milk_chug_game
+Exec=MilkChug
 Categories=Game;

@@ -83,8 +83,8 @@ void text_display_render(TextDisplay* self, SDL_Renderer* renderer, SDL_Window* 
     int32_t secondary_font_height = TTF_FontLineSkip(secondary_font);
     SDL_Color colour = {255, 212, 26, 255};
 
-    uint32_t window_height;
-    uint32_t window_width;
+    int32_t window_height;
+    int32_t window_width;
     SDL_GetRendererOutputSize(renderer, &window_width, &window_height);
     const int64_t scaled_window_width = (double)window_width / (double)RENDERER_SCALE_FACTOR;
     const int64_t scaled_window_height = (double)window_height / (double)RENDERER_SCALE_FACTOR;
@@ -261,7 +261,7 @@ void scoreboard_render(Scoreboard* self, SDL_Renderer* renderer, SDL_Window* win
 
     for (size_t i = 0; i < NUM_PARTICIPANTS; i++) {
         char buffer[MAX_SCOREBOARD_PLACE_CHARS];
-        snprintf(buffer, MAX_SCOREBOARD_PLACE_CHARS, "%d", i + 1);
+        snprintf(buffer, MAX_SCOREBOARD_PLACE_CHARS, "%lu", i + 1);
 
         blit_text(
             renderer, font, buffer, colour, window_x + SCOREBOARD_TEXT_PLACE_X1,

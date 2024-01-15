@@ -12,10 +12,15 @@ void uint64_sort(uint64_t* values, size_t num_elements) {
 
 void get_asset_path(char* asset_path, const char* relative_path) {
     char path[MAX_PATH_CHARS];
-    const char* env = getenv("APPDIR");
-    const char* appdir = (env != NULL) ? env : ".";
-    const char* assets_path = (env != NULL) ? "usr/share/assets" : "../assets";
-    snprintf(path, sizeof(path), "%s/%s/%s", appdir, assets_path, relative_path);
+    #ifdef PACKAGE_APP
+        #ifdef __APPLE__
+            snprintf(path, sizeof(path), "%s/%s", "../Resources/assets", relative_path);
+        #elif __linux__
+            snprintf(path, sizeof(path), "%s/%s", "../share/assets", relative_path);
+        #endif
+    #else
+        snprintf(path, sizeof(path), "%s/%s", "../assets", relative_path);
+    #endif
     strcpy(asset_path, path);
 }
 

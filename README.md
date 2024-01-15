@@ -103,12 +103,12 @@ cd milk-chug-game/build
 
 ## Build and Run
 
-Build using CMake. This will generate an executable named `milk_chug_game` in the `build` directory.
+Build using CMake. This will generate an executable named `MilkChug` in the `build` directory.
 
 ```sh
 cmake ..
 cmake --build .
-./milk_chug_game
+./MilkChug
 ```
 
 ## Packaging

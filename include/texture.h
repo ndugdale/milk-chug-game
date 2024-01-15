@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-#define MAX_NUM_TEXTURES 256
+#define MAX_NUM_TEXTURES 250
 
 typedef struct {
     const char* id;
