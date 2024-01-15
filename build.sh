@@ -1,6 +1,8 @@
 #!/bin/sh
 
 initial_directory=$(pwd)
+script_directory="$(dirname "$0")"
+cd "$script_directory"
 OS=$(uname -s)
 
 mkdir -p build
@@ -12,6 +14,7 @@ export PACKAGE_APP="1"
 if [ "$OS" == "Linux" ]; then
     # Install project to AppDir for AppImage packaging
     cmake ..
+    cmake --build .
     cmake --install . --prefix AppDir/usr
 
     # Build AppImage
@@ -26,6 +29,21 @@ if [ "$OS" == "Linux" ]; then
     fi
 
     ./$linuxdeploy_filename --appdir AppDir --output appimage
+
+    # Rename
+    extension=".AppImage"
+    architecture=$(uname -m)
+
+    for app_image in *"$extension"; do
+        [ -f "$app_image" ] || break
+        if [[ "$app_image" == "$linuxdeploy_filename" ]]; then
+            continue
+        fi
+
+        base_name=$(echo "${app_image%-$architecture$extension}" | tr -d '_')
+        new_name="${base_name}-${architecture}${extension}"
+        mv "$app_image" "$new_name"
+    done
 fi
 
 # Build OS X App
