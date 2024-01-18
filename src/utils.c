@@ -2,7 +2,9 @@
 
 #include <SDL.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static int uint64_compare(const void* a, const void* b);
 
@@ -13,7 +15,9 @@ void uint64_sort(uint64_t* values, size_t num_elements) {
 void get_asset_path(char* asset_path, const char* relative_path) {
     char path[MAX_PATH_CHARS];
 #ifdef PACKAGE_APP
-#ifdef __APPLE__
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+    snprintf(path, sizeof(path), "%s/%s", "./assets", relative_path);
+#elif __APPLE__
     snprintf(path, sizeof(path), "%s/%s", "../Resources/assets", relative_path);
 #elif __linux__
     const char* env = getenv("APPDIR");
