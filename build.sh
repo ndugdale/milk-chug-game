@@ -56,17 +56,17 @@ if [ "$OS" == "Darwin" ]; then
     extension=".app"
     architecture=$(uname -m)
 
-    for app in *"$extension"; do
+    for app in ../install/*"$extension"; do
         [ -d "$app" ] || break
         if [[ "$app" == *"$architecture"* ]]; then
             continue
         fi
 
         base_name="${app%$extension}"
-        new_name="${base_name}-${architecture}${extension}"
+        new_name="${base_name}-MacOS-${architecture}${extension}"
         rm -rf "$new_name"
         mv "$app" "$new_name"
-        ditto -c -k --keepParent "$new_name" "${base_name}-${architecture}.zip"
+        ditto -c -k --keepParent "$new_name" "${base_name}-MacOS-${architecture}.zip"
     done
 
 fi
