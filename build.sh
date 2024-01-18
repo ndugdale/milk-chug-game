@@ -17,6 +17,8 @@ if [ "$OS" == "Linux" ]; then
     cmake --build .
     cmake --install . --prefix AppDir/usr
 
+    mkdir -p ../install
+
     # Build AppImage
     linuxdeploy_filename="linuxdeploy-x86_64.AppImage"
 
@@ -41,8 +43,8 @@ if [ "$OS" == "Linux" ]; then
         fi
 
         base_name=$(echo "${app_image%-$architecture$extension}" | tr -d '_')
-        new_name="${base_name}-${architecture}${extension}"
-        mv "$app_image" "$new_name"
+        new_name="${base_name}-Linux-${architecture}${extension}"
+        mv "$app_image" "../install/$new_name"
     done
 fi
 

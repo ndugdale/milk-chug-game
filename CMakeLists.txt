@@ -103,6 +103,6 @@ elseif(UNIX AND DEFINED ENV{PACKAGE_APP})
         SDL2_ttf::SDL2_ttf
         DESTINATION lib
     )
-    install(FILES resources/milk_chug.desktop DESTINATION share/applications)
-    install(FILES resources/milk_chug.png DESTINATION share/icons/hicolor/32x32/apps)
+    install(FILES resources/linux/milk_chug.desktop DESTINATION share/applications)
+    install(FILES resources/linux/milk_chug.png DESTINATION share/icons/hicolor/32x32/apps)
 endif()
