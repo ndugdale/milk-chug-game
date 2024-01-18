@@ -17,6 +17,8 @@ if [ "$OS" == "Linux" ]; then
     cmake --build .
     cmake --install . --prefix AppDir/usr
 
+    mkdir -p ../install
+
     # Build AppImage
     linuxdeploy_filename="linuxdeploy-x86_64.AppImage"
 
@@ -41,8 +43,8 @@ if [ "$OS" == "Linux" ]; then
         fi
 
         base_name=$(echo "${app_image%-$architecture$extension}" | tr -d '_')
-        new_name="${base_name}-${architecture}${extension}"
-        mv "$app_image" "$new_name"
+        new_name="${base_name}-Linux-${architecture}${extension}"
+        mv "$app_image" "../install/$new_name"
     done
 fi
 
@@ -56,17 +58,17 @@ if [ "$OS" == "Darwin" ]; then
     extension=".app"
     architecture=$(uname -m)
 
-    for app in *"$extension"; do
+    for app in ../install/*"$extension"; do
         [ -d "$app" ] || break
         if [[ "$app" == *"$architecture"* ]]; then
             continue
         fi
 
         base_name="${app%$extension}"
-        new_name="${base_name}-${architecture}${extension}"
+        new_name="${base_name}-MacOS-${architecture}${extension}"
         rm -rf "$new_name"
         mv "$app" "$new_name"
-        ditto -c -k --keepParent "$new_name" "${base_name}-${architecture}.zip"
+        ditto -c -k --keepParent "$new_name" "${base_name}-MacOS-${architecture}.zip"
     done
 
 fi

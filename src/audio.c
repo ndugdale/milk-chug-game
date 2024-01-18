@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <string.h>
 
 #include "utils.h"
 

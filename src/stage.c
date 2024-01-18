@@ -117,8 +117,8 @@ Stage* stage_create_from_id(
         "opponent_0_2",
         "opponent_0_3"};
     const char* background_texture_id_0 = "stage_0";
-    const uint64_t min_drink_duration_0 = 12'000;
-    const uint64_t max_drink_duration_0 = 16'000;
+    const uint64_t min_drink_duration_0 = 12000;
+    const uint64_t max_drink_duration_0 = 16000;
 
     // Stage 1
     const char* opponent_names_1[] = {
@@ -132,8 +132,8 @@ Stage* stage_create_from_id(
         "opponent_1_2",
         "opponent_1_3"};
     const char* background_texture_id_1 = "stage_1";
-    const uint64_t min_drink_duration_1 = 10'000;
-    const uint64_t max_drink_duration_1 = 14'000;
+    const uint64_t min_drink_duration_1 = 10000;
+    const uint64_t max_drink_duration_1 = 14000;
 
     // Stage 2
     const char* opponent_names_2[] = {
@@ -147,8 +147,8 @@ Stage* stage_create_from_id(
         "opponent_2_2",
         "opponent_2_3"};
     const char* background_texture_id_2 = "stage_2";
-    const uint64_t min_drink_duration_2 = 8'000;
-    const uint64_t max_drink_duration_2 = 11'000;
+    const uint64_t min_drink_duration_2 = 8000;
+    const uint64_t max_drink_duration_2 = 11000;
 
     // Stage 3
     const char* opponent_names_3[] = {
@@ -162,8 +162,8 @@ Stage* stage_create_from_id(
         "opponent_3_2",
         "opponent_3_3"};
     const char* background_texture_id_3 = "stage_3";
-    const uint64_t min_drink_duration_3 = 6'000;
-    const uint64_t max_drink_duration_3 = 8'000;
+    const uint64_t min_drink_duration_3 = 6000;
+    const uint64_t max_drink_duration_3 = 8000;
 
     // Stage 4
     const char* opponent_names_4[] = {
@@ -177,8 +177,8 @@ Stage* stage_create_from_id(
         "opponent_4_2",
         "opponent_4_3"};
     const char* background_texture_id_4 = "stage_4";
-    const uint64_t min_drink_duration_4 = 5'000;
-    const uint64_t max_drink_duration_4 = 7'000;
+    const uint64_t min_drink_duration_4 = 5000;
+    const uint64_t max_drink_duration_4 = 7000;
 
     switch (stage_id) {
         case 0:
