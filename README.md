@@ -66,16 +66,22 @@ To get a local copy up and running follow the steps below:
 ## Prerequisites
 ### [**C**](https://github.com/canonical/lightdm](https://www.iso-9899.info/wiki/The_Standard))
 
-You require a C compiler compatible with the C23 standard.
+You require a C compiler compatible with the C17 standard. On Windows, this project is configured to use the [MinGW](https://www.mingw-w64.org/) gcc compiler. If building on Windows, ensure a version of MinGW for your architecture is installed and set correctly on the `PATH` system variable.
 
 ### [**CMake**](https://cmake.org)
 
-This project uses CMake as a build tool. You require a minimum version of 3.21. CMake can be downloaded from the [website](https://cmake.org) or through a package management tool on relevant OS distros.
+This project uses CMake as a build tool. You require a minimum version of 3.21. CMake can be downloaded from the [website](https://cmake.org) or through a package management tool on relevant OS distros. If on Windows, ensure CMake is set correctly on the `PATH` system variable.
 
 E.g. on Arch-based distros:
 ```sh
 sudo pacman -S cmake
 ```
+
+And on MacOS:
+```sh
+brew install cmake
+```
+
 ### [**SDL2**](https://www.libsdl.org)
 
 Install [SDL2](https://github.com/libsdl-org/SDL/tree/SDL2) and the required extension libraries: [SDL2_image](https://github.com/libsdl-org/SDL_image/tree/SDL2), [SDL2_mixer](https://github.com/libsdl-org/SDL_mixer/tree/SDL2), and [SDL2_ttf](https://github.com/libsdl-org/SDL_ttf/tree/SDL2)
@@ -85,7 +91,9 @@ Install [SDL2](https://github.com/libsdl-org/SDL/tree/SDL2) and the required ext
     sudo pacman -S sdl2 sdl2_image sdl2_mixer sdl2_ttf
     ```
 
-- **Mac**: Download the `.dmg` for each library and copy each respective `.framework` directory into `/Library/Frameworks`.
+- **Mac**: Download the `.dmg` for each library and copy each respective `.framework` directory into `/Library/Frameworks`. Note that installation through homebrew will not provide the required `.framework` files.
+
+- **Windows**: Download the `tar.gz` files and extract the library directory for your device's architecture (either `i686-w64-mingw32` or `x86_64-w64-mingw32`). Rename each corresponding folder to `SDL2`, `SDL2_image`, etc. for convenience and move them to the `C:/` drive where they can be found by the `CMakeLists.txt`.
 
 ## Installation
 
@@ -100,23 +108,34 @@ cd milk-chug-game/build
 
 ## Build and Run
 
-Build using CMake. This will generate an executable named `MilkChug` in the `build` directory.
+Build using CMake. This will generate an executable named `MilkChug` in the `bin` directory.
 
 ```sh
 cmake ..
 cmake --build .
+cmake --install . # only required on windows to install dll files to bin
+
+cd ../bin
 ./MilkChug
 ```
 
 ## Packaging
 
-Running the `build.sh` script in the root directory will package the project differently according to the OS. The packaged app will be located in the `build` directory.
+Running the `build.sh` or `built.bat` scripts in the root directory will package the project differently according to the OS. The packaged app or installer will be located in the `install` directory.
+
+On Linux or Mac:
 ```sh
 ./build.sh
 ```
 
-- **Linux**: `MilkChug-<ARCHITECTURE>.AppImage`
-- **Mac**: `MilkChug-<ARCHITECTURE>.app`
+On Windows:
+```sh
+.\build.bat
+```
+
+- **Linux**: `MilkChug-Linux-<ARCHITECTURE>.AppImage`
+- **Mac**: `MilkChug-MacOS-<ARCHITECTURE>.app`
+- **Windows**: `MilkChug-Windows-<ARCHITECTURE>.exe`
 
 
 
