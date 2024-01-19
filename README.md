@@ -64,6 +64,8 @@ This is a simple 2D game about a milk chugging competition. This project was bui
 <!-- DOWNLOAD -->
 # Download
 
+Download a [Linux AppImage](https://github.com/ndugdale/milk-chug-game/releases), a [MacOS App](https://github.com/ndugdale/milk-chug-game/releases), or a [Windows Executable](https://github.com/ndugdale/milk-chug-game/releases).
+
 <!-- RUNNING LOCALLY -->
 # Running Locally
 
