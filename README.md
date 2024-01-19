@@ -48,6 +48,11 @@
 </details>
 
 <!-- ABOUT THE PROJECT -->
+# About the Project
+<p align="center">
+  <img src="/docs/images/stage_0.png?raw=true" alt="Screenshot of Milk Chug game"/>
+</p>
+
 This is a simple 2D game about a milk chugging competition. This project was build in C using the [**SDL2**](https://www.libsdl.org/) library.
 
 ## Built With
