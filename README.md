@@ -56,7 +56,8 @@
 This is a simple 2D game about a milk chugging competition. This project was build in C using the [**SDL2**](https://www.libsdl.org/) library.
 
 ## Built With
-[![C][c-language]][c-language-url]
+[![C][c-language-shield]][c-language-url]
+[![CMake][cmake-shield]][cmake-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
